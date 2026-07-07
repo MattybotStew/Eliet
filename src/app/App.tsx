@@ -342,7 +342,7 @@ function HomeHero({ setPage }: { setPage: (p: Page) => void }) {
         <motion.div initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }} transition={{ duration: 0.6, delay: 0.1 }}
           className="h-[10px] w-[133px] origin-left mb-12" style={{ backgroundColor: "white" }} />
         <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Overpass',sans-serif] font-extrabold text-[64px] md:text-[90px] lg:text-[110px] text-white uppercase leading-none tracking-[-2px] mb-8">
+          className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[64px] md:text-[90px] lg:text-[110px] text-white uppercase leading-none tracking-[-2px] mb-8">
           Serious Equipment.<br />
           Serious <span style={{ color: ORANGE }}>Support.</span>
         </motion.h1>
@@ -2356,7 +2356,7 @@ function PageHero({ img, title, text }: { img: string; title: string; text: stri
       </div>
       <div className="relative z-10 flex flex-col items-center text-center gap-6 px-6 mt-10 max-w-3xl">
         <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Overpass',sans-serif] font-extrabold text-[48px] md:text-[72px] text-white uppercase leading-none tracking-[-2px]">
+          className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[48px] md:text-[72px] text-white uppercase leading-none tracking-[-2px]">
           {title}
         </motion.h1>
         <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
