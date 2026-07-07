@@ -68,7 +68,7 @@ const ORANGE = "#ef7d00";
 const DARK = "#0f0f12";
 
 // ─── Navigation state ────────────────────────────────────────────────────────
-type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact";
+type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact" | "login";
 
 type NavItem = {
   label: string;
@@ -261,7 +261,8 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
         </div>
         {/* Right */}
         <div className="flex items-center gap-5">
-          <button className="hidden md:block text-white/65 hover:text-white text-[13px] tracking-[0.5px] font-['Overpass',sans-serif] font-normal uppercase transition-colors">Login</button>
+          <button onClick={() => handleNav("login")}
+            className={`hidden md:block text-[13px] tracking-[0.5px] font-['Overpass',sans-serif] font-normal uppercase transition-colors ${page === "login" ? "text-white" : "text-white/65 hover:text-white"}`}>Login</button>
           <div className="w-[18px] h-[18px] relative opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
             <svg className="absolute inset-0 size-full" fill="none" viewBox="0 0 15.6758 15.9999">
               <path d={svgData.p28358500} fill="white" />
@@ -317,6 +318,11 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
                 )}
               </div>
             ))}
+            {/* Login lives right of the desktop nav, so it needs its own mobile entry */}
+            <button onClick={() => handleNav("login")}
+              className="w-full text-left text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors">
+              Login
+            </button>
           </div>
         </div>
       )}
@@ -2876,6 +2882,96 @@ function BackToTop() {
   );
 }
 
+// ─── Login / My Account ───────────────────────────────────────────────────────
+// Visual mockup only — production auth is WooCommerce's My Account login/register.
+
+const ACCOUNT_BENEFITS = [
+  "Register machines & track warranty",
+  "Order history and parts reordering",
+  "Saved dealers and service contacts",
+  "Early access to demo events",
+];
+
+function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
+  const [sent, setSent] = useState(false);
+  const submit = (e: React.FormEvent) => { e.preventDefault(); setSent(true); setTimeout(() => setSent(false), 5000); };
+  const inputCls = "h-12 px-4 rounded-lg border border-[#ddd] bg-white font-['Overpass',sans-serif] text-[14px] text-[#131316] placeholder:text-[#aaa] focus:outline-none focus:border-[#ef7d00] transition-colors w-full";
+  const labelCls = "font-['Overpass',sans-serif] font-semibold text-[12px] text-[#131316] uppercase tracking-[1px]";
+  return (
+    <>
+      <section className="relative w-full flex items-center justify-center overflow-hidden px-6 md:px-12 lg:px-20 py-16 md:py-24">
+        <div className="absolute inset-0 bg-[#0f0f12]">
+          <img src={imgDetailWhyBg} alt="" className="w-full h-full object-cover opacity-35" />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(15,15,18,0.72), rgba(15,15,18,0.92))" }} />
+        </div>
+        <FadeUp className="relative z-10 w-full max-w-[960px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 rounded-2xl overflow-hidden" style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
+            {/* Sign-in card */}
+            <div className="bg-white px-8 md:px-10 py-10 flex flex-col gap-7">
+              <div className="flex flex-col gap-3">
+                <div className="h-[6px] w-16" style={{ backgroundColor: ORANGE }} />
+                <h1 className="font-['Overpass',sans-serif] font-extrabold text-[32px] text-[#131316] uppercase tracking-[-0.5px] leading-none">Log In</h1>
+                <p className="font-['Overpass',sans-serif] text-[14px] text-[#666] leading-relaxed">Access your ELIET account to manage machines, warranty, and orders.</p>
+              </div>
+              <form onSubmit={submit} className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className={labelCls}>Email address</label>
+                  <input type="email" placeholder="you@company.com" required className={inputCls} />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className={labelCls}>Password</label>
+                  <input type="password" placeholder="••••••••" required className={inputCls} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" className="w-4 h-4 accent-[#ef7d00]" />
+                    <span className="font-['Overpass',sans-serif] text-[13px] text-[#666]">Remember me</span>
+                  </label>
+                  <button type="button" className="font-['Overpass',sans-serif] font-semibold text-[13px] hover:underline" style={{ color: ORANGE }}>Forgot password?</button>
+                </div>
+                <button type="submit"
+                  className="h-12 justify-center rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white transition-all duration-200 hover:brightness-110"
+                  style={{ backgroundColor: ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
+                  Log In
+                </button>
+                {sent && (
+                  <p className="font-['Overpass',sans-serif] text-[12px] text-[#92600a] bg-[#fdf3e0] border border-[#f0d9ad] rounded-lg px-4 py-2.5">
+                    Design prototype — login is handled by WooCommerce (My Account) in production.
+                  </p>
+                )}
+              </form>
+            </div>
+            {/* Create-account panel */}
+            <div className="relative bg-[#131316] px-8 md:px-10 py-10 flex flex-col justify-center overflow-hidden">
+              <img src={imgDetailWhyBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-25" />
+              <div className="relative z-10 flex flex-col gap-6">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[24px] text-white uppercase tracking-[-0.5px] leading-tight">New to ELIET?</h2>
+                <ul className="flex flex-col gap-3.5">
+                  {ACCOUNT_BENEFITS.map((item) => (
+                    <li key={item} className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center" style={{ backgroundColor: ORANGE }}>
+                        <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      </div>
+                      <span className="font-['Overpass',sans-serif] font-semibold text-[14px] text-white">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button className="self-start px-7 py-3.5 rounded-full border-2 border-white font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white transition-all duration-200 hover:bg-white hover:text-[#131316]">
+                  Create an Account
+                </button>
+              </div>
+            </div>
+          </div>
+          <p className="mt-5 text-center font-['Overpass',sans-serif] text-[12px] text-white/40">
+            Maps to the WooCommerce "My Account" login &amp; registration screens in production.
+          </p>
+        </FadeUp>
+      </section>
+      <Footer setPage={setPage} svgData={deskSvg} />
+    </>
+  );
+}
+
 export default function App() {
   const [page, setPage] = useState<Page>("home");
   const [detailProduct, setDetailProduct] = useState<ProductDetail>(MAESTRO_CITY);
@@ -2912,6 +3008,8 @@ export default function App() {
               <FinancePage setPage={setPage} />
             ) : page === "contact" ? (
               <ContactPage setPage={setPage} />
+            ) : page === "login" ? (
+              <LoginPage setPage={setPage} />
             ) : (
               <DownloadsPage setPage={setPage} />
             )}
