@@ -2,6 +2,9 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Matt + Claude Code (home hero)
+- Committed Matt's home-page edit: hero background now uses the shredder action photo (full opacity, lighter gradient), and the "Trusted by professionals" pillars reuse the Why-ELIET photos.
+
 ## 2026-07-07 — Claude Code (real product catalog)
 - Replaced the 12 mock products with the real 2026 equipment list: 71 machines, 9 categories (source: client's "Equipment List 2026.csv" Smartsheet export; parsed/cleaned into CATALOG in products.ts).
 - Category filter pills now derive from the data (Shredders, Dethatchers, Overseeders, Top Dressers, Edgers, Sod Cutters, Seeders, Blowers, Leaf Vacs).

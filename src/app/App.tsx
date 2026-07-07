@@ -47,9 +47,8 @@ import imgShreddersPhoto from "@/imports/Desk/bf6a5b50273efc54cba363c8929e6dae2f
 import imgDethatchersPhoto from "@/imports/Desk/ceccb6e602b01ae8559308ef980ebc224345f749.png";
 import imgSeedersPhoto from "@/imports/Desk/297c5cbed5843cfa9b391c72ec41c10ddc8ea7aa.png";
 import imgTopDressingPhoto from "@/imports/Desk/b536143adc4d5fa4d65374d1d14b185dc2d620fe.png";
-import imgMenProductPhoto from "@/imports/Desk/b5719ee998fd80e6adcca19a8d8631c8e9683baa.png";
-import imgWomenProductPhoto from "@/imports/Desk/5d19d2b99a04dbb31c51cb1346ea9f239af2c7af.png";
 import imgMenProductPhoto1 from "@/imports/Desk/91de80d286501f8d9a92ceabeb314b6717be9641.png";
+import imgHomeHero from "@/imports/Desk/hero-shredder-action.jpg";
 import imgMaestroCountry from "@/imports/Desk/c94192fe59684f294c0e23b040e9535e1b810b60.png";
 import imgProf6 from "@/imports/Desk/b9ab746eb38a6b78fb7c5558a36c1e93157e5d4f.png";
 import imgSuperProfMax from "@/imports/Desk/8515ad06bde1344d3cd23e38bb1bfa4ce8f7fd19.png";
@@ -200,10 +199,10 @@ function HomeHero({ setPage }: { setPage: (p: Page) => void }) {
   const navigate = () => { setPage("demo"); window.scrollTo({ top: 0, behavior: "smooth" }); };
   return (
     <section className="relative w-full min-h-screen flex items-center overflow-hidden bg-[#0f0f12]">
-      {/* Background tinted image suggestion */}
-      <div className="absolute inset-0 opacity-30">
-        <img src={imgDealerBg} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(15,15,18,1) 40%, rgba(15,15,18,0.4) 100%)" }} />
+      {/* Background action photo */}
+      <div className="absolute inset-0">
+        <img src={imgHomeHero} alt="" className="w-full h-full object-cover" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(15,15,18,0.75) 30%, rgba(15,15,18,0.45) 100%)" }} />
       </div>
 
       <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 md:px-12 lg:px-20 pt-32 pb-24">
@@ -296,8 +295,8 @@ function ShopByCategory() {
 // ─── Trusted By Professionals ─────────────────────────────────────────────────
 
 const PRODUCT_COLS = [
-  { img: imgMenProductPhoto, title: "The Original", desc: "First battery-powered shredder. Over 30 years of engineering innovation.", offset: false },
-  { img: imgWomenProductPhoto, title: "The Innovator", desc: "First to market with E-Power technology. Built for the future.", offset: true },
+  { img: imgWhyPhoto2, title: "The Original", desc: "First battery-powered shredder. Over 30 years of engineering innovation.", offset: false },
+  { img: imgWhyPhoto1, title: "The Innovator", desc: "First to market with E-Power technology. Built for the future.", offset: true },
   { img: imgMenProductPhoto1, title: "The Future", desc: "Zero-emission battery line. Sustainable without compromise.", offset: false },
 ];
 
