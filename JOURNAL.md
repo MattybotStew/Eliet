@@ -2,6 +2,11 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (image compression)
+- Recompressed 13 large images in src/imports in place (palette PNG q85 / mozjpeg q80): 23.6MB -> 7.8MB, dist 32MB -> 24MB. Same filenames, no code changes; visually verified the most-compressed image.
+- The 1f82331... background PNG (4 copies) is already optimized — quantizing it made it bigger, left untouched. Don't retry.
+- If images are ever re-exported from Figma Make, rerun compression (script pattern: sharp, palette:true quality:85, only replace if ≥25% smaller).
+
 ## 2026-07-07 — Claude Code (build optimization)
 - Removed 12 unused dependencies (MUI, Emotion, react-dnd, react-router, react-slick, canvas-confetti, popper, masonry): node_modules 388MB → 181MB. Kept date-fns (react-day-picker peer) and tw-animate-css (CSS import).
 - Added manual vendor chunking in vite.config.ts (react / motion / vendor): app edits now only invalidate a ~28KB-gzip index chunk instead of the whole 117KB bundle.
