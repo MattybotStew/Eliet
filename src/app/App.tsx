@@ -562,15 +562,18 @@ function DemoTourBanner({ setPage }: { setPage: (p: Page) => void }) {
 
 // ─── Dealer Locator ───────────────────────────────────────────────────────────
 
-function HomeDealerLocator() {
+function HomeDealerLocator({ setPage }: { setPage: (p: Page) => void }) {
   return (
     <section className="w-full px-6 md:px-12 lg:px-20 py-6">
       <FadeUp>
         <div className="max-w-[1440px] mx-auto">
-          <div className="relative rounded-2xl overflow-hidden group" style={{ minHeight: 380 }}>
+          <div className="relative rounded-2xl overflow-hidden group" style={{ minHeight: 420 }}>
             <img src={imgDealerBg} alt="Dealer Locator" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(15,15,18,0.9) 40%, rgba(15,15,18,0.35) 100%)" }} />
-            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 px-10 md:px-16 py-14">
+            <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(15,15,18,0.92) 35%, rgba(15,15,18,0.2) 100%)" }} />
+            {/* Orange corner accent */}
+            <div className="absolute top-0 left-0 w-1 h-16" style={{ backgroundColor: ORANGE }} />
+            <div className="absolute top-0 left-0 h-1 w-16" style={{ backgroundColor: ORANGE }} />
+            <div className="relative z-10 h-full flex flex-col md:flex-row items-center justify-between gap-8 px-10 md:px-16 py-14" style={{ minHeight: 420 }}>
               <div className="flex flex-col gap-4 max-w-lg">
                 <h2 className="font-['Overpass',sans-serif] font-extrabold text-5xl md:text-[62px] text-white uppercase leading-none tracking-[-1px]">
                   Dealer Locator
@@ -579,13 +582,12 @@ function HomeDealerLocator() {
                   Find parts, service, and new equipment at a certified ELIET dealer near you.
                 </p>
               </div>
-              <button
+              <button onClick={() => { setPage("dealers"); window.scrollTo({ top: 0 }); }}
                 className="shrink-0 px-8 py-4 bg-white rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
                 style={{ color: DARK }}
                 onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = ORANGE; e.currentTarget.style.color = "white"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "white"; e.currentTarget.style.color = DARK; }}
-              >
-                Find a Dealer
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "white"; e.currentTarget.style.color = DARK; }}>
+                Find a Dealer →
               </button>
             </div>
           </div>
@@ -783,7 +785,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
       <ShopByCategory />
       <TrustedBy />
       <FeaturedMachines />
-      <HomeDealerLocator />
+      <HomeDealerLocator setPage={setPage} />
       <WhyElietBanner bg={imgWhyBg} photo1={imgWhyPhoto1} photo2={imgWhyPhoto2} buttonLabel="Our Products" setPage={setPage} wrapperClass="w-full px-6 md:px-12 lg:px-20 py-6 pb-16" />
       <Newsletter />
       <Footer setPage={setPage} svgData={deskSvg} />
@@ -998,7 +1000,7 @@ function DemoPage({ setPage }: { setPage: (p: Page) => void }) {
           </div>
         </FadeUp>
       </section>
-      <HomeDealerLocator />
+      <HomeDealerLocator setPage={setPage} />
       <WhyElietBanner bg={imgWhyBg} photo1={imgWhyPhoto1} photo2={imgWhyPhoto2} buttonLabel="Our Products" setPage={setPage} />
       <Newsletter />
       <Footer setPage={setPage} svgData={deskSvg} />
