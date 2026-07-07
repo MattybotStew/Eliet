@@ -131,16 +131,15 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
   const handleNav = (p: Page) => { setPage(p); setOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-      style={{ backgroundColor: scrolled ? "rgba(15,15,18,0.97)" : "rgba(15,15,18,0.82)", backdropFilter: "blur(14px)", boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.45)" : "none" }}>
-      <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ backgroundColor: ORANGE }} />
-      <div className="max-w-[1440px] mx-auto h-[70px] flex items-center justify-between px-6 md:px-12 lg:px-20">
+    <header className="fixed top-0 left-0 right-0 z-50"
+      style={{ backgroundColor: "#131316", boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.45)" : "none" }}>
+<div className="max-w-[1440px] mx-auto h-[70px] flex items-center justify-between px-6 md:px-12 lg:px-20">
         {/* Left */}
         <div className="flex items-center gap-10">
           <button onClick={() => handleNav("home")} className="transition-opacity hover:opacity-80">
             <ElietLogo svgData={svgData} />
           </button>
-          <nav className="hidden lg:flex items-center gap-6 font-['Overpass',sans-serif] font-semibold text-[12px] uppercase tracking-[0.8px]">
+          <nav className="hidden lg:flex items-center gap-6 font-['Overpass',sans-serif] font-normal text-[13px] uppercase tracking-[0.5px] text-white whitespace-nowrap">
             {NAV_ITEMS.map((item) => {
               const targetPage = item === "About" ? "about" : item === "Products" ? "products" : item === "Service" ? "downloads" : undefined;
               const isActive = targetPage && page === targetPage;
@@ -154,10 +153,8 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
             })}
             <button
               onClick={() => handleNav("demo")}
-              className="transition-all duration-200 px-4 py-1.5 rounded-full border font-bold"
-              style={{ color: page === "demo" ? DARK : ORANGE, backgroundColor: page === "demo" ? ORANGE : "transparent", borderColor: ORANGE }}
-              onMouseEnter={(e) => { if (page !== "demo") { e.currentTarget.style.backgroundColor = `${ORANGE}22`; } }}
-              onMouseLeave={(e) => { if (page !== "demo") { e.currentTarget.style.backgroundColor = "transparent"; } }}
+              className="transition-colors duration-200 hover:text-white"
+              style={{ color: page === "demo" ? ORANGE : "rgba(255,255,255,0.65)" }}
             >
               Demo Tour
             </button>
@@ -166,7 +163,7 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
         </div>
         {/* Right */}
         <div className="flex items-center gap-5">
-          <button className="hidden md:block text-white/60 hover:text-white text-[12px] tracking-[0.8px] font-['Overpass',sans-serif] font-semibold uppercase transition-colors">Login</button>
+          <button className="hidden md:block text-white/65 hover:text-white text-[13px] tracking-[0.5px] font-['Overpass',sans-serif] font-normal uppercase transition-colors">Login</button>
           <div className="w-[18px] h-[18px] relative opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
             <svg className="absolute inset-0 size-full" fill="none" viewBox="0 0 15.6758 15.9999">
               <path d={svgData.p28358500} fill="white" />
@@ -187,7 +184,7 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
             {[...NAV_ITEMS, "Contact", "Login"].map((item) => (
               <button key={item}
                 onClick={item === "About" ? () => handleNav("about") : item === "Products" ? () => handleNav("products") : item === "Service" ? () => handleNav("downloads") : undefined}
-                className="text-white/65 hover:text-white text-sm uppercase tracking-wider font-['Overpass',sans-serif] font-semibold text-left py-3.5 border-b border-white/5 last:border-0 transition-colors">
+                className="text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal text-left py-3.5 border-b border-white/5 last:border-0 transition-colors">
                 {item}
               </button>
             ))}
@@ -214,7 +211,6 @@ function HomeHero({ setPage }: { setPage: (p: Page) => void }) {
         <img src={imgDealerBg} alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(15,15,18,1) 40%, rgba(15,15,18,0.4) 100%)" }} />
       </div>
-      <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ backgroundColor: ORANGE }} />
 
       <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 md:px-12 lg:px-20 pt-32 pb-24">
         <motion.div initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }} transition={{ duration: 0.6, delay: 0.1 }}
@@ -641,7 +637,6 @@ function DemoHero({ setPage }: { setPage: (p: Page) => void }) {
         <img src={img2Hero} alt="ELIET Demo Tour" className="w-full h-full object-cover" style={{ objectPosition: "center 30%" }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(15,15,18,0.35) 0%, rgba(15,15,18,0.65) 60%, rgba(15,15,18,0.9) 100%)" }} />
       </div>
-      <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ backgroundColor: ORANGE }} />
       <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl gap-6 mt-16">
         <motion.div initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }} transition={{ duration: 0.6, delay: 0.1 }}
           className="h-[3px] w-24 origin-left" style={{ backgroundColor: ORANGE }} />
@@ -1012,7 +1007,6 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
           <img src={imgDownloadsHero} alt="ELIET Downloads" className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
           <div className="absolute inset-0" style={{ background: "rgba(15,23,42,0.78)" }} />
         </div>
-        <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ backgroundColor: ORANGE }} />
         <div className="relative z-10 flex flex-col items-center text-center gap-10 px-6 w-full max-w-3xl mt-8">
           <motion.div className="flex flex-col gap-5 items-center"
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
@@ -1610,7 +1604,6 @@ function ProductsPage({ setPage }: { setPage: (p: Page) => void }) {
           <img src={imgProductsHero} alt="All Products" className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
           <div className="absolute inset-0" style={{ background: "rgba(15,23,42,0.78)" }} />
         </div>
-        <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ backgroundColor: ORANGE }} />
         <div className="relative z-10 flex flex-col items-center text-center gap-6 px-6 mt-10">
           <motion.h1
             initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
@@ -1796,7 +1789,6 @@ function AboutHero() {
         <img src={imgAboutHero} alt="About ELIET" className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(15,15,18,0.25) 0%, rgba(15,15,18,0.65) 70%, rgba(15,15,18,0.9) 100%)" }} />
       </div>
-      <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ backgroundColor: ORANGE }} />
       <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 md:px-12 lg:px-20 pt-28 pb-20">
         <motion.div initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }} transition={{ duration: 0.6, delay: 0.1 }}
           className="h-[10px] w-[133px] bg-white mb-10 origin-left" />
