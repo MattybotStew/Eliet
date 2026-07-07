@@ -2,6 +2,11 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (GitHub Pages)
+- Added .github/workflows/deploy-pages.yml: every push to main builds and deploys dist/ to GitHub Pages (also runnable manually via workflow_dispatch).
+- Set Vite base './' so assets resolve under the /Eliet/ path prefix.
+- Prototype URL for the dev team: https://mattybotstew.github.io/Eliet/
+
 ## 2026-07-07 — Claude Code (prototype framing)
 - Rewrote README.md for the dev team: this repo is a design/functionality prototype; production will be WordPress + WooCommerce + Elementor + Astra. Included prototype-view → production-page mapping table. Kept the Figma source link.
 - Added "Project intent — prototype only" section to AGENTS.md: no real backend work here, optimize for design fidelity.
