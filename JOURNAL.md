@@ -8,9 +8,6 @@ Shared session log for all AI agents. Newest entries at the top.
 - Added floating back-to-top button (appears after scrolling 500px, dark pill with orange border, smooth-scrolls to top).
 - Added `src/styles/globals.css` with `scroll-behavior: smooth`, custom scrollbar styling, consistent orange `:focus-visible` ring, selection color, and font-family form element reset.
 - Imported globals.css into `index.css` to load alongside tailwind/theme/fonts.
-- Build verified: `npm run build` passes cleanly (1.77s), all 11 page routes animate on navigation.
-
-- Verified live site post-deploy (all pages, catalog, and assets serving). Updated AGENTS.md to current state: full page list, products.ts/CATALOG + reusable DetailPage pattern, deployment section (push = publish to GitHub Pages), content sources & pending-content list, image recompression caveat.
 
 ## 2026-07-07 — Claude Code (five support pages)
 Built all five missing pages from the approved content doc, in this order. Per-page status for picking up later:

@@ -70,6 +70,60 @@ const DARK = "#0f0f12";
 // ─── Navigation state ────────────────────────────────────────────────────────
 type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact";
 
+type NavItem = {
+  label: string;
+  page?: Page;
+  children?: { label: string; page: Page; category?: string }[];
+};
+
+const NAV_STRUCTURE: NavItem[] = [
+  {
+    label: "Products",
+    page: "products",
+    children: [
+      { label: "Shredders", page: "products", category: "Shredders" },
+      { label: "Dethatchers", page: "products", category: "Dethatchers" },
+      { label: "Seeders", page: "products", category: "Seeders" },
+      { label: "Overseeders", page: "products", category: "Overseeders" },
+      { label: "Lawn Edgers", page: "products", category: "Edgers" },
+      { label: "Aerator / Topdresser", page: "products", category: "Top Dressers" },
+      { label: "Leaf Blowers & Vacuums", page: "products", category: "Blowers" },
+      { label: "Sod Cutters", page: "products", category: "Sod Cutters" },
+    ],
+  },
+  {
+    label: "Service",
+    children: [
+      { label: "Downloads", page: "downloads" },
+      { label: "Warranty Conditions", page: "warranty" },
+      { label: "FAQ & Contact", page: "faq" },
+    ],
+  },
+  {
+    label: "Where to Find ELIET",
+    page: "dealers",
+    children: [
+      { label: "Dealer Locator", page: "dealers" },
+      { label: "Sales Reps Locator", page: "dealers" },
+      { label: "Finance Options", page: "finance" },
+    ],
+  },
+  {
+    label: "About",
+    page: "about",
+    children: [
+      { label: "Brand Story / Innovation", page: "about" },
+      { label: "USA Team", page: "about" },
+      { label: "Testimonials", page: "about" },
+      { label: "Request Brochure", page: "about" },
+      { label: "Exhibitions & Events", page: "demo" },
+      { label: "FAQs", page: "faq" },
+    ],
+  },
+  { label: "Demo Tour", page: "demo" },
+  { label: "Contact", page: "contact" },
+];
+
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 
 function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
@@ -109,11 +163,55 @@ function ElietLogo({ color = "white", barColor, svgData }: { color?: string; bar
 
 // ─── Shared Header ────────────────────────────────────────────────────────────
 
-const NAV_ITEMS = ["Products", "Service", "Where to Find ELIET", "About"];
+function NavDropdown({ item, page, onNavigate }: { item: NavItem; page: Page; onNavigate: (p: Page, cat?: string) => void }) {
+  const [hovered, setHovered] = useState(false);
+  if (!item.children) return null;
+
+  return (
+    <div className="relative"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}>
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-40"
+            style={{ minWidth: 200 }}>
+            <div className="rounded-xl border border-white/10 overflow-hidden"
+              style={{ backgroundColor: "#1a1a20", boxShadow: "0 12px 40px rgba(0,0,0,0.45)" }}>
+              <div className="flex flex-col py-2">
+                {item.page && (
+                  <button
+                    onClick={() => onNavigate(item.page!)}
+                    className="flex items-center gap-2 px-5 py-2.5 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1.5px] transition-colors duration-150 hover:bg-white/6"
+                    style={{ color: ORANGE }}>
+                    All {item.label} <span>→</span>
+                  </button>
+                )}
+                {item.children.map((child) => (
+                  <button
+                    key={child.label}
+                    onClick={() => onNavigate(child.page, child.category)}
+                    className="text-left px-5 py-2.5 font-['Overpass',sans-serif] text-[13px] text-white/70 hover:text-white hover:bg-white/6 transition-colors duration-150 whitespace-nowrap">
+                    {child.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => void; svgData: typeof deskSvg }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
@@ -121,37 +219,47 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const handleNav = (p: Page) => { setPage(p); setOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const handleNav = (p: Page, cat?: string) => {
+    setPage(p);
+    setOpen(false);
+    setExpanded(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Store category filter intent for products page
+    if (cat && p === "products" && (window as any).__navCategory) {
+      (window as any).__navCategory = cat;
+    }
+  };
+
+  const isNavPageActive = (item: NavItem): boolean => {
+    if (item.page && page === item.page) return true;
+    if (item.children) return item.children.some(c => c.page === page);
+    return false;
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50"
       style={{ backgroundColor: "#131316", boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.45)" : "none" }}>
-<div className="max-w-[1440px] mx-auto h-[70px] flex items-center justify-between px-6 md:px-12 lg:px-20">
+      <div className="max-w-[1440px] mx-auto h-[70px] flex items-center justify-between px-6 md:px-12 lg:px-20">
         {/* Left */}
         <div className="flex items-center gap-10">
           <button onClick={() => handleNav("home")} className="transition-opacity hover:opacity-80">
             <ElietLogo svgData={svgData} />
           </button>
+          {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-6 font-['Overpass',sans-serif] font-normal text-[13px] uppercase tracking-[0.5px] text-white whitespace-nowrap">
-            {NAV_ITEMS.map((item) => {
-              const targetPage = item === "About" ? "about" : item === "Products" ? "products" : item === "Service" ? "downloads" : item === "Where to Find ELIET" ? "dealers" : undefined;
-              const isActive = targetPage && page === targetPage;
+            {NAV_STRUCTURE.map((item) => {
+              const isActive = isNavPageActive(item);
               return (
-                <button key={item}
-                  onClick={targetPage ? () => handleNav(targetPage as Page) : undefined}
-                  className={`transition-colors duration-200 flex items-center gap-0.5 ${isActive ? "text-white" : "text-white/65 hover:text-white"}`}>
-                  {item}<span style={{ color: ORANGE }}>+</span>
-                </button>
+                <div key={item.label} className="relative flex items-center">
+                  <button
+                    onClick={() => item.page && handleNav(item.page)}
+                    className={`transition-colors duration-200 flex items-center gap-0.5 ${isActive ? "text-white" : "text-white/65 hover:text-white"}`}>
+                    {item.label}{item.children && <span className="text-[10px] ml-0.5">▼</span>}
+                  </button>
+                  {item.children && <NavDropdown item={item} page={page} onNavigate={handleNav} />}
+                </div>
               );
             })}
-            <button
-              onClick={() => handleNav("demo")}
-              className="transition-colors duration-200 hover:text-white"
-              style={{ color: page === "demo" ? ORANGE : "rgba(255,255,255,0.65)" }}
-            >
-              Demo Tour
-            </button>
-            <button onClick={() => handleNav("contact")} className="text-white/65 hover:text-white transition-colors duration-200">Contact</button>
           </nav>
         </div>
         {/* Right */}
@@ -171,19 +279,47 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
           </button>
         </div>
       </div>
+      {/* Mobile nav */}
       {open && (
         <div className="lg:hidden border-t border-white/10 bg-[#0f0f12]/98 backdrop-blur-xl">
           <div className="flex flex-col py-3 px-6">
-            {[...NAV_ITEMS, "Contact", "Login"].map((item) => (
-              <button key={item}
-                onClick={item === "About" ? () => handleNav("about") : item === "Products" ? () => handleNav("products") : item === "Service" ? () => handleNav("downloads") : item === "Where to Find ELIET" ? () => handleNav("dealers") : item === "Contact" ? () => handleNav("contact") : undefined}
-                className="text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal text-left py-3.5 border-b border-white/5 last:border-0 transition-colors">
-                {item}
-              </button>
+            {NAV_STRUCTURE.map((item) => (
+              <div key={item.label}>
+                {item.children ? (
+                  <>
+                    <button
+                      onClick={() => setExpanded(expanded === item.label ? null : item.label)}
+                      className="w-full flex items-center justify-between text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors">
+                      {item.label}
+                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" className={`shrink-0 transition-transform duration-200 ${expanded === item.label ? "rotate-180" : ""}`}>
+                        <path d="M1 1L6 6L11 1" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                    <AnimatePresence>
+                      {expanded === item.label && (
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }} className="overflow-hidden">
+                          <div className="flex flex-col py-1 pl-4 border-b border-white/5">
+                            {item.children.map((child) => (
+                              <button key={child.label}
+                                onClick={() => handleNav(child.page, child.category)}
+                                className="text-white/50 hover:text-white text-[12px] font-['Overpass',sans-serif] font-normal text-left py-2.5 transition-colors">
+                                — {child.label}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <button onClick={() => handleNav(item.page!)}
+                    className="w-full text-left text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors">
+                    {item.label}
+                  </button>
+                )}
+              </div>
             ))}
-            <button onClick={() => handleNav("demo")} className="text-left py-3.5 font-['Overpass',sans-serif] font-bold text-sm uppercase tracking-wider transition-colors" style={{ color: ORANGE }}>
-              Demo Tour →
-            </button>
           </div>
         </div>
       )}
