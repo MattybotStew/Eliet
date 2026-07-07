@@ -476,11 +476,11 @@ const MACHINES = [
 function MachineCard({ img, name }: { img: string; name: string }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <div className="flex-1 min-w-[200px] bg-white rounded-xl overflow-hidden cursor-pointer transition-all duration-300 group"
+    <div className="bg-white rounded-xl overflow-hidden cursor-pointer transition-all duration-300 group"
       style={{ boxShadow: hovered ? "0 12px 32px rgba(0,0,0,0.12)" : "0 2px 8px rgba(0,0,0,0.06)", transform: hovered ? "translateY(-4px)" : "none" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
-      <div className="relative h-[280px] overflow-hidden bg-[#f8f8f8]">
+      <div className="relative h-[200px] sm:h-[280px] overflow-hidden bg-[#f8f8f8]">
         <img src={img} alt={name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
       </div>
       <div className="px-5 py-4 flex items-center justify-between">
@@ -502,7 +502,7 @@ function FeaturedMachines() {
               View All →
             </button>
           </div>
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {MACHINES.map((m) => <MachineCard key={m.name} {...m} />)}
           </div>
         </div>
