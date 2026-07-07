@@ -387,7 +387,7 @@ function CategoryCard({ img, label }: { img: string; label: string }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div className="relative overflow-hidden rounded-2xl cursor-pointer flex-1 min-w-[240px]"
-      style={{ height: 440 }}
+      style={{ height: 480 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
       <img src={img} alt={label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
@@ -453,13 +453,13 @@ function TrustedBy() {
                   <>
                     <p className="font-['Overpass',sans-serif] font-bold text-[28px] text-white uppercase">{col.title}</p>
                     <p className="font-['Overpass',sans-serif] text-[15px] text-white/60 leading-relaxed">{col.desc}</p>
-                    <div className="relative overflow-hidden rounded-xl h-[340px]">
+                    <div className="relative overflow-hidden rounded-xl h-[380px]">
                       <img src={col.img} alt={col.title} className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="relative overflow-hidden rounded-xl h-[340px]">
+                    <div className="relative overflow-hidden rounded-xl h-[380px]">
                       <img src={col.img} alt={col.title} className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                     </div>
                     <p className="font-['Overpass',sans-serif] font-bold text-[28px] text-white uppercase">{col.title}</p>
@@ -491,7 +491,7 @@ function MachineCard({ img, name }: { img: string; name: string }) {
       style={{ boxShadow: hovered ? "0 12px 32px rgba(0,0,0,0.12)" : "0 2px 8px rgba(0,0,0,0.06)", transform: hovered ? "translateY(-4px)" : "none" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
-      <div className="relative h-[240px] overflow-hidden bg-[#f8f8f8]">
+      <div className="relative h-[280px] overflow-hidden bg-[#f8f8f8]">
         <img src={img} alt={name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
       </div>
       <div className="px-5 py-4 flex items-center justify-between">
@@ -1364,7 +1364,7 @@ function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p:
           <FadeUp>
             <div className="bg-[#f5f5f5] rounded-2xl border border-[#e0e0e0] overflow-hidden flex flex-col lg:flex-row">
               {/* Image */}
-              <div className="relative lg:w-[560px] shrink-0 bg-white overflow-hidden" style={{ minHeight: 460 }}>
+              <div className="relative lg:w-[560px] shrink-0 bg-white overflow-hidden" style={{ minHeight: 520 }}>
                 <img src={product.image} alt={product.name}
                   className="absolute inset-0 w-full h-full object-cover hover:scale-[1.03] transition-transform duration-700" />
                 <button onClick={() => setLightbox(true)}
@@ -1655,7 +1655,7 @@ function ProductCard({ product, onClick }: { product: typeof PRODUCTS_DATA[0]; o
       onMouseLeave={() => setHovered(false)}
     >
       {/* Image */}
-      <div className="relative overflow-hidden bg-[#f8f8f8]" style={{ height: 200 }}>
+      <div className="relative overflow-hidden bg-[#f8f8f8]" style={{ height: 260 }}>
         <img
           src={imgProductCard}
           alt={product.name}
