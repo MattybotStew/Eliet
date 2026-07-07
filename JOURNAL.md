@@ -2,6 +2,17 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (five support pages)
+Built all five missing pages from the approved content doc, in this order. Per-page status for picking up later:
+1. **Warranty** (`warranty`) — DONE. Coverage tiers, exclusions checklist, 4-step claims flow, register CTA. Content doc itself flags the warranty terms as placeholder — amber banner on page says so; needs real terms from client.
+2. **FAQ** (`faq`) — DONE structurally. All 10 approved questions render as accordions; ANSWERS ARE PLACEHOLDERS ("pending from client") because the content doc has [Missing Text: Content Required] for every answer.
+3. **Dealer Locator** (`dealers`) — DONE. Search bar + map placeholder + 12 dealer cards from the doc (doc data appears to be sample dealers); real map/search is production (WooCommerce/WP plugin) scope.
+4. **Finance Options** (`finance`) — DONE. Two program cards + Why-ELIET band. Doc only defines 2 programs.
+5. **Contact** (`contact`) — DONE. Info blocks, office hours, map placeholder, full form (visual only), resource cards linking downloads/dealers/faq.
+
+Wiring: header "Where to Find ELIET"→dealers, "Contact"→contact (desktop+mobile); footer links now route (Find a Dealer, Finance Options, Service→faq, Machine Registration→warranty). New shared PageHero component. All pages end with Newsletter+Footer per site pattern.
+Verified with Playwright: 12 assertions across all five pages + cross-links. Remaining for these pages: real FAQ answers, real warranty terms, real dealer list.
+
 ## 2026-07-07 — Matt + Claude Code (home hero)
 - Committed Matt's home-page edit: hero background now uses the shredder action photo (full opacity, lighter gradient), and the "Trusted by professionals" pillars reuse the Why-ELIET photos.
 

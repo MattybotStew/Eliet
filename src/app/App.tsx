@@ -68,7 +68,7 @@ const ORANGE = "#ef7d00";
 const DARK = "#0f0f12";
 
 // ─── Navigation state ────────────────────────────────────────────────────────
-type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads";
+type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact";
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 
@@ -134,7 +134,7 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
           </button>
           <nav className="hidden lg:flex items-center gap-6 font-['Overpass',sans-serif] font-normal text-[13px] uppercase tracking-[0.5px] text-white whitespace-nowrap">
             {NAV_ITEMS.map((item) => {
-              const targetPage = item === "About" ? "about" : item === "Products" ? "products" : item === "Service" ? "downloads" : undefined;
+              const targetPage = item === "About" ? "about" : item === "Products" ? "products" : item === "Service" ? "downloads" : item === "Where to Find ELIET" ? "dealers" : undefined;
               const isActive = targetPage && page === targetPage;
               return (
                 <button key={item}
@@ -151,7 +151,7 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
             >
               Demo Tour
             </button>
-            <button className="text-white/65 hover:text-white transition-colors duration-200">Contact</button>
+            <button onClick={() => handleNav("contact")} className="text-white/65 hover:text-white transition-colors duration-200">Contact</button>
           </nav>
         </div>
         {/* Right */}
@@ -176,7 +176,7 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
           <div className="flex flex-col py-3 px-6">
             {[...NAV_ITEMS, "Contact", "Login"].map((item) => (
               <button key={item}
-                onClick={item === "About" ? () => handleNav("about") : item === "Products" ? () => handleNav("products") : item === "Service" ? () => handleNav("downloads") : undefined}
+                onClick={item === "About" ? () => handleNav("about") : item === "Products" ? () => handleNav("products") : item === "Service" ? () => handleNav("downloads") : item === "Where to Find ELIET" ? () => handleNav("dealers") : item === "Contact" ? () => handleNav("contact") : undefined}
                 className="text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal text-left py-3.5 border-b border-white/5 last:border-0 transition-colors">
                 {item}
               </button>
@@ -557,6 +557,12 @@ function Newsletter() {
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
+const FOOTER_LINK_TARGETS: Record<string, Page> = {
+  "All Products": "products", "Find a Dealer": "dealers", "Demo Tour": "demo",
+  "Downloads": "downloads", "Finance Options": "finance", "About Us": "about",
+  "Service": "faq", "Machine Registration": "warranty",
+};
+
 const FOOTER_COLS = [
   { heading: "AT ELIET", links: ["All Products", "Find a Dealer", "Demo Tour", "Downloads", "Finance Options"] },
   { heading: "ABOUT ELIET", links: ["About Us", "Service", "Machine Registration", "Press"] },
@@ -580,7 +586,7 @@ function Footer({ setPage, svgData }: { setPage: (p: Page) => void; svgData: typ
                 <p className="font-['Overpass',sans-serif] font-bold text-[11px] text-white uppercase tracking-[2px]">{col.heading}</p>
                 <div className="flex flex-col gap-3">
                   {col.links.map((link) => (
-                    <button key={link} onClick={link === "Demo Tour" ? () => { setPage("demo"); window.scrollTo({ top: 0 }); } : link === "Downloads" ? () => { setPage("downloads"); window.scrollTo({ top: 0 }); } : link === "All Products" ? () => { setPage("products"); window.scrollTo({ top: 0 }); } : undefined}
+                    <button key={link} onClick={FOOTER_LINK_TARGETS[link] ? () => { setPage(FOOTER_LINK_TARGETS[link]); window.scrollTo({ top: 0 }); } : undefined}
                       className="font-['Overpass',sans-serif] text-[14px] text-white/35 hover:text-white/75 transition-colors duration-200 text-left leading-snug">
                       {link}
                     </button>
@@ -2163,6 +2169,527 @@ function AboutPage({ setPage }: { setPage: (p: Page) => void }) {
 // ROOT
 // ══════════════════════════════════════════════════════════════════════════════
 
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SUPPORT PAGES (Warranty, FAQ, Dealer Locator, Finance, Contact)
+// Copy source: "Eliet Website Content Document" (client-approved, 2026-06)
+// ══════════════════════════════════════════════════════════════════════════════
+
+function PageHero({ img, title, text }: { img: string; title: string; text: string }) {
+  return (
+    <section className="relative w-full flex items-center justify-center overflow-hidden" style={{ minHeight: 420 }}>
+      <div className="absolute inset-0">
+        <img src={img} alt={title} className="w-full h-full object-cover" style={{ objectPosition: "center 40%" }} />
+        <div className="absolute inset-0" style={{ background: "rgba(15,23,42,0.78)" }} />
+      </div>
+      <div className="relative z-10 flex flex-col items-center text-center gap-6 px-6 mt-10 max-w-3xl">
+        <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="font-['Overpass',sans-serif] font-extrabold text-[48px] md:text-[72px] text-white uppercase leading-none tracking-[-2px]">
+          {title}
+        </motion.h1>
+        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
+          className="font-['Overpass',sans-serif] text-[17px] md:text-[20px] text-white/70 leading-relaxed">
+          {text}
+        </motion.p>
+      </div>
+    </section>
+  );
+}
+
+// ─── Warranty Conditions ──────────────────────────────────────────────────────
+
+const WARRANTY_TIERS = [
+  { title: "Standard Warranty", duration: "24 months", note: "from date of purchase",
+    policy: "ELIET warrants new machines against defects in materials and workmanship under normal use and service.",
+    rules: ["Consumer / residential use: 24 months", "Commercial / professional use: 12 months", "Rental / fleet use: 6 months"], alert: null },
+  { title: "E-Power & Battery Warranty", duration: "24 months or 1,000 cycles", note: "whichever comes first",
+    policy: "ELIET E-Power battery packs are warranted against defects in materials and workmanship. Battery capacity degradation is normal and not covered.",
+    rules: ["Charger: 12 months", "Motor / controller: 24 months"], alert: null },
+  { title: "Parts & Attachments", duration: "90 days", note: "from date of purchase",
+    policy: "Replacement parts, accessories, and attachments are warranted against manufacturing defects.",
+    rules: [], alert: "Wear parts (blades, knives, belts, tires, filters) are not covered under warranty." },
+];
+
+const WARRANTY_EXCLUSIONS = [
+  "Normal wear and tear (blades, knives, belts, tires, filters, spark plugs)",
+  "Damage caused by misuse, abuse, neglect, or improper maintenance",
+  "Damage from unauthorized modifications or repairs",
+  "Damage from using incorrect fuel, oil, or lubricants",
+  "Damage from improper storage or operation outside specified conditions",
+  "Incidental or consequential damages (lost time, lost revenue, etc.)",
+  "Machines with altered serial numbers or missing identification tags",
+  "Freight costs for warranty service unless specified otherwise",
+];
+
+const WARRANTY_STEPS = [
+  { title: "Contact your authorized ELIET dealer", text: "Provide your machine model, serial number, and description of the issue." },
+  { title: "Provide proof of purchase", text: "Original sales receipt or invoice showing date of purchase." },
+  { title: "Dealer inspection", text: "The dealer will inspect the machine to determine if the issue is covered under warranty." },
+  { title: "Repair or replacement", text: "If approved, ELIET will repair or replace defective parts at no charge." },
+];
+
+function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
+  return (
+    <>
+      <PageHero img={imgDetailWhyBg} title="Warranty Conditions"
+        text="ELIET stands behind the quality of our equipment. Review warranty coverage, duration, and how to file a claim." />
+
+      {/* Client-flagged disclaimer */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 pt-8">
+        <div className="max-w-[1440px] mx-auto rounded-xl border border-amber-300 bg-amber-50 px-6 py-4">
+          <p className="font-['Overpass',sans-serif] text-[13px] text-amber-800 leading-relaxed">
+            <strong>Note:</strong> Placeholder content — replace with actual ELIET USA warranty information. The content below is a template and may not reflect actual warranty terms. Please verify all details with the client.
+          </p>
+        </div>
+      </section>
+
+      {/* Coverage matrix */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-14">
+        <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
+          <FadeUp>
+            <div className="flex flex-col gap-2">
+              <OrangeAccent />
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">Warranty Coverage</h2>
+            </div>
+          </FadeUp>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {WARRANTY_TIERS.map((t, i) => (
+              <FadeUp key={t.title} delay={i * 0.08}>
+                <div className="h-full flex flex-col gap-4 p-7 rounded-2xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] transition-colors duration-300">
+                  <p className="font-['Overpass',sans-serif] font-bold text-[13px] text-[#131316] uppercase tracking-[1px]">{t.title}</p>
+                  <div>
+                    <p className="font-['Overpass',sans-serif] font-extrabold text-[26px] leading-tight" style={{ color: ORANGE }}>{t.duration}</p>
+                    <p className="font-['Overpass',sans-serif] text-[12px] text-[#999]">{t.note}</p>
+                  </div>
+                  <p className="font-['Overpass',sans-serif] text-[13px] text-[#666] leading-relaxed">{t.policy}</p>
+                  {t.rules.length > 0 && (
+                    <ul className="flex flex-col gap-2 mt-auto">
+                      {t.rules.map(r => (
+                        <li key={r} className="flex items-center gap-2.5">
+                          <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: ORANGE }} />
+                          <span className="font-['Overpass',sans-serif] text-[13px] text-[#444]">{r}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {t.alert && (
+                    <p className="mt-auto font-['Overpass',sans-serif] text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 leading-relaxed">{t.alert}</p>
+                  )}
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Exclusions */}
+      <section className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-14">
+        <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
+          <FadeUp>
+            <div className="flex flex-col gap-2">
+              <OrangeAccent />
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">What Is Not Covered?</h2>
+            </div>
+          </FadeUp>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {WARRANTY_EXCLUSIONS.map((x, i) => (
+              <FadeUp key={x} delay={i * 0.04}>
+                <div className="flex items-start gap-3 bg-white rounded-xl border border-[#eee] px-5 py-4">
+                  <svg width="16" height="16" viewBox="0 0 16 16" className="shrink-0 mt-0.5"><path d="M4 4l8 8M12 4l-8 8" stroke="#c0392b" strokeWidth="2" strokeLinecap="round" /></svg>
+                  <span className="font-['Overpass',sans-serif] text-[14px] text-[#555] leading-relaxed">{x}</span>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Claims process */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-14">
+        <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
+          <FadeUp>
+            <div className="flex flex-col gap-2">
+              <OrangeAccent />
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">How to File a Warranty Claim</h2>
+            </div>
+          </FadeUp>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+            {WARRANTY_STEPS.map((st, i) => (
+              <FadeUp key={st.title} delay={i * 0.08}>
+                <div className="h-full flex flex-col gap-3 p-6 rounded-2xl border border-[#eee] bg-[#f8f8f8]">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-['Overpass',sans-serif] font-extrabold text-white text-[16px]" style={{ backgroundColor: ORANGE }}>{i + 1}</div>
+                  <p className="font-['Overpass',sans-serif] font-bold text-[14px] text-[#131316] uppercase tracking-[0.5px] leading-snug">{st.title}</p>
+                  <p className="font-['Overpass',sans-serif] text-[13px] text-[#666] leading-relaxed">{st.text}</p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Register CTA */}
+      <section className="w-full px-6 md:px-12 lg:px-20 pb-20">
+        <FadeUp>
+          <div className="max-w-[1440px] mx-auto rounded-2xl px-10 py-14 flex flex-col md:flex-row items-center justify-between gap-8" style={{ backgroundColor: "#0f172a" }}>
+            <div className="flex flex-col gap-3 max-w-xl">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[38px] text-white uppercase leading-none tracking-[-1px]">Register Your Machine for Warranty</h2>
+              <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">Activate your warranty coverage and receive important product updates.</p>
+            </div>
+            <button onClick={() => { setPage("contact"); window.scrollTo({ top: 0 }); }}
+              className="shrink-0 px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
+              style={{ backgroundColor: ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
+              Register Now
+            </button>
+          </div>
+        </FadeUp>
+      </section>
+
+      <Newsletter />
+      <Footer setPage={setPage} svgData={deskSvg} />
+    </>
+  );
+}
+
+// ─── Frequently Asked Questions ───────────────────────────────────────────────
+
+const SUPPORT_FAQS = [
+  "Where can I buy ELIET machines?", "Do you offer financing?", "What is the difference between models?",
+  "How do I register my machine?", "How do I get replacement parts?", "Do you have service centers?",
+  "What maintenance is required?", "What is the warranty period?", "Can I schedule a demo?",
+  "Are ELIET machines made in the USA?",
+];
+
+function FaqPage({ setPage }: { setPage: (p: Page) => void }) {
+  return (
+    <>
+      <PageHero img={imgDownloadsWhyBg} title="Frequently Asked Questions"
+        text="Answers to common questions about ELIET machines, service, warranty, and support." />
+
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-16">
+        <div className="max-w-[900px] mx-auto flex flex-col gap-3">
+          {SUPPORT_FAQS.map((q, i) => (
+            <FadeUp key={q} delay={i * 0.03}>
+              <FaqItem q={q} a="[Answer content pending from client — see Eliet Website Content Document.]" />
+            </FadeUp>
+          ))}
+        </div>
+      </section>
+
+      {/* Escalation */}
+      <section className="w-full px-6 md:px-12 lg:px-20 pb-20">
+        <FadeUp>
+          <div className="max-w-[1440px] mx-auto rounded-2xl px-10 py-14 flex flex-col md:flex-row items-center justify-between gap-8" style={{ backgroundColor: "#0f172a" }}>
+            <div className="flex flex-col gap-3 max-w-xl">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[38px] text-white uppercase leading-none tracking-[-1px]">Still Have Questions?</h2>
+              <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">Our team is ready to help with any questions about ELIET equipment, parts, or service.</p>
+            </div>
+            <button onClick={() => { setPage("contact"); window.scrollTo({ top: 0 }); }}
+              className="shrink-0 px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
+              style={{ backgroundColor: ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
+              Contact Us
+            </button>
+          </div>
+        </FadeUp>
+      </section>
+
+      <Newsletter />
+      <Footer setPage={setPage} svgData={deskSvg} />
+    </>
+  );
+}
+
+// ─── Dealer Locator ───────────────────────────────────────────────────────────
+
+const DEALER_TIER_STYLES: Record<string, { bg: string; color: string }> = {
+  "STAR DEALER": { bg: `${ORANGE}18`, color: ORANGE },
+  "PROFESSIONAL DEALER": { bg: "#13131614", color: "#131316" },
+  "RENTAL PARTNER": { bg: "#88888818", color: "#666" },
+};
+
+const DEALERS = [
+  { tier: "STAR DEALER", name: "Philly Outdoor Equipment", street: "1420 Chestnut Street", city: "Philadelphia, PA 19102", phone: "(215) 555-0100", email: "sales@phillyoutdoor.com" },
+  { tier: "PROFESSIONAL DEALER", name: "Main Line Turf & Tractor", street: "801 W Lancaster Ave", city: "Bryn Mawr, PA 19010", phone: "(610) 555-0200", email: "info@mlturftractor.com" },
+  { tier: "RENTAL PARTNER", name: "United Rentals - King of Prussia", street: "110 Allendale Rd", city: "King of Prussia, PA 19406", phone: "(610) 555-0300", email: "kop@unitedrentals.com" },
+  { tier: "STAR DEALER", name: "Delaware Valley Equipment", street: "2500 Concord Pike", city: "Wilmington, DE 19803", phone: "(302) 555-0400", email: "sales@dvequipment.com" },
+  { tier: "PROFESSIONAL DEALER", name: "Montgomery County Landscape Supply", street: "1600 Dekalb Pike", city: "Blue Bell, PA 19422", phone: "(610) 555-0500", email: "info@mclandscape.com" },
+  { tier: "STAR DEALER", name: "Cherry Hill Power Equipment", street: "2000 Route 38", city: "Cherry Hill, NJ 08002", phone: "(856) 555-0600", email: "sales@cherryhillpower.com" },
+  { tier: "RENTAL PARTNER", name: "Sunbelt Rentals - Bensalem", street: "3100 Street Road", city: "Bensalem, PA 19020", phone: "(215) 555-0700", email: "bensalem@sunbeltrentals.com" },
+  { tier: "PROFESSIONAL DEALER", name: "Bucks County Turf & Equipment", street: "650 York Road", city: "Warminster, PA 18974", phone: "(215) 555-0800", email: "info@buckscountyturf.com" },
+  { tier: "STAR DEALER", name: "Lehigh Valley Equipment", street: "3400 Hamilton Blvd", city: "Allentown, PA 18103", phone: "(610) 555-0900", email: "sales@lehighvalleyequip.com" },
+  { tier: "RENTAL PARTNER", name: "Herc Rentals - South Philly", street: "2700 S Christopher Columbus Blvd", city: "Philadelphia, PA 19148", phone: "(215) 555-1000", email: "southphilly@hercrentals.com" },
+  { tier: "PROFESSIONAL DEALER", name: "West Chester Outdoor Power", street: "1010 West Chester Pike", city: "West Chester, PA 19382", phone: "(610) 555-1100", email: "info@wcopower.com" },
+  { tier: "STAR DEALER", name: "Princeton Outdoor Supply", street: "3500 US-1", city: "Princeton, NJ 08540", phone: "(609) 555-1200", email: "sales@princetonoutdoor.com" },
+];
+
+function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
+  const [query, setQuery] = useState("19118");
+  return (
+    <>
+      <PageHero img={imgDealerBg} title="Dealer Locator"
+        text="Find an authorized ELIET dealer near you for parts, service, and new equipment. Our network is growing across the United States." />
+
+      {/* Search + map */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-12">
+        <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
+          <FadeUp>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-2xl">
+              <label className="sr-only">Zip code or city, state</label>
+              <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Zip code or city, state"
+                className="flex-1 h-14 px-5 rounded-full border border-[#ddd] font-['Overpass',sans-serif] text-[15px] text-[#131316] focus:outline-none focus:border-[#ef7d00] transition-colors" />
+              <button className="h-14 px-9 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:brightness-110 transition-all"
+                style={{ backgroundColor: ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
+                Search
+              </button>
+            </div>
+          </FadeUp>
+          <FadeUp>
+            <div className="w-full rounded-2xl border border-[#e0e0e0] bg-[#eef1f4] flex items-center justify-center" style={{ height: 380 }}>
+              <div className="flex flex-col items-center gap-3">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-6.1-7-11a7 7 0 1114 0c0 4.9-7 11-7 11z" stroke="#94a3b8" strokeWidth="1.6" /><circle cx="12" cy="10" r="2.6" stroke="#94a3b8" strokeWidth="1.6" /></svg>
+                <p className="font-['Overpass',sans-serif] text-[14px] text-[#94a3b8] uppercase tracking-[2px]">Interactive Map</p>
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* Dealer grid */}
+      <section className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-14">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {DEALERS.map((d, i) => (
+            <FadeUp key={d.name} delay={(i % 6) * 0.05}>
+              <div className="h-full flex flex-col gap-4 bg-white rounded-2xl border border-[#eee] p-7 hover:border-[#ef7d00] hover:shadow-md transition-all duration-300">
+                <span className="self-start px-2.5 py-1 rounded-full font-['Overpass',sans-serif] font-bold text-[10px] uppercase tracking-[1.5px]"
+                  style={{ backgroundColor: DEALER_TIER_STYLES[d.tier].bg, color: DEALER_TIER_STYLES[d.tier].color }}>
+                  {d.tier}
+                </span>
+                <p className="font-['Overpass',sans-serif] font-bold text-[18px] text-[#131316] leading-snug">{d.name}</p>
+                <div className="flex flex-col gap-1">
+                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#666]">{d.street}</p>
+                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#666]">{d.city}</p>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#444] font-semibold">{d.phone}</p>
+                  <p className="font-['Overpass',sans-serif] text-[13px]" style={{ color: ORANGE }}>{d.email}</p>
+                </div>
+                <div className="flex items-center gap-5 mt-auto pt-2">
+                  <button className="font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] hover:opacity-60 transition-opacity" style={{ color: ORANGE }}>Get directions</button>
+                  <button className="font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] text-[#131316] hover:opacity-60 transition-opacity">Call dealer</button>
+                </div>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      </section>
+
+      {/* Escalation */}
+      <section className="w-full px-6 md:px-12 lg:px-20 py-16 bg-white">
+        <FadeUp>
+          <div className="max-w-[1440px] mx-auto rounded-2xl px-10 py-14 flex flex-col md:flex-row items-center justify-between gap-8" style={{ backgroundColor: "#0f172a" }}>
+            <div className="flex flex-col gap-3 max-w-xl">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[38px] text-white uppercase leading-none tracking-[-1px]">Don't See a Dealer Near You?</h2>
+              <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">Our network is growing. Contact us directly and we'll help you find support in your area.</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 shrink-0">
+              <button onClick={() => { setPage("contact"); window.scrollTo({ top: 0 }); }}
+                className="px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
+                style={{ backgroundColor: ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
+                Find a Sales Rep
+              </button>
+              <button onClick={() => { setPage("contact"); window.scrollTo({ top: 0 }); }}
+                className="font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white/85 hover:text-white transition-colors">
+                Contact ELIET Directly →
+              </button>
+            </div>
+          </div>
+        </FadeUp>
+      </section>
+
+      <Newsletter />
+      <Footer setPage={setPage} svgData={deskSvg} />
+    </>
+  );
+}
+
+// ─── Finance Options ──────────────────────────────────────────────────────────
+
+const FINANCE_PROGRAMS = [
+  { title: "Low Down Payment", text: "Get into new ELIET equipment with minimal upfront cost. Flexible down payment options to preserve your working capital." },
+  { title: "Seasonal Payment Plans", text: "Match payments to your revenue cycle. Skip payments during slow months available on qualified programs." },
+];
+
+function FinancePage({ setPage }: { setPage: (p: Page) => void }) {
+  return (
+    <>
+      <PageHero img={imgDownloadsWhyP1} title="Finance Options"
+        text="Flexible financing programs to get professional ELIET equipment working for your operation." />
+
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-16">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+          {FINANCE_PROGRAMS.map((f, i) => (
+            <FadeUp key={f.title} delay={i * 0.08}>
+              <div className="h-full flex flex-col gap-4 p-9 rounded-2xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] transition-colors duration-300">
+                <OrangeAccent />
+                <p className="font-['Overpass',sans-serif] font-extrabold text-[24px] text-[#131316] uppercase tracking-[-0.5px]">{f.title}</p>
+                <p className="font-['Overpass',sans-serif] text-[15px] text-[#666] leading-relaxed">{f.text}</p>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      </section>
+
+      {/* Why ELIET */}
+      <section className="w-full px-6 md:px-12 lg:px-20 pb-20">
+        <FadeUp>
+          <div className="max-w-[1440px] mx-auto">
+            <div className="relative rounded-2xl overflow-hidden" style={{ minHeight: 420 }}>
+              <img src={imgDetailWhyBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/65" />
+              <div className="relative z-10 flex flex-col justify-center gap-7 px-10 md:px-14 py-14 max-w-xl min-h-[420px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">Why Professionals Choose ELIET</h2>
+                <ul className="flex flex-col gap-4">
+                  {["Same-day parts shipping", "Local reps across the US", "Service you can count on", "30+ years of engineering"].map((item) => (
+                    <li key={item} className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center" style={{ backgroundColor: ORANGE }}>
+                        <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      </div>
+                      <span className="font-['Overpass',sans-serif] font-semibold text-[15px] text-white">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button onClick={() => { setPage("products"); window.scrollTo({ top: 0 }); }}
+                  className="self-start px-7 py-3.5 rounded-full bg-white font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
+                  style={{ color: DARK }}>
+                  Our Products
+                </button>
+              </div>
+            </div>
+          </div>
+        </FadeUp>
+      </section>
+
+      <Newsletter />
+      <Footer setPage={setPage} svgData={deskSvg} />
+    </>
+  );
+}
+
+// ─── Contact ELIET USA ────────────────────────────────────────────────────────
+
+const CONTACT_BLOCKS = [
+  { title: "Headquarters", context: null, lines: ["ELIET USA Inc.", "19 E Moreland Ave", "Philadelphia, PA 19118"], phone: "+1 412 367 5185", email: "info@elietusa.com" },
+  { title: "Customer Support", context: "For parts, service, warranty, and technical questions:", lines: [], phone: "+1 412 367 5185 (ext. 2)", email: "support@elietusa.com" },
+  { title: "Sales Inquiries", context: "For dealer partnerships, bulk orders or product questions:", lines: [], phone: "+1 412 367 5185 (ext. 1)", email: "sales@elietusa.com" },
+];
+
+const CONTACT_RESOURCES = [
+  { title: "Request a Brochure", text: "Download or request a printed catalog.", cta: "View downloads →", page: "downloads" as Page },
+  { title: "Schedule a Call", text: "Talk directly with a sales representative.", cta: "Find a sales rep →", page: "dealers" as Page },
+  { title: "Technical Support", text: "Get help with parts, service or warranty.", cta: "Visit support →", page: "faq" as Page },
+];
+
+function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
+  const [sent, setSent] = useState(false);
+  const submit = (e: React.FormEvent) => { e.preventDefault(); setSent(true); setTimeout(() => setSent(false), 5000); };
+  const inputCls = "h-12 px-4 rounded-lg border border-[#ddd] bg-white font-['Overpass',sans-serif] text-[14px] text-[#131316] focus:outline-none focus:border-[#ef7d00] transition-colors w-full";
+  return (
+    <>
+      <PageHero img={imgAboutHero} title="Contact ELIET USA"
+        text="Reach our team for sales, support, parts, and everything in between." />
+
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-16">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Info column */}
+          <div className="flex flex-col gap-6">
+            {CONTACT_BLOCKS.map((b, i) => (
+              <FadeUp key={b.title} delay={i * 0.07}>
+                <div className="rounded-2xl border border-[#eee] bg-[#f8f8f8] p-7 flex flex-col gap-3">
+                  <p className="font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[1.5px]" style={{ color: ORANGE }}>{b.title}</p>
+                  {b.context && <p className="font-['Overpass',sans-serif] text-[14px] text-[#666]">{b.context}</p>}
+                  {b.lines.map(l => <p key={l} className="font-['Overpass',sans-serif] text-[15px] text-[#333] leading-snug">{l}</p>)}
+                  <div className="flex flex-col gap-1 pt-1">
+                    <a href="tel:+14123675185" className="font-['Overpass',sans-serif] font-semibold text-[15px] text-[#131316] hover:opacity-70 transition-opacity">{b.phone}</a>
+                    <a href={`mailto:${b.email}`} className="font-['Overpass',sans-serif] text-[14px] hover:opacity-70 transition-opacity" style={{ color: ORANGE }}>{b.email}</a>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+            <FadeUp delay={0.2}>
+              <div className="rounded-2xl border border-[#eee] bg-[#f8f8f8] p-7 flex flex-col gap-3">
+                <p className="font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[1.5px]" style={{ color: ORANGE }}>Office Hours</p>
+                {[["Monday–Friday", "8:00 AM – 6:00 PM EST"], ["Saturday", "Closed"], ["Sunday", "Closed"]].map(([d, h]) => (
+                  <div key={d} className="flex items-center justify-between border-b border-[#eee] last:border-0 pb-2 last:pb-0">
+                    <span className="font-['Overpass',sans-serif] text-[14px] text-[#444] font-semibold">{d}</span>
+                    <span className="font-['Overpass',sans-serif] text-[14px] text-[#888]">{h}</span>
+                  </div>
+                ))}
+              </div>
+            </FadeUp>
+            <FadeUp delay={0.25}>
+              <div className="rounded-2xl border border-[#e0e0e0] bg-[#eef1f4] flex items-center justify-center" style={{ height: 240 }}>
+                <p className="font-['Overpass',sans-serif] text-[13px] text-[#94a3b8] uppercase tracking-[2px] text-center px-6">Interactive Map — ELIET USA Headquarters, Philadelphia, PA</p>
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* Form column */}
+          <FadeUp delay={0.1}>
+            <form onSubmit={submit} className="rounded-2xl border border-[#eee] bg-white shadow-sm p-8 md:p-10 flex flex-col gap-5 h-fit">
+              <div className="flex flex-col gap-1">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[26px] text-[#131316] uppercase tracking-[-0.5px]">Send Us a Message</h2>
+                <p className="font-['Overpass',sans-serif] text-[14px] text-[#888]">We'll get back to you within 1–2 business days.</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5"><label className="font-['Overpass',sans-serif] text-[12px] font-bold uppercase tracking-[1px] text-[#999]">First name</label><input required className={inputCls} /></div>
+                <div className="flex flex-col gap-1.5"><label className="font-['Overpass',sans-serif] text-[12px] font-bold uppercase tracking-[1px] text-[#999]">Last name</label><input required className={inputCls} /></div>
+                <div className="flex flex-col gap-1.5"><label className="font-['Overpass',sans-serif] text-[12px] font-bold uppercase tracking-[1px] text-[#999]">Email address</label><input type="email" required className={inputCls} /></div>
+                <div className="flex flex-col gap-1.5"><label className="font-['Overpass',sans-serif] text-[12px] font-bold uppercase tracking-[1px] text-[#999]">Phone number</label><input className={inputCls} /></div>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-['Overpass',sans-serif] text-[12px] font-bold uppercase tracking-[1px] text-[#999]">Inquiry type</label>
+                <select className={inputCls} defaultValue=""><option value="" disabled>Select</option><option>Sales</option><option>Support</option><option>Parts</option><option>Warranty</option><option>Other</option></select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-['Overpass',sans-serif] text-[12px] font-bold uppercase tracking-[1px] text-[#999]">Message</label>
+                <textarea rows={5} placeholder="Please include any details that will help us assist you"
+                  className="px-4 py-3 rounded-lg border border-[#ddd] bg-white font-['Overpass',sans-serif] text-[14px] text-[#131316] focus:outline-none focus:border-[#ef7d00] transition-colors w-full resize-none" />
+              </div>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" required className="mt-1 accent-[#ef7d00]" />
+                <span className="font-['Overpass',sans-serif] text-[13px] text-[#666] leading-relaxed">I agree to the privacy policy and consent to being contacted.</span>
+              </label>
+              <button type="submit"
+                className="self-start px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
+                style={{ backgroundColor: sent ? "#2e7d32" : ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
+                {sent ? "Message Sent ✓" : "Send Message"}
+              </button>
+            </form>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* Resource redirection */}
+      <section className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-14">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
+          {CONTACT_RESOURCES.map((c, i) => (
+            <FadeUp key={c.title} delay={i * 0.07}>
+              <button onClick={() => { setPage(c.page); window.scrollTo({ top: 0 }); }}
+                className="w-full h-full text-left flex flex-col gap-2.5 bg-white rounded-2xl border border-[#eee] p-7 hover:border-[#ef7d00] hover:shadow-md transition-all duration-300">
+                <p className="font-['Overpass',sans-serif] font-bold text-[16px] text-[#131316] uppercase tracking-[0.5px]">{c.title}</p>
+                <p className="font-['Overpass',sans-serif] text-[14px] text-[#666] leading-relaxed">{c.text}</p>
+                <p className="font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[1px] mt-auto" style={{ color: ORANGE }}>{c.cta}</p>
+              </button>
+            </FadeUp>
+          ))}
+        </div>
+      </section>
+
+      <Newsletter />
+      <Footer setPage={setPage} svgData={deskSvg} />
+    </>
+  );
+}
+
 export default function App() {
   const [page, setPage] = useState<Page>("home");
   const [detailProduct, setDetailProduct] = useState<ProductDetail>(MAESTRO_CITY);
@@ -2181,6 +2708,16 @@ export default function App() {
           <ProductsPage setPage={setPage} openProduct={(p) => { setDetailProduct(p); setPage("detail"); }} />
         ) : page === "detail" ? (
           <DetailPage product={detailProduct} setPage={setPage} />
+        ) : page === "warranty" ? (
+          <WarrantyPage setPage={setPage} />
+        ) : page === "faq" ? (
+          <FaqPage setPage={setPage} />
+        ) : page === "dealers" ? (
+          <DealersPage setPage={setPage} />
+        ) : page === "finance" ? (
+          <FinancePage setPage={setPage} />
+        ) : page === "contact" ? (
+          <ContactPage setPage={setPage} />
         ) : (
           <DownloadsPage setPage={setPage} />
         )}
