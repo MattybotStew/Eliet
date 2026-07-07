@@ -2,6 +2,10 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (prototype framing)
+- Rewrote README.md for the dev team: this repo is a design/functionality prototype; production will be WordPress + WooCommerce + Elementor + Astra. Included prototype-view → production-page mapping table. Kept the Figma source link.
+- Added "Project intent — prototype only" section to AGENTS.md: no real backend work here, optimize for design fidelity.
+
 ## 2026-07-07 — Claude Code (image compression)
 - Recompressed 13 large images in src/imports in place (palette PNG q85 / mozjpeg q80): 23.6MB -> 7.8MB, dist 32MB -> 24MB. Same filenames, no code changes; visually verified the most-compressed image.
 - The 1f82331... background PNG (4 copies) is already optimized — quantizing it made it bigger, left untouched. Don't retry.
