@@ -13,7 +13,7 @@ import detailSvg from "@/imports/Detail/svg-s5exn6twxb";
 import imgDetailWhyBg from "@/imports/Detail/1f82331238f563e5b59fb3af78d5ffe2c314621b.png";
 import imgDetailWhyP1 from "@/imports/Detail/00653fe968cdffe052e9eeb52f31990f947b3900.png";
 import imgDetailWhyP2 from "@/imports/Detail/fdd6e374d528d07eceea4ad1a4b0646537fccb84.png";
-import { type ProductDetail, MAESTRO_CITY, productDetailFrom } from "./products";
+import { type ProductDetail, MAESTRO_CITY, productDetailFrom, CATALOG } from "./products";
 
 // ─── Products assets ─────────────────────────────────────────────────────────
 import productsSvg from "@/imports/Products/svg-pctjnimoaf";
@@ -1455,34 +1455,12 @@ function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p:
 // PRODUCTS PAGE
 // ══════════════════════════════════════════════════════════════════════════════
 
-const PRODUCT_CATEGORIES = ["All", "Shredders", "Dethatchers", "Seeders", "Top Dressing", "E-Power"];
+const PRODUCT_CATEGORIES = ["All", ...Array.from(new Set(CATALOG.map((p) => p.category)))];
 const SORT_OPTIONS = ["Default sorting", "Name A–Z", "Name Z–A", "Newest first"];
 
-const PRODUCTS_DATA = Array.from({ length: 12 }, (_, i) => ({
-  id: i + 1,
-  name: ["Maestro Country E-Power", "Prof 6 E-Power", "Super Prof MAX", "MEGA PROF OR",
-         "Elite Pro 5000", "Country Plus", "Maestro Urban", "Prof 4 Classic",
-         "Super Country OR", "Urban Pro E", "MEGA Country", "Prof 8 MAX"][i],
-  sku: `MA ${String(i + 1).padStart(3, "0")} 052 ${100 + i * 7}`,
-  engine: ["5.5 HP B&S XR 750", "6.5 HP Honda GX200", "8 HP Briggs Pro", "Electric 2.5kW",
-           "5.5 HP B&S XR 750", "6.5 HP Honda GX200", "Electric 1.8kW", "5.5 HP B&S",
-           "8 HP Briggs Pro", "Electric 3kW", "7.5 HP Honda", "Electric 4kW"][i],
-  desc: ["Compact shredder for residential and light commercial use.",
-         "Mid-range professional shredder with Honda power.",
-         "Heavy-duty shredder for the most demanding tasks.",
-         "Battery-powered mega shredder, zero emissions.",
-         "Professional lawn dethatcher with adjustable tines.",
-         "Country-spec dethatcher for large open areas.",
-         "Urban overseeder for tight residential spaces.",
-         "Classic 4-tine professional scarifier.",
-         "High-capacity top dresser for sports turf.",
-         "Electric urban pro for noise-sensitive zones.",
-         "Mega capacity country top dresser.",
-         "Max-output electric professional shredder."][i],
-  category: ["Shredders","Shredders","Shredders","E-Power",
-              "Dethatchers","Dethatchers","Seeders","Dethatchers",
-              "Top Dressing","E-Power","Top Dressing","E-Power"][i],
-}));
+// Real 2026 equipment catalog (see products.ts). In production this is the
+// WooCommerce product list.
+const PRODUCTS_DATA = CATALOG;
 
 const ITEMS_PER_PAGE = 8;
 

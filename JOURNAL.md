@@ -2,6 +2,13 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (real product catalog)
+- Replaced the 12 mock products with the real 2026 equipment list: 71 machines, 9 categories (source: client's "Equipment List 2026.csv" Smartsheet export; parsed/cleaned into CATALOG in products.ts).
+- Category filter pills now derive from the data (Shredders, Dethatchers, Overseeders, Top Dressers, Edgers, Sod Cutters, Seeders, Blowers, Leaf Vacs).
+- Every catalog item opens the reusable detail template with its real name/SKU/engine; long-form description/specs/features still fall back to Maestro City content — real per-product copy lives in the client's Product Import Smartsheet (not yet provided).
+- Also reviewed "Eliet Website Content Document (1).xlsx" (approved page copy): existing pages already match it closely. It defines 5 pages the prototype doesn't have: Warranty, FAQ, Dealer Locator, Finance Options, Contact — pending decision.
+- Verified with Playwright: category filtering works, real products open the template with correct SKU/engine.
+
 ## 2026-07-07 — Claude Code (reusable detail template)
 - Refactored DetailPage into a reusable template: all content now renders from a ProductDetail object (new src/app/products.ts — type, MAESTRO_CITY data, productDetailFrom() helper). Visual design unchanged (matches Figma node 5359-182).
 - Every catalog card on the Products page now opens the template with its own name/SKU/engine/description; non-identity content falls back to Maestro City until real data exists. In production all of this comes from WooCommerce.
