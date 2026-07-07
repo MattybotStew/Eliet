@@ -728,7 +728,7 @@ function Newsletter() {
 const FOOTER_LINK_TARGETS: Record<string, Page> = {
   "All Products": "products", "Find a Dealer": "dealers", "Demo Tour": "demo",
   "Downloads": "downloads", "Finance Options": "finance", "About Us": "about",
-  "Service": "faq", "Machine Registration": "warranty",
+  "Service": "faq", "Machine Registration": "login",
 };
 
 const FOOTER_COLS = [
@@ -2882,91 +2882,188 @@ function BackToTop() {
   );
 }
 
-// ─── Login / My Account ───────────────────────────────────────────────────────
-// Visual mockup only — production auth is WooCommerce's My Account login/register.
+// ─── Login / Machine Registration ─────────────────────────────────────────────
+// Visual mockup only (Figma node 5484-2435) — login maps to WooCommerce's
+// My Account; machine registration submits to a form/CRM integration in production.
 
-const ACCOUNT_BENEFITS = [
-  "Register machines & track warranty",
-  "Order history and parts reordering",
-  "Saved dealers and service contacts",
-  "Early access to demo events",
+const REGISTER_BENEFITS: { title: string; icon: React.ReactNode }[] = [
+  { title: "Activate warranty coverage",
+    icon: <><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 11.5l2 2 4-4" /></> },
+  { title: "Receive service reminders",
+    icon: <><path d="M6 16v-5a6 6 0 1112 0v5l1.5 2h-15L6 16z" /><path d="M10 20.5a2 2 0 004 0" /></> },
+  { title: "Get product updates & recalls",
+    icon: <><path d="M3 10v4h3l6 4V6l-6 4H3z" /><path d="M16 9a5 5 0 010 6" /></> },
+  { title: "Access manuals & parts lists",
+    icon: <><path d="M5 4h13a1 1 0 011 1v14a1 1 0 01-1 1H5V4z" /><path d="M9 4v16" /></> },
 ];
 
 function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
-  const [sent, setSent] = useState(false);
-  const submit = (e: React.FormEvent) => { e.preventDefault(); setSent(true); setTimeout(() => setSent(false), 5000); };
-  const inputCls = "h-12 px-4 rounded-lg border border-[#ddd] bg-white font-['Overpass',sans-serif] text-[14px] text-[#131316] placeholder:text-[#aaa] focus:outline-none focus:border-[#ef7d00] transition-colors w-full";
-  const labelCls = "font-['Overpass',sans-serif] font-semibold text-[12px] text-[#131316] uppercase tracking-[1px]";
+  const [loginSent, setLoginSent] = useState(false);
+  const [regSent, setRegSent] = useState(false);
+  const submitLogin = (e: React.FormEvent) => { e.preventDefault(); setLoginSent(true); setTimeout(() => setLoginSent(false), 5000); };
+  const submitReg = (e: React.FormEvent) => { e.preventDefault(); setRegSent(true); setTimeout(() => setRegSent(false), 5000); };
+  const lightInput = "h-12 px-4 rounded-lg border border-[#ddd] bg-white font-['Overpass',sans-serif] text-[14px] text-[#131316] placeholder:text-[#aaa] focus:outline-none focus:border-[#ef7d00] transition-colors w-full";
+  const lightLabel = "font-['Overpass',sans-serif] font-semibold text-[12px] text-[#131316] uppercase tracking-[1px]";
+  const prototypeNote = "font-['Overpass',sans-serif] text-[12px] text-[#92600a] bg-[#fdf3e0] border border-[#f0d9ad] rounded-lg px-4 py-2.5";
+  const cardShadow = { boxShadow: "0 24px 64px rgba(0,0,0,0.45)" };
   return (
     <>
-      <section className="relative w-full flex items-center justify-center overflow-hidden px-6 md:px-12 lg:px-20 py-16 md:py-24">
+      <section className="relative w-full overflow-hidden px-6 md:px-12 lg:px-20 py-16 md:py-20">
         <div className="absolute inset-0 bg-[#0f0f12]">
           <img src={imgDetailWhyBg} alt="" className="w-full h-full object-cover opacity-35" />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(15,15,18,0.72), rgba(15,15,18,0.92))" }} />
         </div>
-        <FadeUp className="relative z-10 w-full max-w-[960px]">
-          <div className="grid grid-cols-1 md:grid-cols-2 rounded-2xl overflow-hidden" style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
-            {/* Sign-in card */}
-            <div className="bg-white px-8 md:px-10 py-10 flex flex-col gap-7">
-              <div className="flex flex-col gap-3">
-                <div className="h-[6px] w-16" style={{ backgroundColor: ORANGE }} />
-                <h1 className="font-['Overpass',sans-serif] font-extrabold text-[32px] text-[#131316] uppercase tracking-[-0.5px] leading-none">Log In</h1>
-                <p className="font-['Overpass',sans-serif] text-[14px] text-[#666] leading-relaxed">Access your ELIET account to manage machines, warranty, and orders.</p>
-              </div>
-              <form onSubmit={submit} className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className={labelCls}>Email address</label>
-                  <input type="email" placeholder="you@company.com" required className={inputCls} />
+        <div className="relative z-10 max-w-[1200px] mx-auto flex flex-col gap-10">
+          <FadeUp className="flex flex-col gap-3 max-w-2xl">
+            <span className="font-['Overpass',sans-serif] font-semibold text-[11px] uppercase tracking-[3px]" style={{ color: ORANGE }}>Account Access</span>
+            <h1 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[40px] md:text-[48px] text-white uppercase leading-none tracking-[-1px]">
+              Login / Machine Registration
+            </h1>
+            <p className="font-['Overpass',sans-serif] text-[15px] text-white/65 leading-relaxed">
+              Access your account, register your equipment, or manage your registered machines. Join the ELIET professional network today.
+            </p>
+          </FadeUp>
+          <div className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-6 items-start">
+            {/* Login card */}
+            <FadeUp>
+              <div className="bg-white rounded-2xl px-8 md:px-10 py-10 flex flex-col gap-7" style={cardShadow}>
+                <div className="flex flex-col gap-3">
+                  <div className="h-[6px] w-16" style={{ backgroundColor: ORANGE }} />
+                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] text-[#131316] uppercase tracking-[-0.5px] leading-none">Login</h2>
+                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#666] leading-relaxed">Access your ELIET account to manage machines, warranty, and orders.</p>
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className={labelCls}>Password</label>
-                  <input type="password" placeholder="••••••••" required className={inputCls} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" className="w-4 h-4 accent-[#ef7d00]" />
-                    <span className="font-['Overpass',sans-serif] text-[13px] text-[#666]">Remember me</span>
-                  </label>
-                  <button type="button" className="font-['Overpass',sans-serif] font-semibold text-[13px] hover:underline" style={{ color: ORANGE }}>Forgot password?</button>
-                </div>
-                <button type="submit"
-                  className="h-12 justify-center rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white transition-all duration-200 hover:brightness-110"
-                  style={{ backgroundColor: ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
-                  Log In
-                </button>
-                {sent && (
-                  <p className="font-['Overpass',sans-serif] text-[12px] text-[#92600a] bg-[#fdf3e0] border border-[#f0d9ad] rounded-lg px-4 py-2.5">
-                    Design prototype — login is handled by WooCommerce (My Account) in production.
+                <form onSubmit={submitLogin} className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-1.5">
+                    <label className={lightLabel}>Email address</label>
+                    <input type="email" placeholder="you@example.com" required className={lightInput} />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={lightLabel}>Password</label>
+                    <input type="password" placeholder="••••••••" required className={lightInput} />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" className="w-4 h-4 accent-[#ef7d00]" />
+                      <span className="font-['Overpass',sans-serif] text-[13px] text-[#666]">Remember me</span>
+                    </label>
+                    <button type="button" className="font-['Overpass',sans-serif] font-semibold text-[13px] hover:underline" style={{ color: ORANGE }}>Forgot password?</button>
+                  </div>
+                  <button type="submit"
+                    className="h-12 justify-center rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white transition-all duration-200 hover:brightness-110"
+                    style={{ backgroundColor: ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
+                    Sign In →
+                  </button>
+                  {loginSent && (
+                    <p className={prototypeNote}>Design prototype — login is handled by WooCommerce (My Account) in production.</p>
+                  )}
+                  <p className="font-['Overpass',sans-serif] text-center text-[13px] text-[#666] pt-4 border-t border-[#eee]">
+                    Don't have an account?{" "}
+                    <button type="button" style={{ color: ORANGE }} className="font-semibold hover:underline"
+                      onClick={() => document.getElementById("register-machine")?.scrollIntoView({ behavior: "smooth", block: "start" })}>
+                      Register here
+                    </button>
                   </p>
-                )}
-              </form>
-            </div>
-            {/* Create-account panel */}
-            <div className="relative bg-[#131316] px-8 md:px-10 py-10 flex flex-col justify-center overflow-hidden">
-              <img src={imgDetailWhyBg} alt="" className="absolute inset-0 w-full h-full object-cover opacity-25" />
-              <div className="relative z-10 flex flex-col gap-6">
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[24px] text-white uppercase tracking-[-0.5px] leading-tight">New to ELIET?</h2>
-                <ul className="flex flex-col gap-3.5">
-                  {ACCOUNT_BENEFITS.map((item) => (
-                    <li key={item} className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center" style={{ backgroundColor: ORANGE }}>
-                        <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                      </div>
-                      <span className="font-['Overpass',sans-serif] font-semibold text-[14px] text-white">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button className="self-start px-7 py-3.5 rounded-full border-2 border-white font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white transition-all duration-200 hover:bg-white hover:text-[#131316]">
-                  Create an Account
-                </button>
+                </form>
               </div>
+            </FadeUp>
+            {/* Machine registration card */}
+            <FadeUp delay={0.08}>
+              <div id="register-machine" className="bg-white rounded-2xl px-8 md:px-10 py-10 flex flex-col gap-7 scroll-mt-24" style={cardShadow}>
+                <div className="flex flex-col gap-3">
+                  <div className="h-[6px] w-16" style={{ backgroundColor: ORANGE }} />
+                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] text-[#131316] uppercase tracking-[-0.5px] leading-none">Register Your Machine</h2>
+                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#666] leading-relaxed">
+                    Create an account to register your ELIET equipment, access warranty information, and receive product updates.
+                  </p>
+                </div>
+                <form onSubmit={submitReg} className="flex flex-col gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className={lightLabel}>First name *</label>
+                      <input placeholder="First name" required className={lightInput} />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className={lightLabel}>Last name *</label>
+                      <input placeholder="Last name" required className={lightInput} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={lightLabel}>Email address *</label>
+                    <input type="email" placeholder="Email address" required className={lightInput} />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={lightLabel}>Phone number</label>
+                    <input type="tel" placeholder="Phone number" className={lightInput} />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className={lightLabel}>Machine model *</label>
+                      <select required defaultValue="" className={lightInput}>
+                        <option value="" disabled>Select model…</option>
+                        {CATALOG.map((m) => <option key={m.id} value={m.name}>{m.name}</option>)}
+                      </select>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className={lightLabel}>Serial number *</label>
+                      <input placeholder="e.g., MA 001 053 801" required className={lightInput} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={lightLabel}>Purchase date</label>
+                    <input type="date" className={lightInput} />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={lightLabel}>Dealer purchased from</label>
+                    <input placeholder="Dealer name" className={lightInput} />
+                  </div>
+                  <label className="flex items-center gap-2.5 cursor-pointer">
+                    <input type="checkbox" required className="w-4 h-4 shrink-0 accent-[#ef7d00]" />
+                    <span className="font-['Overpass',sans-serif] text-[13px] text-[#666]">
+                      I agree to the <span className="underline" style={{ color: ORANGE }}>Terms of Use</span> and <span className="underline" style={{ color: ORANGE }}>Privacy Policy</span>
+                    </span>
+                  </label>
+                  <button type="submit"
+                    className="self-start px-7 py-3.5 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white transition-all duration-200 hover:brightness-110"
+                    style={{ backgroundColor: ORANGE, boxShadow: `0 4px 20px ${ORANGE}40` }}>
+                    Register Machine →
+                  </button>
+                  {regSent && (
+                    <p className={prototypeNote}>Design prototype — machine registration is handled by a form/CRM integration in production.</p>
+                  )}
+                  <p className="font-['Overpass',sans-serif] text-[13px] text-[#444] bg-[#f8f8f8] rounded-lg px-4 py-3 leading-relaxed" style={{ borderLeft: `3px solid ${ORANGE}` }}>
+                    <span className="font-semibold" style={{ color: ORANGE }}>✓ Registration benefits:</span>{" "}
+                    Activate your warranty, receive service reminders, and get notified of product updates.
+                  </p>
+                </form>
+              </div>
+            </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* Why register band */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-14">
+        <FadeUp>
+          <div className="max-w-[1440px] mx-auto rounded-2xl bg-[#131316] px-8 md:px-12 py-10 flex flex-col gap-8">
+            <h2 className="font-['Overpass',sans-serif] font-extrabold text-[22px] md:text-[26px] text-white uppercase tracking-[-0.5px] text-center">
+              Why Register Your ELIET Machine?
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {REGISTER_BENEFITS.map((b) => (
+                <div key={b.title} className="bg-white rounded-xl px-6 py-7 flex flex-col items-center text-center gap-4">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    {b.icon}
+                  </svg>
+                  <p className="font-['Overpass',sans-serif] font-semibold text-[14px] text-[#131316]">{b.title}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <p className="mt-5 text-center font-['Overpass',sans-serif] text-[12px] text-white/40">
-            Maps to the WooCommerce "My Account" login &amp; registration screens in production.
-          </p>
         </FadeUp>
       </section>
+
+      <HomeDealerLocator setPage={setPage} />
+      <Newsletter />
       <Footer setPage={setPage} svgData={deskSvg} />
     </>
   );

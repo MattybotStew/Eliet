@@ -37,12 +37,16 @@ img {
 }
 
 /* ─── Form element reset ─────────────────────────────────────────────── */
-input, select, textarea, button {
-  font-family: inherit;
-}
+/* Must live in @layer base: unlayered rules would beat Tailwind's layered
+   utilities, breaking e.g. `hidden`/`lg:hidden` on buttons. */
+@layer base {
+  input, select, textarea, button {
+    font-family: inherit;
+  }
 
-/* ─── Button vertical centering ─────────────────────────────────────── */
-button, [type="button"], [type="submit"], [type="reset"] {
-  display: inline-flex;
-  align-items: center;
+  /* Button vertical centering */
+  button, [type="button"], [type="submit"], [type="reset"] {
+    display: inline-flex;
+    align-items: center;
+  }
 }
