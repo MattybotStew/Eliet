@@ -2,6 +2,8 @@
 
 **This is a design/functionality prototype, not production code.** It exists so the dev team can see and interact with the intended design before building the real site. The production site will be built on **WordPress with WooCommerce, Elementor, and the Astra theme** — none of this React code ships.
 
+**Live prototype: https://mattybotstew.github.io/Eliet/** (auto-deploys from `main`)
+
 The original design is in Figma: https://www.figma.com/design/YRjrjX3xv6rOWEIMAj4X7x/Enhance-Design
 
 ## What this prototype is for
