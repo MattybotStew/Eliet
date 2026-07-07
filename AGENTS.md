@@ -20,8 +20,9 @@ This repo is a **design/functionality prototype** for the dev team, who will bui
 
 ## Structure & conventions
 
-- `src/app/App.tsx` — the whole app lives here (~2,700 lines): all page sections, navigation state, and asset imports. Expect to work in this file; keep its section-comment organization (`─── Section ───`) intact.
+- `src/app/App.tsx` — the whole app lives here (~2,800 lines): all 11 page sections, navigation state, and asset imports. Expect to work in this file; keep its section-comment organization (`─── Section ───`) intact. Key shared components live here: `WhyElietBanner` (3-column banner reused across 5 pages), `WhyElietCompact` (single-column variant), `PageHero` (hero for support pages), `FadeUp` (scroll-reveal), `FaqItem` (accordion).
 - `src/app/products.ts` — product data: the `ProductDetail` type, full Maestro City content, `productDetailFrom()` helper, and the 71-item `CATALOG` (real 2026 equipment list). `DetailPage` is a reusable template that renders whatever `ProductDetail` it's given — to add a real product page, add a `ProductDetail` object here; don't hardcode product content in `App.tsx`.
+- `src/styles/` — CSS layers loaded via `index.css`: `fonts.css` (Overpass), `tailwind.css` (Tailwind v4 + tw-animate-css), `theme.css` (Figma Make tokens), `globals.css` (global resets: smooth scroll, custom scrollbar, orange focus ring, button centering, selection color).
 - `src/app/components/ui/` — shadcn-style primitives; `src/app/components/figma/` — Figma Make helpers. Don't hand-edit generated primitives unless the task requires it.
 - `src/imports/<Section>/` — Figma-exported images and SVG modules, imported directly by `App.tsx`. These are source files: they must be committed, never gitignored or "cleaned up" — deleting an unreferenced-looking hash-named file can break a view.
 - The React and Tailwind Vite plugins are both required by Figma Make even if unused — do not remove them from `vite.config.ts`.

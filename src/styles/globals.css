@@ -1,0 +1,48 @@
+/* ─── Global base enhancements ─────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Consistent focus ring ──────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid #ef7d00;
+  outline-offset: 2px;
+}
+
+/* ─── Selection color ────────────────────────────────────────────────── */
+::selection {
+  background: #ef7d0028;
+  color: #131316;
+}
+
+/* ─── Scrollbar styling ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+/* ─── Image rendering ────────────────────────────────────────────────── */
+img {
+  image-rendering: auto;
+}
+
+/* ─── Form element reset ─────────────────────────────────────────────── */
+input, select, textarea, button {
+  font-family: inherit;
+}
+
+/* ─── Button vertical centering ─────────────────────────────────────── */
+button, [type="button"], [type="submit"], [type="reset"] {
+  display: inline-flex;
+  align-items: center;
+}

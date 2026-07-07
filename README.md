@@ -22,7 +22,7 @@ npm run build    # static build to dist/
 
 ## What's inside
 
-Single-page React app (Vite + Tailwind v4). All pages live in `src/app/App.tsx`, organized by section comments:
+Single-page React app (Vite + Tailwind v4 + motion). All 11 pages live in `src/app/App.tsx` (~2,800 lines), organized by section comments:
 
 | Prototype view | Production equivalent |
 |---|---|
@@ -32,6 +32,24 @@ Single-page React app (Vite + Tailwind v4). All pages live in `src/app/App.tsx`,
 | Downloads | Resources/downloads page |
 | About ELIET | About page |
 | Demo Tour | Demo/booking page |
+| Warranty | Warranty/terms page |
+| FAQ | FAQ page |
+| Dealer Locator | Dealer/store locator |
+| Finance Options | Financing information |
+| Contact | Contact form page |
+
+**Key shared components** (drawn from `App.tsx`):
+- `WhyElietBanner` — 3-column "Why Professionals Choose ELIET" banner (reused across 5 pages)
+- `WhyElietCompact` — single-column variant (Finance page)
+- `PageHero` — consistent page hero with image, title, and description (Warranty, FAQ, Dealers, Finance, Contact)
+- `FadeUp` — scroll-triggered fade-in animation wrapper
+- `FaqItem` — expandable accordion item
+
+**Style layers** (cascaded in `src/styles/index.css`):
+- `fonts.css` — @font-face declarations (Overpass)
+- `tailwind.css` — Tailwind v4 (`@tailwindcss/vite`) + `tw-animate-css`
+- `theme.css` — Figma Make theme tokens
+- `globals.css` — global resets (smooth scroll, custom scrollbar, focus ring, button centering, selection color)
 
 Images are in `src/imports/<Section>/`. Interaction/animation patterns use the `motion` library — treat these as the spec for scroll and hover behavior.
 

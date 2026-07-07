@@ -466,19 +466,22 @@ function HomeDealerLocator() {
 
 const WHY_ITEMS = ["Same-day parts shipping", "Local reps across the US", "Service you can count on", "30+ years of engineering"];
 
-function HomeWhyEliet({ svgData }: { svgData: typeof deskSvg }) {
+function WhyElietBanner({ bg, photo1, photo2, buttonLabel, setPage, wrapperClass = "w-full px-6 md:px-12 lg:px-20 pb-20" }: {
+  bg: string; photo1: string; photo2: string; buttonLabel: string;
+  setPage: (p: Page) => void; wrapperClass?: string;
+}) {
   return (
-    <section className="w-full px-6 md:px-12 lg:px-20 py-6 pb-16">
+    <section className={wrapperClass}>
       <FadeUp>
         <div className="max-w-[1440px] mx-auto">
           <div className="relative rounded-2xl overflow-hidden" style={{ minHeight: 480 }}>
-            <img src={imgWhyBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <img src={bg} alt="" className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/65" />
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
               <div className="col-span-1 flex flex-col justify-center gap-7 px-10 md:px-14 py-14">
-                <ElietLogo svgData={svgData} />
+                <ElietLogo svgData={deskSvg} />
                 <div className="h-px bg-white/15 w-full" />
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[38px] text-white uppercase leading-tight tracking-[-0.5px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
                   Why Professionals Choose ELIET
                 </h2>
                 <ul className="flex flex-col gap-4">
@@ -492,19 +495,54 @@ function HomeWhyEliet({ svgData }: { svgData: typeof deskSvg }) {
                     </motion.li>
                   ))}
                 </ul>
-                <button className="self-start px-7 py-3.5 rounded-full bg-white font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
+                <button onClick={() => { setPage("products"); window.scrollTo({ top: 0 }); }}
+                  className="self-start px-7 py-3.5 rounded-full bg-white font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
                   style={{ color: DARK }}
                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = ORANGE; e.currentTarget.style.color = "white"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "white"; e.currentTarget.style.color = DARK; }}>
-                  Our Products
+                  {buttonLabel}
                 </button>
               </div>
               <div className="hidden md:block col-span-1 relative overflow-hidden">
-                <img src={imgWhyPhoto1} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500" />
+                <img src={photo1} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500" />
               </div>
               <div className="hidden md:block col-span-1 relative overflow-hidden">
-                <img src={imgWhyPhoto2} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500" />
+                <img src={photo2} alt="" className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500" />
               </div>
+            </div>
+          </div>
+        </div>
+      </FadeUp>
+    </section>
+  );
+}
+
+/* Minimal single-column variant — used on Finance page */
+function WhyElietCompact({ bg, setPage }: { bg: string; setPage: (p: Page) => void }) {
+  return (
+    <section className="w-full px-6 md:px-12 lg:px-20 pb-20">
+      <FadeUp>
+        <div className="max-w-[1440px] mx-auto">
+          <div className="relative rounded-2xl overflow-hidden" style={{ minHeight: 420 }}>
+            <img src={bg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black/65" />
+            <div className="relative z-10 flex flex-col justify-center gap-7 px-10 md:px-14 py-14 max-w-xl min-h-[420px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">Why Professionals Choose ELIET</h2>
+              <ul className="flex flex-col gap-4">
+                {WHY_ITEMS.map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center" style={{ backgroundColor: ORANGE }}>
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                    </div>
+                    <span className="font-['Overpass',sans-serif] font-semibold text-[15px] text-white">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => { setPage("products"); window.scrollTo({ top: 0 }); }}
+                className="self-start px-7 py-3.5 rounded-full bg-white font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
+                style={{ color: DARK }}>
+                Our Products
+              </button>
             </div>
           </div>
         </div>
@@ -614,7 +652,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
       <FeaturedMachines />
       <DemoTourBanner setPage={setPage} />
       <HomeDealerLocator />
-      <HomeWhyEliet svgData={deskSvg} />
+      <WhyElietBanner bg={imgWhyBg} photo1={imgWhyPhoto1} photo2={imgWhyPhoto2} buttonLabel="Our Products" setPage={setPage} wrapperClass="w-full px-6 md:px-12 lg:px-20 py-6 pb-16" />
       <Newsletter />
       <Footer setPage={setPage} svgData={deskSvg} />
     </>
@@ -829,7 +867,7 @@ function DemoPage({ setPage }: { setPage: (p: Page) => void }) {
         </FadeUp>
       </section>
       <HomeDealerLocator />
-      <HomeWhyEliet svgData={deskSvg} />
+      <WhyElietBanner bg={imgWhyBg} photo1={imgWhyPhoto1} photo2={imgWhyPhoto2} buttonLabel="Our Products" setPage={setPage} />
       <Newsletter />
       <Footer setPage={setPage} svgData={deskSvg} />
     </>
@@ -2690,6 +2728,31 @@ function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
   );
 }
 
+function BackToTop() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const fn = () => setVisible(window.scrollY > 500);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+  if (!visible) return null;
+  return (
+    <motion.button
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200"
+      style={{ backgroundColor: DARK, border: `1.5px solid ${ORANGE}40` }}
+      aria-label="Back to top"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 12V4M8 4L4 8M8 4L12 8" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </motion.button>
+  );
+}
+
 export default function App() {
   const [page, setPage] = useState<Page>("home");
   const [detailProduct, setDetailProduct] = useState<ProductDetail>(MAESTRO_CITY);
@@ -2698,30 +2761,41 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
       <Header page={page} setPage={setPage} svgData={deskSvg} />
       <main className="flex-1 flex flex-col pt-[70px]">
-        {page === "home" ? (
-          <HomePage setPage={setPage} />
-        ) : page === "demo" ? (
-          <DemoPage setPage={setPage} />
-        ) : page === "about" ? (
-          <AboutPage setPage={setPage} />
-        ) : page === "products" ? (
-          <ProductsPage setPage={setPage} openProduct={(p) => { setDetailProduct(p); setPage("detail"); }} />
-        ) : page === "detail" ? (
-          <DetailPage product={detailProduct} setPage={setPage} />
-        ) : page === "warranty" ? (
-          <WarrantyPage setPage={setPage} />
-        ) : page === "faq" ? (
-          <FaqPage setPage={setPage} />
-        ) : page === "dealers" ? (
-          <DealersPage setPage={setPage} />
-        ) : page === "finance" ? (
-          <FinancePage setPage={setPage} />
-        ) : page === "contact" ? (
-          <ContactPage setPage={setPage} />
-        ) : (
-          <DownloadsPage setPage={setPage} />
-        )}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={page}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {page === "home" ? (
+              <HomePage setPage={setPage} />
+            ) : page === "demo" ? (
+              <DemoPage setPage={setPage} />
+            ) : page === "about" ? (
+              <AboutPage setPage={setPage} />
+            ) : page === "products" ? (
+              <ProductsPage setPage={setPage} openProduct={(p) => { setDetailProduct(p); setPage("detail"); }} />
+            ) : page === "detail" ? (
+              <DetailPage product={detailProduct} setPage={setPage} />
+            ) : page === "warranty" ? (
+              <WarrantyPage setPage={setPage} />
+            ) : page === "faq" ? (
+              <FaqPage setPage={setPage} />
+            ) : page === "dealers" ? (
+              <DealersPage setPage={setPage} />
+            ) : page === "finance" ? (
+              <FinancePage setPage={setPage} />
+            ) : page === "contact" ? (
+              <ContactPage setPage={setPage} />
+            ) : (
+              <DownloadsPage setPage={setPage} />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </main>
+      <BackToTop />
     </div>
   );
 }
