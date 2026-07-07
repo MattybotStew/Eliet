@@ -10,16 +10,10 @@ import imgDownloadsWhyP2 from "@/imports/Downloads/fdd6e374d528d07eceea4ad1a4b06
 
 // ─── Detail (Product Detail) assets ──────────────────────────────────────────
 import detailSvg from "@/imports/Detail/svg-s5exn6twxb";
-import imgDetailMain from "@/imports/Detail/c94192fe59684f294c0e23b040e9535e1b810b60.png";
-import imgDetailF1 from "@/imports/Detail/14f6882065d85cf5e711b6a4221e9ef56bd5bffc.png";
-import imgDetailF2 from "@/imports/Detail/970dd86fc1aac6154ea34bdd2da0d4beffffa239.png";
-import imgDetailF3 from "@/imports/Detail/d783e11aa03289570f50111ba7b64cd2ace5d216.png";
-import imgDetailF4 from "@/imports/Detail/f3d5193dcf67de760bdf01425c635343368b92be.png";
-import imgDetailF5 from "@/imports/Detail/9a4092d26988ddb09948055a482f505b7aadf4ea.png";
-import imgDetailF6 from "@/imports/Detail/a514b16c0f59c75ca2d62d2024e6ad5b5d9151aa.png";
 import imgDetailWhyBg from "@/imports/Detail/1f82331238f563e5b59fb3af78d5ffe2c314621b.png";
 import imgDetailWhyP1 from "@/imports/Detail/00653fe968cdffe052e9eeb52f31990f947b3900.png";
 import imgDetailWhyP2 from "@/imports/Detail/fdd6e374d528d07eceea4ad1a4b0646537fccb84.png";
+import { type ProductDetail, MAESTRO_CITY, productDetailFrom } from "./products";
 
 // ─── Products assets ─────────────────────────────────────────────────────────
 import productsSvg from "@/imports/Products/svg-pctjnimoaf";
@@ -1168,27 +1162,9 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
 const DETAIL_TABS = ["Features", "Technology", "Specifications", "Accessories & Engine", "Video"] as const;
 type DetailTab = typeof DETAIL_TABS[number];
 
-const FEATURES = [
-  { img: imgDetailF1, title: "Robust Frame", desc: "All ELIET chippers are manufactured to the highest degree of craftsmanship. The steel shredding chamber is firmly welded to the tubular frame, and the feed hopper is manufactured from steel — built to withstand years of demanding use." },
-  { img: imgDetailF2, title: "Low Noise", desc: "The shredding chamber has a double wall to reduce noise pollution. Sound-damping material on the frame wall suppresses the drumming effect of chippings, reducing the noise level by several dB." },
-  { img: imgDetailF3, title: "Collection Bag", desc: "Fine chippings are immediately collected in a large 60-litre bag. One full bag fills a wheelbarrow — ready for the compost bin or applied directly as fertile mulch around garden borders." },
-  { img: imgDetailF4, title: "Sight Glass", desc: "A sight-glass in the top plate of the chassis lets you see at a glance when the collection bag is getting full — no stopping, no guesswork." },
-  { img: imgDetailF5, title: "Standard Calibration Sieve", desc: "The special shredding system handles thick branches, fine hedge trimmings, leafy green waste from flower borders, and even autumn leaves — all in one pass without clogging." },
-  { img: imgDetailF6, title: "Multi-Purpose Grating for Wet Greenwaste", desc: "For moisture-rich material, replace the standard sieve with the optional multi-purpose grating (Art. MA 001 052 001) to prevent any clogging and maintain throughput." },
-];
-
-const SPECS = [
-  { label: "Engine", value: "5.5 HP B&S XR 750" },
-  { label: "SKU", value: "MA 001 052 123" },
-  { label: "Feed Opening", value: "70 × 45 mm" },
-  { label: "Collection Bag", value: "60 litres" },
-  { label: "Weight", value: "62 kg" },
-  { label: "Noise Level", value: "< 90 dB(A)" },
-  { label: "Cutting System", value: "Chopping Principle™" },
-  { label: "Chipping Capacity", value: "Ø 40 mm" },
-];
-
-function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
+// Reusable product detail template: everything it renders comes from `product`
+// (see products.ts — WooCommerce supplies this data in production).
+function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p: Page) => void }) {
   const [activeTab, setActiveTab] = useState<DetailTab>("Features");
   const [lightbox, setLightbox] = useState(false);
 
@@ -1201,7 +1177,7 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
             <button onClick={() => setPage("home")} className="hover:underline transition-colors" style={{ color: ORANGE }}>Home</button>
             <span> / </span>
             <button onClick={() => setPage("products")} className="hover:underline transition-colors" style={{ color: ORANGE }}>Products</button>
-            <span> / Maestro City</span>
+            <span> / {product.name}</span>
           </p>
         </div>
       </div>
@@ -1213,7 +1189,7 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
             <div className="bg-[#f5f5f5] rounded-2xl border border-[#e0e0e0] overflow-hidden flex flex-col lg:flex-row">
               {/* Image */}
               <div className="relative lg:w-[560px] shrink-0 bg-white overflow-hidden" style={{ minHeight: 460 }}>
-                <img src={imgDetailMain} alt="Maestro City"
+                <img src={product.image} alt={product.name}
                   className="absolute inset-0 w-full h-full object-cover hover:scale-[1.03] transition-transform duration-700" />
                 <button onClick={() => setLightbox(true)}
                   className="absolute top-5 right-5 w-9 h-9 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200 z-10"
@@ -1227,22 +1203,22 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
               {/* Info */}
               <div className="flex-1 flex flex-col gap-6 px-8 md:px-10 py-10">
                 <h1 className="font-['Overpass',sans-serif] font-extrabold text-[38px] md:text-[46px] text-[#131316] uppercase tracking-[1px] leading-none">
-                  Maestro City
+                  {product.name}
                 </h1>
                 <div className="flex items-center gap-5 flex-wrap">
                   <span className="font-['Overpass',sans-serif] font-semibold text-[12px] uppercase tracking-[1px]" style={{ color: ORANGE }}>
-                    MA 001 052 123
+                    {product.sku}
                   </span>
                   <span className="text-[#ccc]">|</span>
-                  <span className="font-['Overpass',sans-serif] text-[13px] text-[#888]">5.5 HP B&amp;S XR 750</span>
+                  <span className="font-['Overpass',sans-serif] text-[13px] text-[#888]">{product.engine}</span>
                 </div>
                 <p className="font-['Overpass',sans-serif] text-[14px] text-[#444] leading-[1.8] max-w-lg">
-                  ELIET emphasises ease of use as a high priority. To limit the effort required during collecting pruning waste, the Maestro has a wide feed-in opening. The Maestro City has the added advantage that the feed-in position is 15 cm lower compared to the Maestro Country.
+                  {product.description}
                 </p>
 
                 {/* Quick specs grid */}
                 <div className="grid grid-cols-2 gap-x-8 gap-y-4 max-w-xs pt-2">
-                  {SPECS.slice(0, 4).map((s) => (
+                  {product.specs.slice(0, 4).map((s) => (
                     <div key={s.label} className="flex flex-col gap-0.5">
                       <span className="font-['Overpass',sans-serif] text-[10px] font-bold uppercase tracking-[1.5px] text-[#b0b0b0]">{s.label}</span>
                       <span className="font-['Overpass',sans-serif] text-[14px] font-bold text-[#131316]">{s.value}</span>
@@ -1275,7 +1251,7 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-sm"
           onClick={() => setLightbox(false)}>
           <div className="relative max-w-3xl w-full mx-6" onClick={e => e.stopPropagation()}>
-            <img src={imgDetailMain} alt="Maestro City" className="w-full rounded-2xl shadow-2xl" />
+            <img src={product.image} alt={product.name} className="w-full rounded-2xl shadow-2xl" />
             <button onClick={() => setLightbox(false)}
               className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg hover:bg-[#f0f0f0] transition-colors font-bold text-[#131316] text-xl leading-none">
               ×
@@ -1311,7 +1287,7 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
 
               {activeTab === "Features" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {FEATURES.map((f, i) => (
+                  {product.features.map((f, i) => (
                     <FadeUp key={f.title} delay={i * 0.06}>
                       <div className="flex gap-5 p-5 rounded-xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] hover:shadow-md transition-all duration-300 group h-full">
                         <div className="shrink-0 w-[110px] h-[110px] rounded-xl overflow-hidden bg-[#e8e8e8]">
@@ -1332,18 +1308,13 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
                 <div className="max-w-2xl flex flex-col gap-8">
                   <div className="flex flex-col gap-3">
                     <OrangeAccent />
-                    <h3 className="font-['Overpass',sans-serif] font-extrabold text-[28px] text-[#131316] uppercase tracking-[-0.5px]">The Chopping Principle™</h3>
+                    <h3 className="font-['Overpass',sans-serif] font-extrabold text-[28px] text-[#131316] uppercase tracking-[-0.5px]">{product.technology.heading}</h3>
                   </div>
                   <p className="font-['Overpass',sans-serif] text-[14px] text-[#555] leading-[1.8]">
-                    At the heart of every ELIET machine is the patented Chopping Principle™. Unlike conventional drum shredders that tear material, ELIET's precision-ground blade chops branches cleanly in a single pass — delivering finer output, less noise, and significantly reduced blade wear.
+                    {product.technology.body}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {[
-                      { title: "Clean cut output", desc: "Fine uniform chips ready for composting or mulching in one pass." },
-                      { title: "Anti-blockage system", desc: "Automatic reversal clears jams without manual intervention." },
-                      { title: "Double-wall chamber", desc: "Acoustic dampening reduces operating noise by several dB." },
-                      { title: "Hardened blade", desc: "Long-lasting precision-ground steel for maximum throughput." },
-                    ].map(item => (
+                    {product.technology.points.map(item => (
                       <div key={item.title} className="p-5 rounded-xl bg-[#f8f8f8] border border-[#eee]">
                         <div className="w-2 h-2 rounded-full mb-3" style={{ backgroundColor: ORANGE }} />
                         <p className="font-['Overpass',sans-serif] font-bold text-[13px] text-[#131316] uppercase tracking-[0.5px] mb-1">{item.title}</p>
@@ -1357,7 +1328,7 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
               {activeTab === "Specifications" && (
                 <div className="max-w-lg">
                   <div className="rounded-xl border border-[#eee] overflow-hidden">
-                    {SPECS.map((s, i) => (
+                    {product.specs.map((s, i) => (
                       <div key={s.label}
                         className={`flex items-center justify-between px-6 py-4 border-b border-[#eee] last:border-0 ${i % 2 === 0 ? "bg-[#f8f8f8]" : "bg-white"}`}>
                         <span className="font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] text-[#999]">{s.label}</span>
@@ -1379,10 +1350,7 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
                       <h3 className="font-['Overpass',sans-serif] font-extrabold text-[22px] text-[#131316] uppercase">Engine Options</h3>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {[
-                        { name: "B&S XR 750 (std)", hp: "5.5 HP", note: "Standard — included" },
-                        { name: "Honda GX200", hp: "6.5 HP", note: "Optional upgrade" },
-                      ].map(eng => (
+                      {product.engineOptions.map(eng => (
                         <div key={eng.name} className="p-5 rounded-xl border border-[#eee] bg-[#f8f8f8] flex flex-col gap-2">
                           <p className="font-['Overpass',sans-serif] font-bold text-[14px] text-[#131316] uppercase tracking-[0.5px]">{eng.name}</p>
                           <p className="font-['Overpass',sans-serif] font-extrabold text-[22px]" style={{ color: ORANGE }}>{eng.hp}</p>
@@ -1397,12 +1365,7 @@ function DetailPage({ setPage }: { setPage: (p: Page) => void }) {
                       <h3 className="font-['Overpass',sans-serif] font-extrabold text-[22px] text-[#131316] uppercase">Accessories</h3>
                     </div>
                     <div className="flex flex-col gap-2.5">
-                      {[
-                        { code: "MA 001 052 001", name: "Multi-Purpose Grating for Wet Greenwaste" },
-                        { code: "MA 001 052 010", name: "Extra Collection Bag (60L)" },
-                        { code: "MA 001 052 020", name: "Replacement Calibration Sieve" },
-                        { code: "MA 001 052 030", name: "Transport Wheel Set" },
-                      ].map(acc => (
+                      {product.accessories.map(acc => (
                         <div key={acc.code} className="flex items-center justify-between px-5 py-4 rounded-xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] transition-colors duration-200">
                           <div>
                             <p className="font-['Overpass',sans-serif] font-bold text-[13px] text-[#131316]">{acc.name}</p>
@@ -1574,7 +1537,7 @@ function ProductCard({ product, onClick }: { product: typeof PRODUCTS_DATA[0]; o
   );
 }
 
-function ProductsPage({ setPage }: { setPage: (p: Page) => void }) {
+function ProductsPage({ setPage, openProduct }: { setPage: (p: Page) => void; openProduct: (p: ProductDetail) => void }) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [sort, setSort] = useState("Default sorting");
   const [currentPage, setCurrentPage] = useState(1);
@@ -1687,7 +1650,7 @@ function ProductsPage({ setPage }: { setPage: (p: Page) => void }) {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {paginated.map((p) => (
                 <ProductCard key={p.id} product={p}
-                  onClick={() => { setPage("detail"); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
+                  onClick={() => { openProduct(productDetailFrom(p)); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
               ))}
             </div>
           ) : (
@@ -2225,6 +2188,7 @@ function AboutPage({ setPage }: { setPage: (p: Page) => void }) {
 
 export default function App() {
   const [page, setPage] = useState<Page>("home");
+  const [detailProduct, setDetailProduct] = useState<ProductDetail>(MAESTRO_CITY);
 
   return (
     <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
@@ -2237,9 +2201,9 @@ export default function App() {
         ) : page === "about" ? (
           <AboutPage setPage={setPage} />
         ) : page === "products" ? (
-          <ProductsPage setPage={setPage} />
+          <ProductsPage setPage={setPage} openProduct={(p) => { setDetailProduct(p); setPage("detail"); }} />
         ) : page === "detail" ? (
-          <DetailPage setPage={setPage} />
+          <DetailPage product={detailProduct} setPage={setPage} />
         ) : (
           <DownloadsPage setPage={setPage} />
         )}

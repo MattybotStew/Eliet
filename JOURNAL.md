@@ -2,6 +2,13 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (reusable detail template)
+- Refactored DetailPage into a reusable template: all content now renders from a ProductDetail object (new src/app/products.ts — type, MAESTRO_CITY data, productDetailFrom() helper). Visual design unchanged (matches Figma node 5359-182).
+- Every catalog card on the Products page now opens the template with its own name/SKU/engine/description; non-identity content falls back to Maestro City until real data exists. In production all of this comes from WooCommerce.
+- Fixed: the six Features-tab thumbnails were 1x1-pixel placeholders from the original Figma Make export — replaced with the real images from the Figma design (same filenames).
+- Verified with Playwright: two different products open the template with correct data, specs tab renders, screenshots checked.
+- To add a real product: add a ProductDetail object in products.ts and pass it to openProduct().
+
 ## 2026-07-07 — Claude Code (GitHub Pages)
 - Added .github/workflows/deploy-pages.yml: every push to main builds and deploys dist/ to GitHub Pages (also runnable manually via workflow_dispatch).
 - Set Vite base './' so assets resolve under the /Eliet/ path prefix.
