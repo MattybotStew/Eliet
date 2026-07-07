@@ -783,7 +783,6 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
       <ShopByCategory />
       <TrustedBy />
       <FeaturedMachines />
-      <DemoTourBanner setPage={setPage} />
       <HomeDealerLocator />
       <WhyElietBanner bg={imgWhyBg} photo1={imgWhyPhoto1} photo2={imgWhyPhoto2} buttonLabel="Our Products" setPage={setPage} wrapperClass="w-full px-6 md:px-12 lg:px-20 py-6 pb-16" />
       <Newsletter />
