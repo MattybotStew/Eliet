@@ -2,6 +2,9 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (AGENTS.md refresh)
+- Verified live site post-deploy (all pages, catalog, and assets serving). Updated AGENTS.md to current state: full page list, products.ts/CATALOG + reusable DetailPage pattern, deployment section (push = publish to GitHub Pages), content sources & pending-content list, image recompression caveat.
+
 ## 2026-07-07 — Claude Code (five support pages)
 Built all five missing pages from the approved content doc, in this order. Per-page status for picking up later:
 1. **Warranty** (`warranty`) — DONE. Coverage tiers, exclusions checklist, 4-step claims flow, register CTA. Content doc itself flags the warranty terms as placeholder — amber banner on page says so; needs real terms from client.
