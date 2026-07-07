@@ -2,6 +2,13 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (responsive fixes, login page, design review, cleanup)
+
+- Featured Machines: replaced flex-wrap (3+1 with stretched last card) with `grid grid-cols-2 lg:grid-cols-4`; card images 200px below sm.
+- Added visual-only Login page (split card: sign-in form + "New to ELIET?" benefits panel) mapping to WooCommerce My Account; wired header LOGIN + new mobile-menu entry. Submitting shows a prototype notice — no real auth (per project scope).
+- Design review vs the Astra starter template the devs will use (SpartaX / Sports Wear Store 04): homepage is structurally a re-skin of it, section for section. Open decision points for client/devs: dark-vs-light tone (ours is much darker), prices on product cards or dealer-led, how close to stock Woo product loop, pill-chip category labels, header cart/account space.
+- Cleanup: removed unused Figma Make leftovers — `guidelines/`, `default_shadcn_theme.css`, `pnpm-workspace.yaml`, empty `public/plugins/` husk; gitignored `.claude/`. Kept ATTRIBUTIONS.md and postcss.config.mjs deliberately.
+
 ## 2026-07-07 — Claude Code (TrustedBy fixes, journal attribution)
 
 - TrustedBy section: headline "Trusted by professionals" no longer collides with images — label column widened to `lg:w-64`, font reduced to 28px on lg+ (36px kept below lg). Verified via Playwright screenshots at 1440/1100/390.
