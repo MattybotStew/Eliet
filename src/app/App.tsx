@@ -163,47 +163,54 @@ function ElietLogo({ color = "white", barColor, svgData }: { color?: string; bar
 
 // ─── Shared Header ────────────────────────────────────────────────────────────
 
-function NavDropdown({ item, page, onNavigate }: { item: NavItem; page: Page; onNavigate: (p: Page, cat?: string) => void }) {
+function NavItemDesktop({ item, page, onNavigate }: { item: NavItem; page: Page; onNavigate: (p: Page, cat?: string) => void }) {
   const [hovered, setHovered] = useState(false);
-  if (!item.children) return null;
+  const isActive = item.page ? page === item.page : (item.children ? item.children.some(c => c.page === page) : false);
 
   return (
     <div className="relative"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-40"
-            style={{ minWidth: 200 }}>
-            <div className="rounded-xl border border-white/10 overflow-hidden"
-              style={{ backgroundColor: "#1a1a20", boxShadow: "0 12px 40px rgba(0,0,0,0.45)" }}>
-              <div className="flex flex-col py-2">
-                {item.page && (
-                  <button
-                    onClick={() => onNavigate(item.page!)}
-                    className="flex items-center gap-2 px-5 py-2.5 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1.5px] transition-colors duration-150 hover:bg-white/6"
-                    style={{ color: ORANGE }}>
-                    All {item.label} <span>→</span>
-                  </button>
-                )}
-                {item.children.map((child) => (
-                  <button
-                    key={child.label}
-                    onClick={() => onNavigate(child.page, child.category)}
-                    className="text-left px-5 py-2.5 font-['Overpass',sans-serif] text-[13px] text-white/70 hover:text-white hover:bg-white/6 transition-colors duration-150 whitespace-nowrap">
-                    {child.label}
-                  </button>
-                ))}
+      <button
+        onClick={() => item.page && onNavigate(item.page)}
+        className={`transition-colors duration-200 flex items-center gap-0.5 ${isActive ? "text-white" : "text-white/65 hover:text-white"}`}>
+        {item.label}{item.children && <span className="text-[10px] ml-0.5">▼</span>}
+      </button>
+      {item.children && (
+        <AnimatePresence>
+          {hovered && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-40"
+              style={{ minWidth: 200 }}>
+              <div className="rounded-xl border border-white/10 overflow-hidden"
+                style={{ backgroundColor: "#1a1a20", boxShadow: "0 12px 40px rgba(0,0,0,0.45)" }}>
+                <div className="flex flex-col py-2">
+                  {item.page && (
+                    <button
+                      onClick={() => onNavigate(item.page!)}
+                      className="flex items-center gap-2 px-5 py-2.5 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1.5px] transition-colors duration-150 hover:bg-white/6"
+                      style={{ color: ORANGE }}>
+                      All {item.label} <span>→</span>
+                    </button>
+                  )}
+                  {item.children.map((child) => (
+                    <button
+                      key={child.label}
+                      onClick={() => onNavigate(child.page, child.category)}
+                      className="text-left px-5 py-2.5 font-['Overpass',sans-serif] text-[13px] text-white/70 hover:text-white hover:bg-white/6 transition-colors duration-150 whitespace-nowrap">
+                      {child.label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </div>
   );
 }
@@ -247,19 +254,9 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
           </button>
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-6 font-['Overpass',sans-serif] font-normal text-[13px] uppercase tracking-[0.5px] text-white whitespace-nowrap">
-            {NAV_STRUCTURE.map((item) => {
-              const isActive = isNavPageActive(item);
-              return (
-                <div key={item.label} className="relative flex items-center">
-                  <button
-                    onClick={() => item.page && handleNav(item.page)}
-                    className={`transition-colors duration-200 flex items-center gap-0.5 ${isActive ? "text-white" : "text-white/65 hover:text-white"}`}>
-                    {item.label}{item.children && <span className="text-[10px] ml-0.5">▼</span>}
-                  </button>
-                  {item.children && <NavDropdown item={item} page={page} onNavigate={handleNav} />}
-                </div>
-              );
-            })}
+            {NAV_STRUCTURE.map((item) => (
+              <NavItemDesktop key={item.label} item={item} page={page} onNavigate={handleNav} />
+            ))}
           </nav>
         </div>
         {/* Right */}
