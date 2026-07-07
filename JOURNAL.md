@@ -2,6 +2,20 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-07 — Claude Code (mobile audit, design polish, situ cleanup)
+
+- Mobile audit pass: responsive heading breakpoints on Home hero (`text-[42px] sm:text-[64px]`), PageHero support pages (`text-[36px] sm:text-[48px] md:text-[72px]`). Several headings still need sm: breakpoints.
+- Dealer Locator redesign: home page CTA banner — gradient adjusted to 35% for better text centering, taller min-height (420px), orange corner accent, button now navigates to dealers page.
+- Removed unused `public/plugins/situ-design/` (~3,200 files of phosphor-icons-reg variants, situ plugin bundles, etc.) — dead weight from original Figma Make export.
+- Removed Demo Tour banner from home page (per user request).
+- Increased all product image viewports: CategoryCard 440→480px, MachineCard 240→280px, TrustedBy 340→380px, ProductCard 200→260px, DetailPage hero 460→520px.
+- Fixed dropdown nav: merged NavDropdown into NavItemDesktop so hover events work correctly.
+- Added dropdown navigation from Figma sitemap (NAV_STRUCTURE, NavItemDesktop, mobile accordion menus).
+- Code review: fixed overly aggressive button CSS, extracted WhyElietBanner/Compact shared components.
+- Design refinements: page transitions (AnimatePresence), back-to-top button, globals.css (smooth scroll, focus ring, scrollbar, button centering).
+- Updated README.md (11 pages, shared components, style layers), AGENTS.md (shared components, CSS layers).
+
+
 ## 2026-07-07 — Claude Code (design refinement pass)
 
 - Added page-level transitions: `AnimatePresence` on the root `App` component so navigating between pages has a subtle cross-fade + slide (y:12→0 → y:0→-8, 250ms, eased).
