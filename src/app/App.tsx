@@ -438,9 +438,9 @@ function TrustedBy() {
     <section className="bg-[#131316] w-full px-6 md:px-12 lg:px-20 py-20">
       <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row gap-16 items-start">
         {/* Left label */}
-        <FadeUp className="shrink-0 lg:w-56 lg:pt-16">
+        <FadeUp className="shrink-0 lg:w-64 lg:pt-16">
           <div className="h-[10px] w-[133px] bg-white mb-8" />
-          <p className="font-['Overpass',sans-serif] font-bold text-[36px] text-white uppercase leading-tight">
+          <p className="font-['Overpass',sans-serif] font-bold text-[36px] lg:text-[28px] text-white uppercase leading-tight">
             Trusted by <span style={{ color: ORANGE }}>professionals</span>
           </p>
         </FadeUp>
@@ -449,23 +449,12 @@ function TrustedBy() {
           {PRODUCT_COLS.map((col, i) => (
             <FadeUp key={col.title} delay={i * 0.1}>
               <div className={`flex flex-col gap-6 ${col.offset ? "sm:pt-14" : "sm:pb-10"}`}>
-                {col.offset ? (
-                  <>
-                    <p className="font-['Overpass',sans-serif] font-bold text-[28px] text-white uppercase">{col.title}</p>
-                    <p className="font-['Overpass',sans-serif] text-[15px] text-white/60 leading-relaxed">{col.desc}</p>
-                    <div className="relative overflow-hidden rounded-xl h-[380px]">
-                      <img src={col.img} alt={col.title} className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="relative overflow-hidden rounded-xl h-[380px]">
-                      <img src={col.img} alt={col.title} className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-                    </div>
-                    <p className="font-['Overpass',sans-serif] font-bold text-[28px] text-white uppercase">{col.title}</p>
-                    <p className="font-['Overpass',sans-serif] text-[15px] text-white/60 leading-relaxed">{col.desc}</p>
-                  </>
-                )}
+                {/* Image first in DOM so mobile always shows it above its headline; offset columns move it below the text on sm+ */}
+                <div className={`relative overflow-hidden rounded-xl h-[380px] ${col.offset ? "sm:order-last" : ""}`}>
+                  <img src={col.img} alt={col.title} className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
+                <p className="font-['Overpass',sans-serif] font-bold text-[28px] text-white uppercase">{col.title}</p>
+                <p className="font-['Overpass',sans-serif] text-[15px] text-white/60 leading-relaxed">{col.desc}</p>
               </div>
             </FadeUp>
           ))}
