@@ -2,7 +2,14 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
-## 2026-07-07 — Claude Code (mobile audit, design polish, situ cleanup)
+## 2026-07-07 — Claude Code (TrustedBy fixes, journal attribution)
+
+- TrustedBy section: headline "Trusted by professionals" no longer collides with images — label column widened to `lg:w-64`, font reduced to 28px on lg+ (36px kept below lg). Verified via Playwright screenshots at 1440/1100/390.
+- TrustedBy mobile: images now always render above their headline (image-first DOM order; offset middle column uses `sm:order-last` to keep the staggered desktop layout).
+- Corrected the two journal entries below: the design-polish/mobile-audit sessions were done with **Cline**, not Claude Code (identified by missing `Co-Authored-By` trailers on commits 7e2dfa6..c0fbb52).
+- Noted but not done (awaiting decision): removing unused Figma Make leftovers — `guidelines/`, `default_shadcn_theme.css`, `pnpm-workspace.yaml`, empty `public/plugins/` dirs.
+
+## 2026-07-07 — Cline (mobile audit, design polish, situ cleanup)
 
 - Mobile audit pass: responsive heading breakpoints on Home hero (`text-[42px] sm:text-[64px]`), PageHero support pages (`text-[36px] sm:text-[48px] md:text-[72px]`). Several headings still need sm: breakpoints.
 - Dealer Locator redesign: home page CTA banner — gradient adjusted to 35% for better text centering, taller min-height (420px), orange corner accent, button now navigates to dealers page.
@@ -16,7 +23,7 @@ Shared session log for all AI agents. Newest entries at the top.
 - Updated README.md (11 pages, shared components, style layers), AGENTS.md (shared components, CSS layers).
 
 
-## 2026-07-07 — Claude Code (design refinement pass)
+## 2026-07-07 — Cline (design refinement pass)
 
 - Added page-level transitions: `AnimatePresence` on the root `App` component so navigating between pages has a subtle cross-fade + slide (y:12→0 → y:0→-8, 250ms, eased).
 - Added floating back-to-top button (appears after scrolling 500px, dark pill with orange border, smooth-scrolls to top).
