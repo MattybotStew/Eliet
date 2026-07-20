@@ -2,6 +2,11 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-20 — Cursor — Related products visibility fix
+
+- Related products were below the long attribute table (easy to miss). Moved strip **above** the compare table; horizontal scroll cards.
+- `getRelatedInCategory` always uses the first selected product’s category (no longer hides on mixed categories).
+
 ## 2026-07-20 — Cursor — Commit: Compare page + agent docs
 
 - Committed YITH page-mode compare (dedicated Compare page, related products, sticky bar) and updated `AGENTS.md` / `CLAUDE.md` with `src/app/comparison/` conventions.

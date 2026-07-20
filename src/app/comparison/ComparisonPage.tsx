@@ -6,11 +6,59 @@ import { COMPARISON_CATEGORIES, getComparisonData, getRelatedInCategory } from "
 const ORANGE = "#ef7d00";
 const DIFF_BG = "#fef3e8";
 
+/**
+ * YITH Compare — dedicated page mode (#yith-woocompare-table on a full page).
+ * Related products sit above the table so they’re visible without scrolling past all attributes.
+ */
 export function ComparisonPage({ setPage }: { setPage: (p: "home" | "products") => void }) {
   const { state, remove, clearAll } = useComparison();
   const products = getComparisonData(state.selectedIds);
   const related = getRelatedInCategory(state.selectedIds, 8);
   const relatedCategory = related[0]?.category;
+
+  const relatedStrip =
+    related.length > 0 ? (
+      <section
+        className="mb-8 rounded-lg border border-[#eee] bg-[#fafafa] px-4 py-5 sm:px-5"
+        aria-labelledby="yith-related-heading"
+      >
+        <div className="mb-4">
+          <h2
+            id="yith-related-heading"
+            className="font-['Overpass',sans-serif] font-bold text-[16px] sm:text-[18px] text-[#333]"
+          >
+            Related products
+          </h2>
+          <p className="font-['Overpass',sans-serif] text-[13px] text-[#888] mt-1">
+            More from {relatedCategory} — tick Compare to add (max 3)
+          </p>
+        </div>
+        <div
+          className="flex gap-3 overflow-x-auto pb-1 -mx-1 px-1"
+          style={{ scrollbarWidth: "thin" }}
+        >
+          {related.map((p) => (
+            <div
+              key={p.id}
+              className="shrink-0 w-[148px] bg-white border border-[#e5e5e5] p-2.5 flex flex-col gap-2"
+            >
+              <div className="relative w-full aspect-[4/3] bg-[#f5f5f5] overflow-hidden">
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+              <p className="font-['Overpass',sans-serif] font-bold text-[11px] text-[#222] uppercase tracking-[0.3px] leading-tight line-clamp-2 min-h-[2.4em]">
+                {p.name}
+              </p>
+              <p className="font-['Overpass',sans-serif] text-[10px] text-[#999] truncate">{p.engine}</p>
+              <CompareCheckbox productId={p.id} />
+            </div>
+          ))}
+        </div>
+      </section>
+    ) : null;
 
   return (
     <div id="yith-woocompare" className="bg-white w-full min-h-[60vh]">
@@ -83,6 +131,9 @@ export function ComparisonPage({ setPage }: { setPage: (p: "home" | "products") 
           </div>
         ) : (
           <>
+            {/* Related above table — visible without scrolling past all attribute rows */}
+            {relatedStrip}
+
             <div className="overflow-x-auto border border-[#eee]" style={{ scrollbarWidth: "thin" }}>
               <table
                 id="yith-woocompare-table"
@@ -205,43 +256,6 @@ export function ComparisonPage({ setPage }: { setPage: (p: "home" | "products") 
                 </tbody>
               </table>
             </div>
-
-            {/* YITH related products — same catalog category */}
-            {related.length > 0 && (
-              <div className="mt-10 pt-8 border-t border-[#e5e5e5]">
-                <div className="mb-4">
-                  <h2 className="font-['Overpass',sans-serif] font-bold text-[18px] text-[#333]">
-                    Related products
-                  </h2>
-                  <p className="font-['Overpass',sans-serif] text-[13px] text-[#888] mt-1">
-                    More from {relatedCategory} — add to compare
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {related.map((p) => (
-                    <div
-                      key={p.id}
-                      className="bg-white border border-[#eee] p-3 flex flex-col gap-2"
-                    >
-                      <div className="relative w-full aspect-[4/3] bg-[#f5f5f5] overflow-hidden">
-                        <img
-                          src={p.image}
-                          alt={p.name}
-                          className="absolute inset-0 w-full h-full object-cover"
-                        />
-                      </div>
-                      <p className="font-['Overpass',sans-serif] font-bold text-[12px] text-[#222] uppercase tracking-[0.3px] leading-tight line-clamp-2 min-h-[2.5em]">
-                        {p.name}
-                      </p>
-                      <p className="font-['Overpass',sans-serif] text-[11px] text-[#999] truncate">
-                        {p.engine}
-                      </p>
-                      <CompareCheckbox productId={p.id} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </>
         )}
       </div>

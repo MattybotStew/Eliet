@@ -965,8 +965,8 @@ export function getComparisonData(ids: number[]): ComparisonProductData[] {
 }
 
 /**
- * YITH “related products below the comparison table” — same WooCommerce category
- * as the first selected product. Hidden when the selection spans mixed categories.
+ * YITH “related products” — same WooCommerce category as the first selected product.
+ * Uses the first product’s category even if the selection is mixed, so suggestions still appear.
  */
 export function getRelatedInCategory(
   selectedIds: number[],
@@ -974,13 +974,10 @@ export function getRelatedInCategory(
 ): { id: number; name: string; sku: string; engine: string; image: string; category: string }[] {
   if (selectedIds.length === 0) return [];
 
-  const selectedItems = selectedIds
-    .map((id) => CATALOG.find((p) => p.id === id))
-    .filter((p): p is (typeof CATALOG)[number] => Boolean(p));
-  if (selectedItems.length === 0) return [];
+  const first = CATALOG.find((p) => p.id === selectedIds[0]);
+  if (!first) return [];
 
-  const category = selectedItems[0].category;
-  if (!selectedItems.every((p) => p.category === category)) return [];
+  const category = first.category;
 
   return CATALOG.filter((p) => p.category === category && !selectedIds.includes(p.id))
     .slice(0, limit)
