@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "motion/react";
+import { Toaster } from "sonner";
+import { ComparisonProvider, useComparison } from "./comparison/ComparisonContext";
+import { CompareCheckbox } from "./comparison/CompareCheckbox";
+import { ComparisonBar } from "./comparison/ComparisonBar";
+import { ComparisonModal } from "./comparison/ComparisonModal";
 
 // ─── Downloads assets ────────────────────────────────────────────────────────
 import downloadsSvg from "@/imports/Downloads/svg-q0xqbfjtec";
@@ -1334,9 +1339,17 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
 const DETAIL_TABS = ["Features", "Technology", "Specifications", "Accessories & Engine", "Video"] as const;
 type DetailTab = typeof DETAIL_TABS[number];
 
+/** Detail-page Compare control — same YITH checkbox/button as the shop loop */
+function CompareButtonForDetail({ productId }: { productId: number }) {
+  if (productId < 0) return null;
+  return <CompareCheckbox productId={productId} />;
+}
+
 // Reusable product detail template: everything it renders comes from `product`
 // (see products.ts — WooCommerce supplies this data in production).
 function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p: Page) => void }) {
+  const catalogMatch = CATALOG.find((c) => c.name === product.name || c.sku === product.sku);
+  const detailProductId = catalogMatch?.id ?? -1;
   const [activeTab, setActiveTab] = useState<DetailTab>("Features");
   const [lightbox, setLightbox] = useState(false);
 
@@ -1411,6 +1424,7 @@ function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p:
                     style={{ color: ORANGE }}>
                     ↓ Download the Manual
                   </button>
+                  <CompareButtonForDetail productId={detailProductId} />
                 </div>
               </div>
             </div>
@@ -1638,14 +1652,34 @@ const ITEMS_PER_PAGE = 8;
 
 function ProductCard({ product, onClick }: { product: typeof PRODUCTS_DATA[0]; onClick?: () => void }) {
   const [hovered, setHovered] = useState(false);
+  const isCompareSelected = useComparison().isSelected(product.id);
+  const [pulse, setPulse] = useState(false);
+  const prevSelected = useRef(isCompareSelected);
+
+  useEffect(() => {
+    if (isCompareSelected && !prevSelected.current) {
+      setPulse(true);
+      const t = window.setTimeout(() => setPulse(false), 450);
+      prevSelected.current = isCompareSelected;
+      return () => window.clearTimeout(t);
+    }
+    prevSelected.current = isCompareSelected;
+  }, [isCompareSelected]);
+
   return (
     <div
       onClick={onClick}
       className="bg-white rounded-xl overflow-hidden cursor-pointer transition-all duration-300 flex flex-col"
       style={{
-        border: `1.5px solid ${hovered ? ORANGE : "#e2e2e2"}`,
-        boxShadow: hovered ? "0 12px 32px rgba(0,0,0,0.1)" : "0 2px 8px rgba(0,0,0,0.04)",
-        transform: hovered ? "translateY(-3px)" : "none",
+        border: `1.5px solid ${isCompareSelected ? ORANGE : hovered ? ORANGE : "#e2e2e2"}`,
+        boxShadow: isCompareSelected
+          ? `0 0 0 2px ${ORANGE}30, 0 12px 32px rgba(0,0,0,0.1)`
+          : hovered
+            ? "0 12px 32px rgba(0,0,0,0.1)"
+            : "0 2px 8px rgba(0,0,0,0.04)",
+        transform: pulse ? "scale(1.02)" : hovered ? "translateY(-3px)" : "none",
+        outline: pulse ? `3px solid ${ORANGE}` : "none",
+        outlineOffset: pulse ? "2px" : undefined,
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -1676,12 +1710,15 @@ function ProductCard({ product, onClick }: { product: typeof PRODUCTS_DATA[0]; o
         </p>
         <p className="font-['Overpass',sans-serif] text-[12px] text-[#888]">{product.engine}</p>
         <p className="font-['Overpass',sans-serif] text-[13px] text-[#555] leading-relaxed flex-1">{product.desc}</p>
-        <button
-          className="mt-2 self-start px-4 py-2 rounded-lg font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1.5px] text-white transition-all duration-200"
-          style={{ backgroundColor: ORANGE }}
-        >
-          View Details →
-        </button>
+        <div className="flex items-center gap-2 mt-2 flex-wrap">
+          <CompareCheckbox productId={product.id} />
+          <button
+            className="px-4 py-2 rounded-lg font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1.5px] text-white transition-all duration-200"
+            style={{ backgroundColor: ORANGE }}
+          >
+            View Details →
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -3069,7 +3106,7 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
   );
 }
 
-export default function App() {
+function AppContent() {
   const [page, setPage] = useState<Page>("home");
   const [detailProduct, setDetailProduct] = useState<ProductDetail>(MAESTRO_CITY);
 
@@ -3113,7 +3150,18 @@ export default function App() {
           </motion.div>
         </AnimatePresence>
       </main>
+      <ComparisonBar />
+      <ComparisonModal />
+      <Toaster position="top-right" />
       <BackToTop />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ComparisonProvider>
+      <AppContent />
+    </ComparisonProvider>
   );
 }

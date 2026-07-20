@@ -2,6 +2,17 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-20 — Cursor (Grok) — YITH-aligned comparison UX
+
+- Aligned `src/app/comparison/` with **YITH WooCommerce Compare** as the production path (design spec, not a custom React port).
+- Compare control: prominent pill + checkbox (shop cards + product detail share `CompareCheckbox`); scale feedback on toggle.
+- Sticky preview bar: capacity slots (n/3), empty placeholders, “Compare Now” requires ≥2 products; optional “Quick specs” expand for engine/power/weight with difference tint.
+- Modal table: `#yith-woocompare` / `#yith-woocompare-table` structure, dark product header row, sticky attribute column, `td.different` highlight (`#fef3e8`), Escape to close.
+- Persistence: `localStorage` stand-in for YITH’s cookie-backed compare list; max 3 products.
+- Spec rows carry `wcSlug` (`pa_*`) for WooCommerce attribute mapping; README documents YITH install, attributes, theme CSS, and build timeline.
+- Card pulse/outline when a product is added to compare.
+- Loose ends: drag-reorder of columns intentionally skipped (not a YITH core free flow); real attribute values still await Product Import Smartsheet.
+
 ## 2026-07-07 — Claude Code (responsive fixes, login page, design review, cleanup)
 
 - Featured Machines: replaced flex-wrap (3+1 with stretched last card) with `grid grid-cols-2 lg:grid-cols-4`; card images 200px below sm.
