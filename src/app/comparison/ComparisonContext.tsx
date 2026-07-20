@@ -2,13 +2,17 @@ import { createContext, useContext, useReducer, useCallback, useEffect, type Rea
 import { toast } from "sonner";
 import type { ComparisonState, ComparisonAction } from "./types";
 
-/** Matches YITH Compare “Maximum number of products to compare” setting */
+/** YITH → Compare → “Maximum number of products to compare” */
 const MAX_COMPARE = 3;
 
-/** Mimics YITH’s cookie-backed compare list across navigation / refresh */
-const STORAGE_KEY = "eliet-yith-compare-ids";
+/** YITH stores the compare list in a cookie; localStorage is the prototype stand-in */
+const STORAGE_KEY = "yith_woocompare_list";
 
-const ORANGE = "#ef7d00";
+/**
+ * YITH option: open compare view automatically when the 2nd product is selected.
+ * In page mode this navigates to the dedicated Compare page.
+ */
+const AUTO_OPEN_ON_SECOND = true;
 
 function loadStoredIds(): number[] {
   try {
@@ -29,7 +33,10 @@ function comparisonReducer(state: ComparisonState, action: ComparisonAction): Co
     case "TOGGLE": {
       const id = action.id;
       if (state.selectedIds.includes(id)) {
-        return { ...state, selectedIds: state.selectedIds.filter((i) => i !== id) };
+        return {
+          ...state,
+          selectedIds: state.selectedIds.filter((i) => i !== id),
+        };
       }
       if (state.selectedIds.length >= MAX_COMPARE) {
         toast.error(`You can compare up to ${MAX_COMPARE} products at a time.`, {
@@ -37,27 +44,24 @@ function comparisonReducer(state: ComparisonState, action: ComparisonAction): Co
         });
         return state;
       }
-      toast.success("Product added to comparison", {
-        style: { fontFamily: "'Overpass', sans-serif", fontSize: "13px", background: ORANGE, color: "white" },
-        duration: 2000,
-      });
+      const next = [...state.selectedIds, id];
       return {
         ...state,
-        selectedIds: [...state.selectedIds, id],
-        // Auto-expand preview when reaching 2+ products (YITH opens table on 2nd; we preview in bar)
-        isBarExpanded: state.selectedIds.length + 1 >= 2 ? true : state.isBarExpanded,
+        selectedIds: next,
+        openCompareRequested: AUTO_OPEN_ON_SECOND && next.length === 2 ? true : state.openCompareRequested,
       };
     }
     case "REMOVE":
-      return { ...state, selectedIds: state.selectedIds.filter((i) => i !== action.id) };
+      return {
+        ...state,
+        selectedIds: state.selectedIds.filter((i) => i !== action.id),
+      };
     case "CLEAR_ALL":
-      return { ...state, selectedIds: [], isModalOpen: false, isBarExpanded: false };
-    case "OPEN_MODAL":
-      return { ...state, isModalOpen: true };
-    case "CLOSE_MODAL":
-      return { ...state, isModalOpen: false };
-    case "TOGGLE_BAR_EXPANDED":
-      return { ...state, isBarExpanded: !state.isBarExpanded };
+      return { ...state, selectedIds: [], openCompareRequested: false };
+    case "OPEN_COMPARE":
+      return { ...state, openCompareRequested: true };
+    case "ACK_OPEN_COMPARE":
+      return { ...state, openCompareRequested: false };
     default:
       return state;
   }
@@ -68,9 +72,8 @@ const ComparisonContext = createContext<{
   toggle: (id: number) => void;
   remove: (id: number) => void;
   clearAll: () => void;
-  openModal: () => void;
-  closeModal: () => void;
-  toggleBarExpanded: () => void;
+  openCompare: () => void;
+  ackOpenCompare: () => void;
   isSelected: (id: number) => boolean;
   isMaxed: boolean;
   maxCompare: number;
@@ -79,31 +82,27 @@ const ComparisonContext = createContext<{
 export function ComparisonProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(comparisonReducer, {
     selectedIds: [],
-    isModalOpen: false,
-    isBarExpanded: false,
+    openCompareRequested: false,
   });
 
-  // Hydrate from localStorage (YITH uses a cookie for the same purpose)
   useEffect(() => {
     const ids = loadStoredIds();
     if (ids.length) dispatch({ type: "HYDRATE", ids });
   }, []);
 
-  // Persist list whenever it changes
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.selectedIds));
     } catch {
-      /* ignore quota / private mode */
+      /* ignore */
     }
   }, [state.selectedIds]);
 
   const toggle = useCallback((id: number) => dispatch({ type: "TOGGLE", id }), []);
   const remove = useCallback((id: number) => dispatch({ type: "REMOVE", id }), []);
   const clearAll = useCallback(() => dispatch({ type: "CLEAR_ALL" }), []);
-  const openModal = useCallback(() => dispatch({ type: "OPEN_MODAL" }), []);
-  const closeModal = useCallback(() => dispatch({ type: "CLOSE_MODAL" }), []);
-  const toggleBarExpanded = useCallback(() => dispatch({ type: "TOGGLE_BAR_EXPANDED" }), []);
+  const openCompare = useCallback(() => dispatch({ type: "OPEN_COMPARE" }), []);
+  const ackOpenCompare = useCallback(() => dispatch({ type: "ACK_OPEN_COMPARE" }), []);
   const isSelected = useCallback((id: number) => state.selectedIds.includes(id), [state.selectedIds]);
   const isMaxed = state.selectedIds.length >= MAX_COMPARE;
 
@@ -114,9 +113,8 @@ export function ComparisonProvider({ children }: { children: ReactNode }) {
         toggle,
         remove,
         clearAll,
-        openModal,
-        closeModal,
-        toggleBarExpanded,
+        openCompare,
+        ackOpenCompare,
         isSelected,
         isMaxed,
         maxCompare: MAX_COMPARE,

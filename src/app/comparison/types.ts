@@ -1,20 +1,10 @@
 // ─── Comparison Types ────────────────────────────────────────────────────────
-// Design-spec for production: YITH WooCommerce Compare
-// (https://wordpress.org/plugins/yith-woocommerce-compare/)
-// Spec rows map to WooCommerce product attributes (pa_*). See comparisonSpecs.ts.
+// UX mirrors YITH WooCommerce Compare (checkbox → sticky bar → dedicated Compare page).
 
-/** A single spec row in the comparison table */
-export type ComparisonSpecRow = {
-  label: string;
-  /** Values keyed by product id */
-  values: Record<number, string>;
-};
-
-/** A spec category group (e.g. PERFORMANCE, DESIGN, DIMENSIONS).
- *  In WooCommerce these become attribute taxonomies / ordered fields in YITH → Compare. */
+/** Spec category group — maps to ordered WooCommerce attributes in YITH fields list */
 export type ComparisonSpecCategory = {
   category: string;
-  rows: { label: string; key: string; /** WooCommerce attribute slug */ wcSlug: string }[];
+  rows: { label: string; key: string; wcSlug: string }[];
 };
 
 /** Full comparison data for a single product */
@@ -27,19 +17,17 @@ export type ComparisonProductData = {
   specs: Record<string, string>;
 };
 
-/** Context state — mirrors YITH compare cookie list + modal open state */
+/** Context state — cookie list + request to open the Compare page (YITH page mode) */
 export type ComparisonState = {
   selectedIds: number[];
-  isModalOpen: boolean;
-  /** Sticky preview bar expanded (shows key attributes inline) */
-  isBarExpanded: boolean;
+  /** Set when sticky “Compare” is clicked or 2nd product is added (auto-open) */
+  openCompareRequested: boolean;
 };
 
 export type ComparisonAction =
   | { type: "TOGGLE"; id: number }
   | { type: "REMOVE"; id: number }
   | { type: "CLEAR_ALL" }
-  | { type: "OPEN_MODAL" }
-  | { type: "CLOSE_MODAL" }
-  | { type: "TOGGLE_BAR_EXPANDED" }
+  | { type: "OPEN_COMPARE" }
+  | { type: "ACK_OPEN_COMPARE" }
   | { type: "HYDRATE"; ids: number[] };

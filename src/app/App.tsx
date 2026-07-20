@@ -4,7 +4,7 @@ import { Toaster } from "sonner";
 import { ComparisonProvider, useComparison } from "./comparison/ComparisonContext";
 import { CompareCheckbox } from "./comparison/CompareCheckbox";
 import { ComparisonBar } from "./comparison/ComparisonBar";
-import { ComparisonModal } from "./comparison/ComparisonModal";
+import { ComparisonPage } from "./comparison/ComparisonPage";
 
 // ─── Downloads assets ────────────────────────────────────────────────────────
 import downloadsSvg from "@/imports/Downloads/svg-q0xqbfjtec";
@@ -73,7 +73,7 @@ const ORANGE = "#ef7d00";
 const DARK = "#0f0f12";
 
 // ─── Navigation state ────────────────────────────────────────────────────────
-type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact" | "login";
+type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact" | "login" | "compare";
 
 type NavItem = {
   label: string;
@@ -1653,18 +1653,6 @@ const ITEMS_PER_PAGE = 8;
 function ProductCard({ product, onClick }: { product: typeof PRODUCTS_DATA[0]; onClick?: () => void }) {
   const [hovered, setHovered] = useState(false);
   const isCompareSelected = useComparison().isSelected(product.id);
-  const [pulse, setPulse] = useState(false);
-  const prevSelected = useRef(isCompareSelected);
-
-  useEffect(() => {
-    if (isCompareSelected && !prevSelected.current) {
-      setPulse(true);
-      const t = window.setTimeout(() => setPulse(false), 450);
-      prevSelected.current = isCompareSelected;
-      return () => window.clearTimeout(t);
-    }
-    prevSelected.current = isCompareSelected;
-  }, [isCompareSelected]);
 
   return (
     <div
@@ -1677,9 +1665,7 @@ function ProductCard({ product, onClick }: { product: typeof PRODUCTS_DATA[0]; o
           : hovered
             ? "0 12px 32px rgba(0,0,0,0.1)"
             : "0 2px 8px rgba(0,0,0,0.04)",
-        transform: pulse ? "scale(1.02)" : hovered ? "translateY(-3px)" : "none",
-        outline: pulse ? `3px solid ${ORANGE}` : "none",
-        outlineOffset: pulse ? "2px" : undefined,
+        transform: hovered ? "translateY(-3px)" : "none",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -3106,9 +3092,27 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
   );
 }
 
+function ComparePageView({ setPage }: { setPage: (p: Page) => void }) {
+  return (
+    <>
+      <ComparisonPage setPage={setPage} />
+      <Footer setPage={setPage} svgData={deskSvg} />
+    </>
+  );
+}
+
 function AppContent() {
   const [page, setPage] = useState<Page>("home");
   const [detailProduct, setDetailProduct] = useState<ProductDetail>(MAESTRO_CITY);
+  const { state, ackOpenCompare } = useComparison();
+
+  // YITH page mode: sticky “Compare” or auto-open on 2nd product → dedicated Compare page
+  useEffect(() => {
+    if (!state.openCompareRequested) return;
+    setPage("compare");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    ackOpenCompare();
+  }, [state.openCompareRequested, ackOpenCompare]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
@@ -3132,6 +3136,8 @@ function AppContent() {
               <ProductsPage setPage={setPage} openProduct={(p) => { setDetailProduct(p); setPage("detail"); }} />
             ) : page === "detail" ? (
               <DetailPage product={detailProduct} setPage={setPage} />
+            ) : page === "compare" ? (
+              <ComparePageView setPage={setPage} />
             ) : page === "warranty" ? (
               <WarrantyPage setPage={setPage} />
             ) : page === "faq" ? (
@@ -3150,8 +3156,7 @@ function AppContent() {
           </motion.div>
         </AnimatePresence>
       </main>
-      <ComparisonBar />
-      <ComparisonModal />
+      <ComparisonBar hidden={page === "compare"} />
       <Toaster position="top-right" />
       <BackToTop />
     </div>

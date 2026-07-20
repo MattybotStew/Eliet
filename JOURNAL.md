@@ -2,6 +2,33 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-20 — Cursor — Commit: Compare page + agent docs
+
+- Committed YITH page-mode compare (dedicated Compare page, related products, sticky bar) and updated `AGENTS.md` / `CLAUDE.md` with `src/app/comparison/` conventions.
+- Pushed to `main` (GitHub Pages deploy).
+
+## 2026-07-20 — Cursor — Compare page (YITH page mode)
+
+- Switched from overlay modal to a dedicated **Compare** page (`page === "compare"`), matching YITH “display table on a page”.
+- Flow: checkbox → sticky preview bar → **Compare** navigates to page; auto-opens page on 2nd product.
+- Removed `ComparisonModal.tsx`; added `ComparisonPage.tsx` (full-width table + related products + empty state).
+- Sticky bar hidden while on Compare page. Context uses `openCompareRequested` instead of `isModalOpen`.
+
+## 2026-07-20 — Cursor — Related products in compare modal
+
+- Added YITH-style **Related products** strip below the comparison table: same `CATALOG` category as the selection, exclude already-compared items, Compare checkbox to add (max 3).
+- Hidden when selected products span mixed categories. Helper: `getRelatedInCategory()` in `comparisonSpecs.ts`.
+
+## 2026-07-20 — Cursor — Rebuild compare UX to match YITH plugin
+
+- Rebuilt `src/app/comparison/` so the **interaction model matches YITH WooCommerce Compare**, not a custom Eliet flow.
+- Control: plain checkbox + “Compare” / “Added” label (YITH checkbox layout) on shop cards + detail.
+- Sticky bar: white preview bar with thumbs, Clear all, Compare — hidden while overlay is open; removed custom “Quick specs” expand.
+- Overlay table: classic `#yith-woocompare-table` (image → title → SKU → attribute rows → CTA); difference highlight on `td.different`.
+- Auto-opens table when the 2nd product is selected (YITH “open on second product” option); max 3; list persisted in localStorage.
+- Removed card pulse / branded pill button / dark sticky bar that diverged from the plugin UX.
+- README updated to document the mirrored flow for the WP build team.
+
 ## 2026-07-20 — Cursor (Grok) — YITH-aligned comparison UX
 
 - Aligned `src/app/comparison/` with **YITH WooCommerce Compare** as the production path (design spec, not a custom React port).

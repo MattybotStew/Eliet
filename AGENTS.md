@@ -1,6 +1,6 @@
 # Eliet — agent instructions
 
-Marketing/product website for ELIET (garden machinery brand), originally exported from Figma Make and evolved in code. Single-page React app with client-side section routing between views: Desk (home), Products, product Detail, Downloads, About ELIET, Demo Tour, Warranty, FAQ, Dealer Locator, Finance Options, and Contact.
+Marketing/product website for ELIET (garden machinery brand), originally exported from Figma Make and evolved in code. Single-page React app with client-side section routing between views: Desk (home), Products, product Detail, Downloads, About ELIET, Demo Tour, Warranty, FAQ, Dealer Locator, Finance Options, Contact, Login, and Compare.
 
 ## Project intent — prototype only
 
@@ -20,8 +20,9 @@ This repo is a **design/functionality prototype** for the dev team, who will bui
 
 ## Structure & conventions
 
-- `src/app/App.tsx` — the whole app lives here (~2,800 lines): all 11 page sections, navigation state, and asset imports. Expect to work in this file; keep its section-comment organization (`─── Section ───`) intact. Key shared components live here: `WhyElietBanner` (3-column banner reused across 5 pages), `WhyElietCompact` (single-column variant), `PageHero` (hero for support pages), `FadeUp` (scroll-reveal), `FaqItem` (accordion).
+- `src/app/App.tsx` — main shell (~3,100+ lines): page sections, navigation state, and asset imports. Keep its section-comment organization (`─── Section ───`) intact. Key shared components live here: `WhyElietBanner` (3-column banner reused across 5 pages), `WhyElietCompact` (single-column variant), `PageHero` (hero for support pages), `FadeUp` (scroll-reveal), `FaqItem` (accordion).
 - `src/app/products.ts` — product data: the `ProductDetail` type, full Maestro City content, `productDetailFrom()` helper, and the 71-item `CATALOG` (real 2026 equipment list). `DetailPage` is a reusable template that renders whatever `ProductDetail` it's given — to add a real product page, add a `ProductDetail` object here; don't hardcode product content in `App.tsx`.
+- `src/app/comparison/` — product compare UX mirroring **YITH WooCommerce Compare** in **dedicated page mode** (not overlay): `CompareCheckbox`, sticky `ComparisonBar`, `ComparisonPage` (`page === "compare"`), `ComparisonContext` (max 3, localStorage stand-in for YITH cookie), `comparisonSpecs.ts` (attribute rows + `wcSlug` / `pa_*` mapping + related-by-category). Flow: checkbox → sticky bar → Compare page (auto-opens on 2nd product). Production uses the YITH plugin + WooCommerce attributes — do not invent a custom compare backend. See README “Product comparison → YITH”.
 - `src/styles/` — CSS layers loaded via `index.css`: `fonts.css` (Overpass), `tailwind.css` (Tailwind v4 + tw-animate-css), `theme.css` (Figma Make tokens), `globals.css` (global resets: smooth scroll, custom scrollbar, orange focus ring, button centering, selection color).
 - `src/app/components/ui/` — shadcn-style primitives; `src/app/components/figma/` — Figma Make helpers. Don't hand-edit generated primitives unless the task requires it.
 - `src/imports/<Section>/` — Figma-exported images and SVG modules, imported directly by `App.tsx`. These are source files: they must be committed, never gitignored or "cleaned up" — deleting an unreferenced-looking hash-named file can break a view.

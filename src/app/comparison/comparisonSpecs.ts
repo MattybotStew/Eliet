@@ -9,6 +9,7 @@
 //   in YITH settings to match PERFORMANCE → DESIGN → DIMENSIONS.
 
 import { type ComparisonSpecCategory, type ComparisonProductData } from "./types";
+import { CATALOG } from "../products";
 import imgProductCard from "@/imports/Products/c94192fe59684f294c0e23b040e9535e1b810b60.png";
 
 /** Spec categories and their rows for the comparison table.
@@ -52,10 +53,6 @@ export const COMPARISON_CATEGORIES: ComparisonSpecCategory[] = [
     ],
   },
 ];
-
-/** Headline attributes shown in the sticky preview bar (YITH premium sticky bar
- *  shows product chips; this inline preview is the Eliet themed enhancement). */
-export const PREVIEW_SPEC_KEYS = ["engine", "power", "weight"] as const;
 
 /** Per-product comparison data. Keyed by product id. */
 export const COMPARISON_PRODUCT_DATA: Record<number, ComparisonProductData> = {
@@ -965,4 +962,34 @@ export function getComparisonData(ids: number[]): ComparisonProductData[] {
   return ids
     .map((id) => COMPARISON_PRODUCT_DATA[id])
     .filter(Boolean);
+}
+
+/**
+ * YITH “related products below the comparison table” — same WooCommerce category
+ * as the first selected product. Hidden when the selection spans mixed categories.
+ */
+export function getRelatedInCategory(
+  selectedIds: number[],
+  limit = 8
+): { id: number; name: string; sku: string; engine: string; image: string; category: string }[] {
+  if (selectedIds.length === 0) return [];
+
+  const selectedItems = selectedIds
+    .map((id) => CATALOG.find((p) => p.id === id))
+    .filter((p): p is (typeof CATALOG)[number] => Boolean(p));
+  if (selectedItems.length === 0) return [];
+
+  const category = selectedItems[0].category;
+  if (!selectedItems.every((p) => p.category === category)) return [];
+
+  return CATALOG.filter((p) => p.category === category && !selectedIds.includes(p.id))
+    .slice(0, limit)
+    .map((p) => ({
+      id: p.id,
+      name: p.name,
+      sku: p.sku,
+      engine: p.engine,
+      category: p.category,
+      image: COMPARISON_PRODUCT_DATA[p.id]?.image ?? imgProductCard,
+    }));
 }

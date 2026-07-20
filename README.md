@@ -22,7 +22,7 @@ npm run build    # static build to dist/
 
 ## What's inside
 
-Single-page React app (Vite + Tailwind v4 + motion). All 11 pages live in `src/app/App.tsx` (~2,800 lines), organized by section comments:
+Single-page React app (Vite + Tailwind v4 + motion). Page views live in `src/app/App.tsx` (plus `src/app/comparison/` for Compare), organized by section comments:
 
 | Prototype view | Production equivalent |
 |---|---|
@@ -37,6 +37,7 @@ Single-page React app (Vite + Tailwind v4 + motion). All 11 pages live in `src/a
 | Dealer Locator | Dealer/store locator |
 | Finance Options | Financing information |
 | Contact | Contact form page |
+| Compare | YITH Compare page (shortcode / Elementor) |
 
 **Key shared components** (drawn from `App.tsx`):
 - `WhyElietBanner` — 3-column "Why Professionals Choose ELIET" banner (reused across 5 pages)
@@ -61,57 +62,50 @@ Images are in `src/imports/<Section>/`. Interaction/animation patterns use the `
 
 ## Product comparison → YITH WooCommerce Compare
 
-The interactive compare UI in this prototype (`src/app/comparison/`) is a **design/functionality spec** for production. Do **not** port the React code — implement with **[YITH WooCommerce Compare](https://wordpress.org/plugins/yith-woocommerce-compare/)** (free covers button + table + preview bar in 3.0+; premium adds more sticky-bar / layout controls).
+The compare UI in `src/app/comparison/` **follows the same UX as [YITH WooCommerce Compare](https://wordpress.org/plugins/yith-woocommerce-compare/)** in **dedicated page mode**:
 
-| Prototype behavior | YITH / WooCommerce equivalent |
+| User action | Prototype (= YITH page mode) |
 |---|---|
-| Compare checkbox/button on shop cards + product detail | YITH → Compare → show as checkbox/button on shop + product |
-| Sticky bottom tray with selected products | YITH sticky / preview bar |
-| “Compare Now” → overlay table | YITH full-overlay modal (or dedicated Compare page) |
-| Spec rows grouped PERFORMANCE / DESIGN / DIMENSIONS | WooCommerce attributes (`pa_*`); order fields in YITH → Compare |
-| Orange highlight on differing cells | YITH “highlight differences” + theme CSS on `td.different` |
-| Max 3 products | YITH max-products setting |
-| List persists across navigation | YITH cookie (prototype uses `localStorage` as the stand-in) |
+| Tick **Compare** checkbox on shop card or product page | Product added to compare list |
+| First product selected | White sticky preview bar appears at bottom |
+| Second product selected | Navigates to the **Compare** page automatically |
+| Click **Compare** in the sticky bar | Opens the Compare page |
+| On Compare page | Full-width `#yith-woocompare-table` + related products |
+| Remove / Clear all | Updates list; empty state + browse CTA when none left |
+| Differing attribute cells | Highlighted (`td.different`, `#fef3e8`) |
+
+Production: install YITH Compare, create a WordPress/Elementor **Compare** page, set table display to **page** (not overlay). Spec rows map to WooCommerce attributes (`wcSlug` / `pa_*` in `comparisonSpecs.ts`). Theme with Eliet orange (`#ef7d00`) and Overpass — see CSS below.
 
 ### Attribute setup
 
-Under **Products → Attributes**, create attributes matching the prototype keys in `src/app/comparison/comparisonSpecs.ts` (`wcSlug` on each row), e.g. `pa_engine`, `pa_power`, `pa_weight`, `pa_timber-diameter`, … Populate values on each catalog product, then enable/order those fields in **YITH → Compare**.
+Under **Products → Attributes**, create attributes matching `wcSlug` values in `comparisonSpecs.ts` (e.g. `pa_engine`, `pa_power`, `pa_weight`). Populate on each product, then enable/order them in **YITH → Compare**.
 
 ### Theme CSS (Astra / child theme / Customizer)
 
 ```css
-:root {
-  --yith-wccl-bg: #ef7d00;
-  --yith-wccl-color: #fff;
-}
-.compare-button a,
+.compare-button,
 a.compare {
-  background: #ef7d00 !important;
-  color: white !important;
-  border-radius: 999px !important;
   font-family: 'Overpass', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 11px;
-  padding: 8px 16px;
 }
 #yith-woocompare-table {
   font-family: 'Overpass', sans-serif;
 }
-#yith-woocompare-table th {
-  background: #0f0f12;
-  color: white;
-}
 #yith-woocompare-table td.different {
   background: #fef3e8;
+}
+.yith-woocompare-preview-bar .button,
+.yith-woocompare-preview-bar button {
+  background: #ef7d00 !important;
+  color: #fff !important;
+  font-family: 'Overpass', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 ```
 
 ### Timeline (production)
 
-1. **Day 1** — Install YITH Compare, set max 3, button on shop + product, modal table.
-2. **Day 1–2** — Create attributes + populate catalog products.
-3. **Day 2–3** — Theme CSS (orange / dark / Overpass) to match this prototype.
-4. **Day 3** — Elementor layout for a Compare page if not using modal-only.
-
-Use the live prototype compare flow as the visual reference for sticky bar, difference highlighting, and table hierarchy.
+1. **Day 1** — Install YITH, max 3 products, checkbox on shop + product, sticky bar, **Compare page** (table display = page), auto-open on 2nd product.
+2. **Day 1–2** — Create / populate attributes from the prototype field list.
+3. **Day 2–3** — Theme CSS to match Eliet (orange, Overpass).
+4. **Day 3** — Elementor layout for the Compare page + related products.

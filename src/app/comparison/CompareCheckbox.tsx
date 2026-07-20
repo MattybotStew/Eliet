@@ -1,12 +1,8 @@
-import { motion } from "motion/react";
 import { useComparison } from "./ComparisonContext";
 
-const ORANGE = "#ef7d00";
-
 /**
- * YITH Compare button (checkbox layout).
- * Production: YITH → Compare → “Compare option as checkbox / button”.
- * Place on shop loop cards and single product (YITH supports both).
+ * YITH Compare control — checkbox layout (YITH 3.0+ default option).
+ * Shop loop + single product use the same control.
  */
 export function CompareCheckbox({ productId }: { productId: number }) {
   const { isSelected, toggle, isMaxed } = useComparison();
@@ -14,39 +10,41 @@ export function CompareCheckbox({ productId }: { productId: number }) {
   const disabled = !selected && isMaxed;
 
   return (
-    <motion.button
-      type="button"
-      whileTap={disabled ? undefined : { scale: 0.94 }}
-      animate={selected ? { scale: [1, 1.06, 1] } : { scale: 1 }}
-      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-      onClick={(e) => {
-        e.stopPropagation();
-        if (!disabled) toggle(productId);
-      }}
-      disabled={disabled}
-      className="compare-button flex items-center gap-2.5 px-4 py-2.5 rounded-full transition-colors duration-200 text-[11px] font-['Overpass',sans-serif] font-bold uppercase tracking-[1.2px] disabled:opacity-40 disabled:cursor-not-allowed"
-      style={{
-        backgroundColor: selected ? ORANGE : "#131316",
-        color: "white",
-        boxShadow: selected ? `0 4px 14px ${ORANGE}50` : "0 2px 8px rgba(0,0,0,0.12)",
-      }}
-      aria-pressed={selected}
-      aria-label={selected ? "Remove from comparison" : "Add to comparison"}
+    <label
+      className="compare-button inline-flex items-center gap-2 cursor-pointer select-none"
+      onClick={(e) => e.stopPropagation()}
     >
-      <span
-        className="w-[18px] h-[18px] rounded flex items-center justify-center shrink-0"
-        style={{
-          backgroundColor: selected ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.12)",
-          border: "1.5px solid rgba(255,255,255,0.45)",
+      <input
+        type="checkbox"
+        className="sr-only"
+        checked={selected}
+        disabled={disabled}
+        onChange={() => {
+          if (!disabled) toggle(productId);
         }}
+        aria-label={selected ? "Remove from comparison" : "Compare"}
+      />
+      <span
+        className="w-[16px] h-[16px] rounded-[3px] flex items-center justify-center shrink-0 transition-colors"
+        style={{
+          border: `1.5px solid ${selected ? "#ef7d00" : "#bbb"}`,
+          backgroundColor: selected ? "#ef7d00" : "#fff",
+          opacity: disabled ? 0.4 : 1,
+        }}
+        aria-hidden
       >
         {selected && (
-          <svg width="11" height="11" viewBox="0 0 10 10" fill="none" aria-hidden>
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
             <path d="M2 5L4 7L8 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
       </span>
-      <span>{selected ? "Comparing" : "Compare"}</span>
-    </motion.button>
+      <span
+        className="font-['Overpass',sans-serif] text-[12px] font-semibold transition-colors"
+        style={{ color: selected ? "#ef7d00" : disabled ? "#bbb" : "#555" }}
+      >
+        {selected ? "Added" : "Compare"}
+      </span>
+    </label>
   );
 }
