@@ -2,17 +2,17 @@ import { createContext, useContext, useReducer, useCallback, useEffect, type Rea
 import { toast } from "sonner";
 import type { ComparisonState, ComparisonAction } from "./types";
 
-/** YITH → Compare → “Maximum number of products to compare” */
+/** Extify: “Max Products for Comparison” */
 const MAX_COMPARE = 3;
 
-/** YITH stores the compare list in a cookie; localStorage is the prototype stand-in */
-const STORAGE_KEY = "yith_woocompare_list";
+/** Cookie stand-in for the plugin’s compare list */
+const STORAGE_KEY = "exppc_compare_list";
 
 /**
- * YITH option: open compare view automatically when the 2nd product is selected.
- * In page mode this navigates to the dedicated Compare page.
+ * Extify: “Automatically Open Comparison Widget”
+ * Open the popup when a product is successfully added.
  */
-const AUTO_OPEN_ON_SECOND = true;
+const AUTO_OPEN_ON_ADD = true;
 
 function loadStoredIds(): number[] {
   try {
@@ -33,9 +33,11 @@ function comparisonReducer(state: ComparisonState, action: ComparisonAction): Co
     case "TOGGLE": {
       const id = action.id;
       if (state.selectedIds.includes(id)) {
+        const next = state.selectedIds.filter((i) => i !== id);
         return {
           ...state,
-          selectedIds: state.selectedIds.filter((i) => i !== id),
+          selectedIds: next,
+          isPopupOpen: next.length === 0 ? false : state.isPopupOpen,
         };
       }
       if (state.selectedIds.length >= MAX_COMPARE) {
@@ -48,20 +50,23 @@ function comparisonReducer(state: ComparisonState, action: ComparisonAction): Co
       return {
         ...state,
         selectedIds: next,
-        openCompareRequested: AUTO_OPEN_ON_SECOND && next.length === 2 ? true : state.openCompareRequested,
+        isPopupOpen: AUTO_OPEN_ON_ADD ? true : state.isPopupOpen,
       };
     }
-    case "REMOVE":
+    case "REMOVE": {
+      const next = state.selectedIds.filter((i) => i !== action.id);
       return {
         ...state,
-        selectedIds: state.selectedIds.filter((i) => i !== action.id),
+        selectedIds: next,
+        isPopupOpen: next.length === 0 ? false : state.isPopupOpen,
       };
+    }
     case "CLEAR_ALL":
-      return { ...state, selectedIds: [], openCompareRequested: false };
-    case "OPEN_COMPARE":
-      return { ...state, openCompareRequested: true };
-    case "ACK_OPEN_COMPARE":
-      return { ...state, openCompareRequested: false };
+      return { ...state, selectedIds: [], isPopupOpen: false };
+    case "OPEN_POPUP":
+      return { ...state, isPopupOpen: true };
+    case "CLOSE_POPUP":
+      return { ...state, isPopupOpen: false };
     default:
       return state;
   }
@@ -72,8 +77,8 @@ const ComparisonContext = createContext<{
   toggle: (id: number) => void;
   remove: (id: number) => void;
   clearAll: () => void;
-  openCompare: () => void;
-  ackOpenCompare: () => void;
+  openPopup: () => void;
+  closePopup: () => void;
   isSelected: (id: number) => boolean;
   isMaxed: boolean;
   maxCompare: number;
@@ -82,7 +87,7 @@ const ComparisonContext = createContext<{
 export function ComparisonProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(comparisonReducer, {
     selectedIds: [],
-    openCompareRequested: false,
+    isPopupOpen: false,
   });
 
   useEffect(() => {
@@ -101,8 +106,8 @@ export function ComparisonProvider({ children }: { children: ReactNode }) {
   const toggle = useCallback((id: number) => dispatch({ type: "TOGGLE", id }), []);
   const remove = useCallback((id: number) => dispatch({ type: "REMOVE", id }), []);
   const clearAll = useCallback(() => dispatch({ type: "CLEAR_ALL" }), []);
-  const openCompare = useCallback(() => dispatch({ type: "OPEN_COMPARE" }), []);
-  const ackOpenCompare = useCallback(() => dispatch({ type: "ACK_OPEN_COMPARE" }), []);
+  const openPopup = useCallback(() => dispatch({ type: "OPEN_POPUP" }), []);
+  const closePopup = useCallback(() => dispatch({ type: "CLOSE_POPUP" }), []);
   const isSelected = useCallback((id: number) => state.selectedIds.includes(id), [state.selectedIds]);
   const isMaxed = state.selectedIds.length >= MAX_COMPARE;
 
@@ -113,8 +118,8 @@ export function ComparisonProvider({ children }: { children: ReactNode }) {
         toggle,
         remove,
         clearAll,
-        openCompare,
-        ackOpenCompare,
+        openPopup,
+        closePopup,
         isSelected,
         isMaxed,
         maxCompare: MAX_COMPARE,

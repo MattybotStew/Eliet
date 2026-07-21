@@ -44,9 +44,10 @@ img {
     font-family: inherit;
   }
 
-  /* Button vertical centering */
+  /* Button content centering (square/icon buttons rely on both axes) */
   button, [type="button"], [type="submit"], [type="reset"] {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
   }
 }

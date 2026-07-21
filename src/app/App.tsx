@@ -4,7 +4,7 @@ import { Toaster } from "sonner";
 import { ComparisonProvider, useComparison } from "./comparison/ComparisonContext";
 import { CompareCheckbox } from "./comparison/CompareCheckbox";
 import { ComparisonBar } from "./comparison/ComparisonBar";
-import { ComparisonPage } from "./comparison/ComparisonPage";
+import { ComparisonPopup } from "./comparison/ComparisonPopup";
 
 // ─── Downloads assets ────────────────────────────────────────────────────────
 import downloadsSvg from "@/imports/Downloads/svg-q0xqbfjtec";
@@ -73,7 +73,7 @@ const ORANGE = "#ef7d00";
 const DARK = "#0f0f12";
 
 // ─── Navigation state ────────────────────────────────────────────────────────
-type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact" | "login" | "compare";
+type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact" | "login";
 
 type NavItem = {
   label: string;
@@ -237,7 +237,7 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
     setExpanded(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
     // Store category filter intent for products page
-    if (cat && p === "products" && (window as any).__navCategory) {
+    if (cat && p === "products") {
       (window as any).__navCategory = cat;
     }
   };
@@ -1339,7 +1339,7 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
 const DETAIL_TABS = ["Features", "Technology", "Specifications", "Accessories & Engine", "Video"] as const;
 type DetailTab = typeof DETAIL_TABS[number];
 
-/** Detail-page Compare control — same YITH checkbox/button as the shop loop */
+/** Detail-page Compare control — same Extify styled button as the shop loop */
 function CompareButtonForDetail({ productId }: { productId: number }) {
   if (productId < 0) return null;
   return <CompareCheckbox productId={productId} />;
@@ -1840,7 +1840,7 @@ function ProductsPage({ setPage, openProduct }: { setPage: (p: Page) => void; op
                 <button
                   key={p}
                   onClick={() => navigate(p)}
-                  className="w-10 h-10 rounded-lg font-['Overpass',sans-serif] font-bold text-[15px] transition-all duration-200"
+                  className="w-10 h-10 rounded-lg inline-flex items-center justify-center font-['Overpass',sans-serif] font-bold text-[15px] leading-none transition-all duration-200"
                   style={{
                     backgroundColor: currentPage === p ? ORANGE : "transparent",
                     color: currentPage === p ? "white" : "#1a1a1a",
@@ -1851,8 +1851,11 @@ function ProductsPage({ setPage, openProduct }: { setPage: (p: Page) => void; op
                 </button>
               ))}
               {currentPage < totalPages && (
-                <button onClick={() => navigate(currentPage + 1)}
-                  className="w-10 h-10 rounded-lg border border-[#eee] font-['Overpass',sans-serif] font-bold text-[15px] text-[#1a1a1a] hover:border-[#ef7d00] transition-colors">
+                <button
+                  onClick={() => navigate(currentPage + 1)}
+                  className="w-10 h-10 rounded-lg border border-[#eee] inline-flex items-center justify-center font-['Overpass',sans-serif] font-bold text-[15px] leading-none text-[#1a1a1a] hover:border-[#ef7d00] transition-colors"
+                  aria-label="Next page"
+                >
                   →
                 </button>
               )}
@@ -3092,27 +3095,9 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
   );
 }
 
-function ComparePageView({ setPage }: { setPage: (p: Page) => void }) {
-  return (
-    <>
-      <ComparisonPage setPage={setPage} />
-      <Footer setPage={setPage} svgData={deskSvg} />
-    </>
-  );
-}
-
 function AppContent() {
   const [page, setPage] = useState<Page>("home");
   const [detailProduct, setDetailProduct] = useState<ProductDetail>(MAESTRO_CITY);
-  const { state, ackOpenCompare } = useComparison();
-
-  // YITH page mode: sticky “Compare” or auto-open on 2nd product → dedicated Compare page
-  useEffect(() => {
-    if (!state.openCompareRequested) return;
-    setPage("compare");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    ackOpenCompare();
-  }, [state.openCompareRequested, ackOpenCompare]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
@@ -3136,8 +3121,6 @@ function AppContent() {
               <ProductsPage setPage={setPage} openProduct={(p) => { setDetailProduct(p); setPage("detail"); }} />
             ) : page === "detail" ? (
               <DetailPage product={detailProduct} setPage={setPage} />
-            ) : page === "compare" ? (
-              <ComparePageView setPage={setPage} />
             ) : page === "warranty" ? (
               <WarrantyPage setPage={setPage} />
             ) : page === "faq" ? (
@@ -3156,7 +3139,8 @@ function AppContent() {
           </motion.div>
         </AnimatePresence>
       </main>
-      <ComparisonBar hidden={page === "compare"} />
+      <ComparisonBar />
+      <ComparisonPopup />
       <Toaster position="top-right" />
       <BackToTop />
     </div>

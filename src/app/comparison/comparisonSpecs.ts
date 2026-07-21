@@ -2,11 +2,10 @@
 // Hardcoded specs for each product in the catalog, organized by category groups.
 // Products without a specific spec value will show "—" in the comparison table.
 //
-// Production mapping (YITH WooCommerce Compare):
+// Production mapping (Advanced Product Comparison / Extify):
 //   Create these as WooCommerce attributes (Products → Attributes), assign values
-//   on each product, then enable them under YITH → Compare → Fields to show.
-//   Category headers below are visual grouping; in WP, order the attribute fields
-//   in YITH settings to match PERFORMANCE → DESIGN → DIMENSIONS.
+//   on each product, then enable them under WooCommerce → Advanced Product Comparison
+//   → Comparison Table → Displayed Attributes.
 
 import { type ComparisonSpecCategory, type ComparisonProductData } from "./types";
 import { CATALOG } from "../products";
@@ -965,8 +964,7 @@ export function getComparisonData(ids: number[]): ComparisonProductData[] {
 }
 
 /**
- * YITH “related products” — same WooCommerce category as the first selected product.
- * Uses the first product’s category even if the selection is mixed, so suggestions still appear.
+ * Extify related products strip — same WooCommerce category as the first selected product.
  */
 export function getRelatedInCategory(
   selectedIds: number[],

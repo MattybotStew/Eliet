@@ -1,7 +1,9 @@
 // ─── Comparison Types ────────────────────────────────────────────────────────
-// UX mirrors YITH WooCommerce Compare (checkbox → sticky bar → dedicated Compare page).
+// UX mirrors Advanced Product Comparison for WooCommerce (Extify):
+// https://woocommerce.com/products/advanced-product-comparison/
+// Flow: Compare button → sticky bar → comparison popup widget.
 
-/** Spec category group — maps to ordered WooCommerce attributes in YITH fields list */
+/** Spec category group — maps to WooCommerce attributes shown in the comparison table */
 export type ComparisonSpecCategory = {
   category: string;
   rows: { label: string; key: string; wcSlug: string }[];
@@ -17,17 +19,16 @@ export type ComparisonProductData = {
   specs: Record<string, string>;
 };
 
-/** Context state — cookie list + request to open the Compare page (YITH page mode) */
+/** Context state — cookie list + comparison popup open */
 export type ComparisonState = {
   selectedIds: number[];
-  /** Set when sticky “Compare” is clicked or 2nd product is added (auto-open) */
-  openCompareRequested: boolean;
+  isPopupOpen: boolean;
 };
 
 export type ComparisonAction =
   | { type: "TOGGLE"; id: number }
   | { type: "REMOVE"; id: number }
   | { type: "CLEAR_ALL" }
-  | { type: "OPEN_COMPARE" }
-  | { type: "ACK_OPEN_COMPARE" }
+  | { type: "OPEN_POPUP" }
+  | { type: "CLOSE_POPUP" }
   | { type: "HYDRATE"; ids: number[] };

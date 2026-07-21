@@ -5,13 +5,13 @@ import { getComparisonData } from "./comparisonSpecs";
 const ORANGE = "#ef7d00";
 
 /**
- * YITH sticky / preview bar — products + button to open the Compare page.
- * Hidden while already on the Compare page.
+ * Extify sticky comparison bar — floating footer with selected products
+ * and CTA to open the comparison popup widget.
  */
-export function ComparisonBar({ hidden = false }: { hidden?: boolean }) {
-  const { state, remove, clearAll, openCompare } = useComparison();
+export function ComparisonBar() {
+  const { state, remove, clearAll, openPopup } = useComparison();
   const products = getComparisonData(state.selectedIds);
-  const visible = !hidden && state.selectedIds.length > 0;
+  const visible = state.selectedIds.length > 0 && !state.isPopupOpen;
 
   return (
     <AnimatePresence>
@@ -21,7 +21,7 @@ export function ComparisonBar({ hidden = false }: { hidden?: boolean }) {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="yith-woocompare-preview-bar fixed bottom-0 left-0 right-0 z-50"
+          className="exppc-sticky-bar fixed bottom-0 left-0 right-0 z-50"
           style={{
             backgroundColor: "#fff",
             borderTop: "1px solid #e5e5e5",
@@ -33,8 +33,10 @@ export function ComparisonBar({ hidden = false }: { hidden?: boolean }) {
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 min-w-0 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
               <span className="font-['Overpass',sans-serif] text-[13px] font-bold text-[#333] whitespace-nowrap shrink-0">
-                Compare products
-                <span className="font-normal text-[#888] ml-1">({products.length})</span>
+                Compare
+                <span className="font-normal text-[#888] ml-1">
+                  ({products.length}/3)
+                </span>
               </span>
 
               <div className="flex items-center gap-2">
@@ -74,7 +76,7 @@ export function ComparisonBar({ hidden = false }: { hidden?: boolean }) {
               </button>
               <button
                 type="button"
-                onClick={openCompare}
+                onClick={openPopup}
                 className="px-5 py-2.5 font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[0.5px] text-white transition-opacity hover:opacity-90"
                 style={{ backgroundColor: ORANGE }}
               >

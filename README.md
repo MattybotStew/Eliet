@@ -37,7 +37,6 @@ Single-page React app (Vite + Tailwind v4 + motion). Page views live in `src/app
 | Dealer Locator | Dealer/store locator |
 | Finance Options | Financing information |
 | Contact | Contact form page |
-| Compare | YITH Compare page (shortcode / Elementor) |
 
 **Key shared components** (drawn from `App.tsx`):
 - `WhyElietBanner` — 3-column "Why Professionals Choose ELIET" banner (reused across 5 pages)
@@ -60,41 +59,39 @@ Images are in `src/imports/<Section>/`. Interaction/animation patterns use the `
 - Product data, cart, checkout, and account flows come from WooCommerce — nothing in this repo defines them.
 - `JOURNAL.md` logs the prototype's change history; `AGENTS.md` is instructions for AI coding agents working on the prototype itself.
 
-## Product comparison → YITH WooCommerce Compare
+## Product comparison → Advanced Product Comparison (Extify)
 
-The compare UI in `src/app/comparison/` **follows the same UX as [YITH WooCommerce Compare](https://wordpress.org/plugins/yith-woocommerce-compare/)** in **dedicated page mode**:
+The compare UI in `src/app/comparison/` follows **[Advanced Product Comparison for WooCommerce](https://woocommerce.com/products/advanced-product-comparison/)** in **popup / widget mode**:
 
-| User action | Prototype (= YITH page mode) |
+| User action | Prototype (= Extify popup mode) |
 |---|---|
-| Tick **Compare** checkbox on shop card or product page | Product added to compare list |
-| First product selected | White sticky preview bar appears at bottom |
-| Second product selected | Navigates to the **Compare** page automatically |
-| Click **Compare** in the sticky bar | Opens the Compare page |
-| On Compare page | Full-width `#yith-woocompare-table` + related products |
-| Remove / Clear all | Updates list; empty state + browse CTA when none left |
-| Differing attribute cells | Highlighted (`td.different`, `#fef3e8`) |
+| Click **Compare** button on shop card or product page | Product added; **popup opens automatically** |
+| Sticky bar | Shows selected products (hidden while popup is open) |
+| Sticky bar **Compare** | Re-opens the popup |
+| Inside popup | Spec table + related products strip; difference highlight |
+| Max products | **3** |
+| Escape / backdrop / × | Closes popup (list kept; sticky bar returns) |
 
-Production: install YITH Compare, create a WordPress/Elementor **Compare** page, set table display to **page** (not overlay). Spec rows map to WooCommerce attributes (`wcSlug` / `pa_*` in `comparisonSpecs.ts`). Theme with Eliet orange (`#ef7d00`) and Overpass — see CSS below.
+Production: install Advanced Product Comparison, enable sticky bar + auto-open widget, set max products to 3, styled Compare button on listings + product page. Spec rows map to WooCommerce attributes (`wcSlug` / `pa_*` in `comparisonSpecs.ts`). Theme with Eliet orange (`#ef7d00`) and Overpass.
 
 ### Attribute setup
 
-Under **Products → Attributes**, create attributes matching `wcSlug` values in `comparisonSpecs.ts` (e.g. `pa_engine`, `pa_power`, `pa_weight`). Populate on each product, then enable/order them in **YITH → Compare**.
+Under **Products → Attributes**, create attributes matching `wcSlug` values in `comparisonSpecs.ts`. Populate on each product, then enable them under **WooCommerce → Advanced Product Comparison → Comparison Table**.
 
 ### Theme CSS (Astra / child theme / Customizer)
 
 ```css
-.compare-button,
-a.compare {
+.compare-button {
   font-family: 'Overpass', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #ef7d00 !important;
+  color: #fff !important;
 }
-#yith-woocompare-table {
-  font-family: 'Overpass', sans-serif;
-}
-#yith-woocompare-table td.different {
+#exppc-comparison-table td.different {
   background: #fef3e8;
 }
-.yith-woocompare-preview-bar .button,
-.yith-woocompare-preview-bar button {
+.exppc-sticky-bar button {
   background: #ef7d00 !important;
   color: #fff !important;
   font-family: 'Overpass', sans-serif;
@@ -105,7 +102,7 @@ a.compare {
 
 ### Timeline (production)
 
-1. **Day 1** — Install YITH, max 3 products, checkbox on shop + product, sticky bar, **Compare page** (table display = page), auto-open on 2nd product.
+1. **Day 1** — Install Advanced Product Comparison; max 3; styled button on shop + product; sticky bar; auto-open popup.
 2. **Day 1–2** — Create / populate attributes from the prototype field list.
 3. **Day 2–3** — Theme CSS to match Eliet (orange, Overpass).
-4. **Day 3** — Elementor layout for the Compare page + related products.
+4. **Day 3** — Optional dedicated compare page / popular comparisons if needed later.

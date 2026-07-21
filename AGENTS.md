@@ -1,6 +1,6 @@
 # Eliet — agent instructions
 
-Marketing/product website for ELIET (garden machinery brand), originally exported from Figma Make and evolved in code. Single-page React app with client-side section routing between views: Desk (home), Products, product Detail, Downloads, About ELIET, Demo Tour, Warranty, FAQ, Dealer Locator, Finance Options, Contact, Login, and Compare.
+Marketing/product website for ELIET (garden machinery brand), originally exported from Figma Make and evolved in code. Single-page React app with client-side section routing between views: Desk (home), Products, product Detail, Downloads, About ELIET, Demo Tour, Warranty, FAQ, Dealer Locator, Finance Options, Contact, and Login.
 
 ## Project intent — prototype only
 
@@ -20,14 +20,21 @@ This repo is a **design/functionality prototype** for the dev team, who will bui
 
 ## Structure & conventions
 
-- `src/app/App.tsx` — main shell (~3,100+ lines): page sections, navigation state, and asset imports. Keep its section-comment organization (`─── Section ───`) intact. Key shared components live here: `WhyElietBanner` (3-column banner reused across 5 pages), `WhyElietCompact` (single-column variant), `PageHero` (hero for support pages), `FadeUp` (scroll-reveal), `FaqItem` (accordion).
+- `src/app/App.tsx` — main shell (~3,100+ lines): page sections, navigation state, and asset imports. Keep its section-comment organization (`─── Section ───`) intact. Key shared components live here: `WhyElietBanner` (3-column banner reused across 5 pages), `WhyElietCompact` (single-column variant), `PageHero` (hero for support pages), `FadeUp` (scroll-reveal), `FaqItem` (accordion). Products grid pagination lives here — square page buttons must use `inline-flex items-center justify-center leading-none` so labels stay centered.
 - `src/app/products.ts` — product data: the `ProductDetail` type, full Maestro City content, `productDetailFrom()` helper, and the 71-item `CATALOG` (real 2026 equipment list). `DetailPage` is a reusable template that renders whatever `ProductDetail` it's given — to add a real product page, add a `ProductDetail` object here; don't hardcode product content in `App.tsx`.
-- `src/app/comparison/` — product compare UX mirroring **YITH WooCommerce Compare** in **dedicated page mode** (not overlay): `CompareCheckbox`, sticky `ComparisonBar`, `ComparisonPage` (`page === "compare"`), `ComparisonContext` (max 3, localStorage stand-in for YITH cookie), `comparisonSpecs.ts` (attribute rows + `wcSlug` / `pa_*` mapping + related-by-category). Flow: checkbox → sticky bar → Compare page (auto-opens on 2nd product). Production uses the YITH plugin + WooCommerce attributes — do not invent a custom compare backend. See README “Product comparison → YITH”.
-- `src/styles/` — CSS layers loaded via `index.css`: `fonts.css` (Overpass), `tailwind.css` (Tailwind v4 + tw-animate-css), `theme.css` (Figma Make tokens), `globals.css` (global resets: smooth scroll, custom scrollbar, orange focus ring, button centering, selection color).
+- `src/app/comparison/` — product compare UX mirroring **[Advanced Product Comparison](https://woocommerce.com/products/advanced-product-comparison/)** (Extify Plugins, WooCommerce Marketplace) in **popup widget mode** (not a dedicated Compare page, not YITH):
+  - `CompareCheckbox` — styled **Compare** button on shop cards + product detail (max 3; disables when full)
+  - `ComparisonBar` — sticky footer tray; hidden while popup is open
+  - `ComparisonPopup` — overlay table + related products; **auto-opens when a product is added**
+  - `ComparisonContext` — max 3, `localStorage` list (`exppc_compare_list`)
+  - `comparisonSpecs.ts` — attribute rows with `wcSlug` / `pa_*` + `getRelatedInCategory()`
+  - Flow: Compare → sticky bar → **popup**. Production uses that extension + WooCommerce attributes — do not invent a custom compare backend. See README “Product comparison → Advanced Product Comparison”.
+- `src/styles/` — CSS layers loaded via `index.css`: `fonts.css` (Overpass), `tailwind.css` (Tailwind v4 + tw-animate-css), `theme.css` (Figma Make tokens), `globals.css` (smooth scroll, scrollbar, orange focus ring, selection color). In `@layer base`, buttons use `inline-flex` + `align-items` + **`justify-content: center`** so square controls (pagination, icon buttons) center correctly; Tailwind utilities can still override per-button.
 - `src/app/components/ui/` — shadcn-style primitives; `src/app/components/figma/` — Figma Make helpers. Don't hand-edit generated primitives unless the task requires it.
 - `src/imports/<Section>/` — Figma-exported images and SVG modules, imported directly by `App.tsx`. These are source files: they must be committed, never gitignored or "cleaned up" — deleting an unreferenced-looking hash-named file can break a view.
 - The React and Tailwind Vite plugins are both required by Figma Make even if unused — do not remove them from `vite.config.ts`.
 - Images in `src/imports/` were compressed in place on 2026-07-07. Re-exporting from Figma Make overwrites them with heavyweight originals — re-run compression afterwards (recipe in JOURNAL.md).
+- `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md` only.
 
 ## Deployment
 
@@ -41,6 +48,6 @@ This repo is a **design/functionality prototype** for the dev team, who will bui
 
 ## Session continuity
 
-This project is worked on by multiple AI agents (Claude Code, Gemini CLI, Deep Code, …).
+This project is worked on by multiple AI agents (Claude Code, Gemini CLI, Deep Code, Cursor, …).
 - At session start: read `JOURNAL.md` (newest first) and recent `git log`.
 - Before ending a session: add a short entry at the top of `JOURNAL.md` — date, agent/model, what was done, decisions, loose ends.

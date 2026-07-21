@@ -2,6 +2,18 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-21 — Cursor — Agents + pagination centering
+
+- Updated `AGENTS.md` (CLAUDE.md symlink): Extify **popup** compare (not YITH/page), `ComparisonPopup`, max 3, button `justify-content: center` in `globals.css`, pagination square-button centering note.
+- Fixed Products pagination: numbers/arrow were top-left; buttons now `inline-flex items-center justify-center leading-none`.
+
+## 2026-07-21 — Cursor — Compare popup (Extify Advanced Product Comparison)
+
+- Retargeted compare UX from YITH page mode to **[Advanced Product Comparison](https://woocommerce.com/products/advanced-product-comparison/)** **popup widget** mode.
+- Flow: styled Compare button → sticky bar → **popup** (auto-opens on add); Escape/backdrop closes; max 3.
+- Removed dedicated Compare page (`ComparisonPage`); added `ComparisonPopup.tsx`.
+- Docs: README + AGENTS/CLAUDE updated for Extify popup mode.
+
 ## 2026-07-20 — Cursor — Related products visibility fix
 
 - Related products were below the long attribute table (easy to miss). Moved strip **above** the compare table; horizontal scroll cards.
