@@ -3,8 +3,9 @@ import { useComparison } from "./ComparisonContext";
 const ORANGE = "#ef7d00";
 
 /**
- * Extify Advanced Product Comparison — styled Compare button
- * (WooCommerce → Settings → Display Format: Styled Button).
+ * Extify Advanced Product Comparison — checkbox + label pattern
+ * (WooCommerce → Settings → Display Format: Checkbox).
+ * Matches the plugin's default checkbox + "Compare" / "Added" label.
  */
 export function CompareCheckbox({ productId }: { productId: number }) {
   const { isSelected, toggle, isMaxed } = useComparison();
@@ -12,22 +13,48 @@ export function CompareCheckbox({ productId }: { productId: number }) {
   const disabled = !selected && isMaxed;
 
   return (
-    <button
-      type="button"
-      className="compare-button inline-flex items-center justify-center px-3.5 py-2 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1px] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
-      style={{
-        backgroundColor: selected ? ORANGE : "#131316",
-        color: "#fff",
-      }}
-      disabled={disabled}
-      aria-pressed={selected}
-      aria-label={selected ? "Remove from comparison" : "Add to comparison"}
-      onClick={(e) => {
-        e.stopPropagation();
-        if (!disabled) toggle(productId);
-      }}
+    <label
+      className={`inline-flex items-center gap-1.5 cursor-pointer select-none transition-opacity duration-150 ${
+        disabled ? "opacity-40 pointer-events-none" : ""
+      }`}
+      aria-disabled={disabled}
+      onClick={(e) => e.stopPropagation()}
     >
-      {selected ? "Added ✓" : "Compare"}
-    </button>
+      <span
+        className="relative w-4 h-4 rounded-sm border transition-colors duration-150 flex items-center justify-center shrink-0"
+        style={{
+          backgroundColor: selected ? ORANGE : "#fff",
+          borderColor: selected ? ORANGE : "#ccc",
+        }}
+      >
+        {selected && (
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path
+              d="M2 5L4.5 7.5L8 2.5"
+              stroke="#fff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
+      </span>
+      <input
+        type="checkbox"
+        checked={selected}
+        disabled={disabled}
+        onChange={() => {
+          if (!disabled) toggle(productId);
+        }}
+        className="sr-only"
+        aria-label={selected ? "Remove from comparison" : "Add to comparison"}
+      />
+      <span
+        className="font-['Overpass',sans-serif] text-[11px] font-bold uppercase tracking-[1px]"
+        style={{ color: selected ? ORANGE : "#555" }}
+      >
+        {selected ? "Added" : "Compare"}
+      </span>
+    </label>
   );
 }

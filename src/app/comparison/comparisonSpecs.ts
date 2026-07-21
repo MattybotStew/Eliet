@@ -956,10 +956,61 @@ export const COMPARISON_PRODUCT_DATA: Record<number, ComparisonProductData> = {
   },
 };
 
-/** Get comparison data for a set of product ids */
+/**
+ * Generate default comparison data for a catalog product.
+ * Products with hardcoded data in COMPARISON_PRODUCT_DATA use their real specs;
+ * all others get reasonable defaults derived from their category and engine.
+ */
+function defaultComparisonData(p: { id: number; name: string; sku: string; engine: string; category: string }): ComparisonProductData {
+  const isShredder = p.category === "Shredders";
+  const isDethatcher = p.category === "Dethatchers";
+  const isOverseeder = p.category === "Overseeders";
+  const isTopDresser = p.category === "Top Dressers";
+  const isEdger = p.category === "Edgers";
+  const isSodCutter = p.category === "Sod Cutters";
+  const isSeeder = p.category === "Seeders";
+  const isBlower = p.category === "Blowers";
+  const isLeafVac = p.category === "Leaf Vacs";
+  const hp = p.engine.match(/([\d.]+)\s*HP/) ? p.engine.match(/([\d.]+)\s*HP/)![1] : "—";
+  const kw = hp !== "—" ? (parseFloat(hp) * 0.746).toFixed(1) : "—";
+
+  return {
+    id: p.id,
+    name: p.name,
+    sku: p.sku,
+    engine: p.engine,
+    image: imgProductCard,
+    specs: {
+      engine: p.engine,
+      power: hp !== "—" ? `${kw} kW / ${hp} HP` : p.engine,
+      timberDiameter: isShredder ? "Ø 40–60 mm" : "N/A",
+      capacity: isShredder ? "60–120 litres" : isDethatcher ? "N/A (rear discharge)" : isBlower || isLeafVac ? "N/A" : "N/A",
+      choppingSpeed: isShredder ? "2,400–2,800 rpm" : "N/A",
+      shreddingTech: isShredder ? "Chopping Principle™" : isDethatcher ? "PSB™ dethatching system" : isOverseeder ? "Precision seeding system" : isTopDresser ? "Eco Cure spreading system" : isEdger ? "Precision edging system" : isSodCutter ? "Hydrostatic sod cutting" : isSeeder ? "Precision seed distribution" : isBlower ? "High-velocity fan" : isLeafVac ? "Vacuum & shredding system" : "—",
+      blades: isShredder ? "1–6 reversible blades" : isDethatcher ? "Fixed / loose / double-cut knives" : "—",
+      noiseReduction: isShredder ? "Double-wall chamber" : isBlower || isLeafVac ? "Muffler system" : "Standard",
+      feedOpening: isShredder ? "70 × 45 – 180 × 110 mm" : "N/A",
+      feedHeight: isShredder ? "Standard" : "N/A",
+      collectionCapacity: isShredder ? "60–500 litres" : isDethatcher ? "N/A (rear discharge)" : isBlower || isLeafVac ? "N/A" : "N/A",
+      durability: "Heavy-duty steel construction",
+      chassis: "Reinforced steel frame",
+      safety: "Emergency stop, safety guards",
+      storageDimensions: "Varies by model",
+      wheels: "2 transport wheels",
+      rotor: isShredder ? "Hardened steel rotor" : "N/A",
+      cuttingWidth: isDethatcher ? "400–750 mm" : isOverseeder ? "450–750 mm" : isEdger ? "240–300 mm" : isSodCutter ? "600 mm" : isSeeder ? "750–1,000 mm" : "N/A",
+      transmission: p.engine.includes("Hydrostatic") ? "Hydrostatic drive" : p.engine.includes("PTO") ? "PTO shaft drive" : p.engine.includes("E-Power") || p.engine.includes("battery") || p.engine.includes("electric") ? "Direct drive (electric)" : "Belt drive",
+      dimensions: "Varies by model",
+      noiseLevel: isShredder ? "< 90–95 dB(A)" : isBlower ? "< 85 dB(A)" : isLeafVac ? "< 88 dB(A)" : "< 85 dB(A)",
+      weight: "Varies by model",
+    },
+  };
+}
+
+/** Get comparison data for a set of product ids — uses hardcoded data when available, falls back to defaults */
 export function getComparisonData(ids: number[]): ComparisonProductData[] {
   return ids
-    .map((id) => COMPARISON_PRODUCT_DATA[id])
+    .map((id) => COMPARISON_PRODUCT_DATA[id] ?? defaultComparisonData(CATALOG.find((p) => p.id === id) ?? { id, name: `Product #${id}`, sku: "", engine: "", category: "" }))
     .filter(Boolean);
 }
 

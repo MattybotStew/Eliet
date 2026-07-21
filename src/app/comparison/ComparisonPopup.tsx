@@ -137,6 +137,13 @@ export function ComparisonPopup() {
                     </section>
                   )}
 
+                  {/* Scroll hint for narrow screens */}
+                  <div className="flex items-center gap-2 px-5 py-2 text-[11px] text-[#aaa] font-['Overpass',sans-serif] border-b border-[#eee] sm:hidden">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M4 2L8 6L4 10" stroke="#aaa" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Scroll sideways to see all products
+                  </div>
                   <div className="overflow-x-auto" style={{ scrollbarWidth: "thin" }}>
                     <table
                       id="exppc-comparison-table"
@@ -249,10 +256,11 @@ export function ComparisonPopup() {
                             <td key={p.id} className="px-4 py-4 text-center">
                               <button
                                 type="button"
-                                className="px-4 py-2 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1px] text-white"
+                                className="px-4 py-2 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1px] text-white transition-opacity hover:opacity-90"
                                 style={{ backgroundColor: ORANGE }}
+                                title={`View ${p.name}`}
                               >
-                                Request a Demo
+                                View {p.name.split(" ")[0]} →
                               </button>
                             </td>
                           ))}
