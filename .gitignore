@@ -9,3 +9,6 @@ dist/
 # Local agent settings
 .claude/
 public/plugins/situ-design/
+
+# Editor settings
+.vscode/

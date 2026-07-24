@@ -1,0 +1,12 @@
+# CODEOWNERS for the ELIET Website Prototype
+# These are the default reviewers for this repository.
+
+# All prototype code
+* @MattybotStew
+
+# Product data and comparison specs
+/src/app/products.ts @MattybotStew
+/src/app/comparison/ @MattybotStew
+
+# WordPress handoff documentation
+/wordpress/ @MattybotStew

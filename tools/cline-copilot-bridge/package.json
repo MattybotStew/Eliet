@@ -1,0 +1,22 @@
+{
+  "name": "cline-copilot-bridge",
+  "displayName": "Cline (Copilot Agents bridge)",
+  "publisher": "yourname",
+  "version": "0.0.1",
+  "engines": { "vscode": "^1.80.0" },
+  "activationEvents": ["onView:clineBridgeView"],
+  "main": "./extension.js",
+  "contributes": {
+    "views": {
+      "COPILOT_VIEW_ID": [
+        { "id": "clineBridgeView", "name": "Cline" }
+      ],
+      "explorer": [
+        { "id": "clineBridgeView", "name": "Cline" }
+      ]
+    },
+    "commands": [
+      { "command": "clineBridge.openCline", "title": "Open Cline" }
+    ]
+  }
+}
