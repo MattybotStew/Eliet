@@ -59,6 +59,19 @@ Images are in `src/imports/<Section>/`. Interaction/animation patterns use the `
 - Product data, cart, checkout, and account flows come from WooCommerce — nothing in this repo defines them.
 - `JOURNAL.md` logs the prototype's change history; `AGENTS.md` is instructions for AI coding agents working on the prototype itself.
 
+### WordPress handoff (`wordpress/` directory)
+
+The `wordpress/` directory contains deliverables to accelerate the production build:
+
+| File | Purpose |
+|------|---------|
+| `wordpress/HANDOFF.md` | Design tokens, component specs, page-by-page build notes |
+| `wordpress/PAGE-MAPPING.md` | Prototype views → WordPress templates, Elementor sections, WooCommerce integrations |
+| `wordpress/assets/css/eliet-tokens.css` | Design tokens as plain CSS variables |
+| `wordpress/assets/css/eliet-components.css` | Component CSS (compare button, pagination, focus ring, fade-up, FAQ, etc.) |
+| `wordpress/assets/images/` | All image assets from the prototype, organized by section |
+| `wordpress/data/products.json` | Full 71-product catalog with comparison specs, WC attribute slugs, and Maestro City detail |
+
 ## Product comparison → Advanced Product Comparison (Extify)
 
 The compare UI in `src/app/comparison/` follows **[Advanced Product Comparison for WooCommerce](https://woocommerce.com/products/advanced-product-comparison/)** in **popup / widget mode**:

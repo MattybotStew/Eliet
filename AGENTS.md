@@ -36,6 +36,29 @@ This repo is a **design/functionality prototype** for the dev team, who will bui
 - Images in `src/imports/` were compressed in place on 2026-07-07. Re-exporting from Figma Make overwrites them with heavyweight originals — re-run compression afterwards (recipe in JOURNAL.md).
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md` only.
 
+## WordPress handoff (`wordpress/`)
+
+The `wordpress/` directory is a **deliverable for the dev team** — not consumed by the prototype build at all. It should be kept up to date when prototype content or structure changes:
+
+- `wordpress/HANDOFF.md` — comprehensive handoff document: design tokens, typography, spacing, color palette, component specs, responsive breakpoints, animation specs, global CSS rules, navigation structure, and page-by-page build notes.
+- `wordpress/PAGE-MAPPING.md` — detailed mapping of all 12 prototype views → WordPress page templates, Elementor sections, shared components, WooCommerce integrations, and known content gaps.
+- `wordpress/assets/css/eliet-tokens.css` — design tokens as plain CSS variables (colors, fonts, spacing, radii, shadows, layers).
+- `wordpress/assets/css/eliet-components.css` — component-level CSS (compare button, pagination, focus ring, scrollbar, fade-up, FAQ accordion, etc.).
+- `wordpress/assets/images/` — copies of all image assets from `src/imports/` organized by section. **When images are added or changed in `src/imports/`, copy them here too.**
+- `wordpress/data/products.json` — complete product data export (71 products, comparison specs, WC attribute slugs, Maestro City full detail). **When `CATALOG` or `COMPARISON_PRODUCT_DATA` changes in the TS source, re-run `node tools/export-products.mjs` to regenerate this file.**
+
+## Tools (`tools/`)
+
+- `tools/export-products.mjs` — standalone Node.js script that extracts the product catalog + comparison specs + Maestro City detail from the TS source files and writes `wordpress/data/products.json`. Run after any change to `src/app/products.ts` or `src/app/comparison/comparisonSpecs.ts`. Uses ESM (`import`/`export` syntax); run with `node tools/export-products.mjs`.
+
+## Root files
+
+- `.gitignore` — excludes `node_modules`, `dist`, `.vscode/`, cache dirs.
+- `LICENSE` — MIT.
+- `CONTRIBUTING.md` — contribution guidelines for prototype work.
+- `CODEOWNERS` — default PR reviewers.
+- `ATTRIBUTIONS.md` — third-party attributions (kept from Figma Make export).
+
 ## Deployment
 
 - **Pushing to `main` publishes the site.** Every push auto-deploys to GitHub Pages at https://mattybotstew.github.io/Eliet/ via `.github/workflows/deploy-pages.yml`. Don't push half-finished visual states without saying so.

@@ -2,6 +2,22 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-24 — Cline — Commit WordPress handoff deliverables
+
+- Committed all WordPress handoff work: `AGENTS.md` (handoff + tools sections), `README.md` (handoff table), `wordpress/assets/css/eliet-tokens.css` (design tokens), `wordpress/PAGE-MAPPING.md`, `wordpress/assets/css/eliet-components.css`, `tools/export-products.mjs`, `wordpress/data/products.json` (10,752 lines), and 52 copied image assets in `wordpress/assets/images/`.
+- Working directory now clean (all changes committed on top of `de08114`).
+
+## 2026-07-24 — Cline — WordPress handoff preparation
+
+- **Repo hygiene:** `.gitignore` adds `.vscode/`; `package.json` renamed to `eliet-prototype`; `index.html` title/description fixed; `LICENSE` (MIT), `CONTRIBUTING.md`, and `CODEOWNERS` created.
+- **wordpress/HANDOFF.md** — comprehensive handoff document covering design tokens, typography, spacing, color palette, component specs, responsive breakpoints, animation specs, global CSS rules, navigation structure, page-by-page build notes, and image asset reference.
+- **wordpress/assets/css/eliet-tokens.css** — design tokens as plain CSS variables (colors, fonts, spacing, radii, shadows, layers).
+- **wordpress/assets/css/eliet-components.css** — component-level CSS (compare button, pagination, focus ring, scrollbar, fade-up, FAQ accordion, etc.).
+- **wordpress/assets/images/** — all PNG/JPG assets copied from `src/imports/{Desk,Products,Detail,AboutEliet,DemoTour,Downloads}/` (52 images total, counts match source). 1Header has no standalone images (SVG components only).
+- **tools/export-products.mjs** — script that extracts all 71 catalog products + 29 hardcoded comparison specs + 42 fallback specs + Maestro City full detail into `wordpress/data/products.json` (10,752 lines). Run via `node tools/export-products.mjs`.
+- **wordpress/data/products.json** — complete product data export with comparison specs, `wcAttributeSlugs` mapping, comparison categories, and detail page content.
+- **wordpress/PAGE-MAPPING.md** — detailed mapping of all 12 prototype views → WordPress page templates, Elementor sections, WooCommerce integrations, shared components, and known content gaps.
+
 ## 2026-07-21 — Cursor — Agents + pagination centering
 
 - Updated `AGENTS.md` (CLAUDE.md symlink): Extify **popup** compare (not YITH/page), `ComparisonPopup`, max 3, button `justify-content: center` in `globals.css`, pagination square-button centering note.

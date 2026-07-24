@@ -1,0 +1,259 @@
+/* ==========================================================================
+   ELIET Website — Component CSS
+   Extracted from the prototype for use in Astra Customizer → Additional CSS
+   or child theme. These are the exact styles used in the prototype.
+   ========================================================================== */
+
+/* ─── Font ──────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
+
+body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea {
+  font-family: 'Overpass', sans-serif;
+}
+
+/* ─── Smooth scrolling ──────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Focus ring (ELIET orange) ─────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid #ef7d00;
+  outline-offset: 2px;
+}
+
+/* ─── Text selection ────────────────────────────────────────────────────── */
+::selection {
+  background: #ef7d0028;
+  color: #131316;
+}
+
+/* ─── Scrollbar (WebKit) ────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+/* ─── Button centering (critical for square/icon buttons) ───────────────── */
+/* Must be in a layer or low-specificity context so it doesn't override
+   utility classes like hidden / lg:hidden. */
+button, [type="button"], [type="submit"], [type="reset"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Compare button (Advanced Product Comparison / Extify) ─────────────── */
+.compare-button {
+  font-family: 'Overpass', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #ef7d00 !important;
+  color: #fff !important;
+  border: none;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+}
+.compare-button:hover {
+  opacity: 0.9;
+}
+.compare-button.added {
+  background: #030213 !important;
+  color: #fff !important;
+}
+
+/* ─── Compare table difference highlight ────────────────────────────────── */
+#exppc-comparison-table td.different {
+  background: #fef3e8;
+}
+
+/* ─── Compare sticky bar button ─────────────────────────────────────────── */
+.exppc-sticky-bar button {
+  background: #ef7d00 !important;
+  color: #fff !important;
+  font-family: 'Overpass', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ─── Pagination ────────────────────────────────────────────────────────── */
+.pagination button,
+.pagination a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.375rem;
+  font-family: 'Overpass', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.pagination button:hover,
+.pagination a:hover {
+  border-color: #ef7d00;
+  color: #ef7d00;
+}
+.pagination button.active,
+.pagination a.active {
+  background: #ef7d00;
+  color: #fff;
+  border-color: #ef7d00;
+}
+
+/* ─── Hero overlay gradient ─────────────────────────────────────────────── */
+.hero-overlay {
+  background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.4), transparent);
+}
+
+/* ─── Card hover lift ───────────────────────────────────────────────────── */
+.card-hover {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.card-hover:hover img {
+  transform: scale(1.02);
+}
+.card-hover img {
+  transition: transform 200ms ease;
+}
+
+/* ─── Back-to-top button ────────────────────────────────────────────────── */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 50;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: #030213;
+  border: 2px solid #ef7d00;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 300ms ease, transform 300ms ease;
+  transform: translateY(10px);
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Fade-up scroll reveal ─────────────────────────────────────────────── */
+/* Requires JS Intersection Observer; add .fade-up class to elements */
+.fade-up {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+.fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── FAQ accordion ─────────────────────────────────────────────────────── */
+.faq-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.faq-item .faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  font-family: 'Overpass', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+}
+.faq-item .faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 300ms ease;
+}
+.faq-item.open .faq-answer {
+  max-height: 500px;
+}
+
+/* ─── Category filter pills ─────────────────────────────────────────────── */
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 1rem;
+  border-radius: 9999px;
+  font-family: 'Overpass', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  color: #030213;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.category-pill:hover {
+  border-color: #ef7d00;
+  color: #ef7d00;
+}
+.category-pill.active {
+  background: #ef7d00;
+  color: #fff;
+  border-color: #ef7d00;
+}
+
+/* ─── Newsletter section ────────────────────────────────────────────────── */
+.newsletter-section {
+  background: #030213;
+  color: #fff;
+}
+.newsletter-section input[type="email"] {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-family: 'Overpass', sans-serif;
+}
+.newsletter-section input[type="email"]::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+.newsletter-section button[type="submit"] {
+  background: #ef7d00;
+  color: #fff;
+  font-family: 'Overpass', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ─── Footer ────────────────────────────────────────────────────────────── */
+.site-footer {
+  background: #030213;
+  color: #fff;
+  font-family: 'Overpass', sans-serif;
+}
+.site-footer a {
+  color: rgba(255,255,255,0.7);
+  transition: color 150ms ease;
+}
+.site-footer a:hover {
+  color: #ef7d00;
+}
