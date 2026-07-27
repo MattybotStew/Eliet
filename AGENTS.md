@@ -14,6 +14,8 @@ This repo is a **design/functionality prototype** for the dev team, who will bui
 
 - Vite 6 + React 18, Tailwind CSS v4 (via `@tailwindcss/vite`), Radix UI / shadcn-style components, `motion` for animation.
 - Dependencies are pruned to what the code actually imports (the original Figma Make export shipped ~200MB of unused packages, incl. MUI — removed 2026-07-07). Before adding a dependency, check it isn't already covered by an existing one; keep `date-fns` (peer of react-day-picker) and `tw-animate-css` (imported in `src/styles/tailwind.css`).
+- `react` and `react-dom` are direct dependencies (moved from optional peerDeps 2026-07-27 — they're required at runtime).
+- `package.json` has no `peerDependencies`, `peerDependenciesMeta`, or `pnpm.overrides` blocks — none of these are used.
 - `vite.config.ts` defines manual vendor chunks (`react`, `motion`, `vendor`) so app-code edits don't invalidate cached vendor JS between deploys — keep new heavy libraries grouped there.
 - `npm run dev` — local dev server. `npm run build` — production build to `dist/`.
 - Path alias `@/` → `src/`. The custom `figma:asset/` import prefix resolves to `src/assets/` (see `vite.config.ts`).
@@ -21,6 +23,8 @@ This repo is a **design/functionality prototype** for the dev team, who will bui
 ## Structure & conventions
 
 - `src/app/App.tsx` — main shell (~3,100+ lines): page sections, navigation state, and asset imports. Keep its section-comment organization (`─── Section ───`) intact. Key shared components live here: `WhyElietBanner` (3-column banner reused across 5 pages), `WhyElietCompact` (single-column variant), `PageHero` (hero for support pages), `FadeUp` (scroll-reveal), `FaqItem` (accordion). Products grid pagination lives here — square page buttons must use `inline-flex items-center justify-center leading-none` so labels stay centered.
+  - **Nav → Products category filtering**: The header nav dropdown stores the target category on `window.__navCategory` when navigating to the Products page. `ProductsPage` consumes it in a `useEffect` on mount (sets `activeCategory`, then deletes the property). Don't break this two-step pattern.
+  - **Form date fields**: Use regular text inputs (`type="text"`) with placeholder hints (`mm/dd/yyyy`). Native `type="date"` inputs ignore the placeholder attribute — the hint becomes invisible.
 - `src/app/products.ts` — product data: the `ProductDetail` type, full Maestro City content, `productDetailFrom()` helper, and the 71-item `CATALOG` (real 2026 equipment list). `DetailPage` is a reusable template that renders whatever `ProductDetail` it's given — to add a real product page, add a `ProductDetail` object here; don't hardcode product content in `App.tsx`.
 - `src/app/comparison/` — product compare UX mirroring **[Advanced Product Comparison](https://woocommerce.com/products/advanced-product-comparison/)** (Extify Plugins, WooCommerce Marketplace) in **popup widget mode** (not a dedicated Compare page, not YITH):
   - `CompareCheckbox` — styled **Compare** button on shop cards + product detail (max 3; disables when full)

@@ -2,6 +2,19 @@
 
 Shared session log for all AI agents. Newest entries at the top.
 
+## 2026-07-27 — Cline — Code audit & fixes
+
+- Audited entire codebase for issues. Found 8; fixed 6:
+  - **Nav category filter was broken**: header nav dropdown wrote `window.__navCategory` but `ProductsPage` never read it. Added `useEffect` to consume the value on mount and set `activeCategory` — clicking e.g. "Shredders" / "Dethatchers" in nav now correctly filters the grid.
+  - Removed dead `isNavPageActive` function in `Header` (defined but never called).
+  - Moved `react` and `react-dom` from optional peerDeps → direct dependencies in `package.json`.
+  - Removed unused `peerDependencies`, `peerDependenciesMeta`, and `pnpm.overrides` blocks from `package.json`.
+  - Comparison popup "View" button now shows full product name (was `p.name.split(" ")[0]` — only first word).
+  - Comparison bar product thumbnails: changed `alt=""` → `alt={p.name}` for accessibility.
+  - Demo request date field: removed `type="date"` so `placeholder="mm/dd/yyyy"` actually renders (native date inputs ignore placeholder).
+- Updated `AGENTS.md` with `__navCategory` pattern docs, date field convention, and dep notes.
+- Build passes cleanly; pushed to main.
+
 ## 2026-07-24 — Cline — Commit WordPress handoff deliverables
 
 - Committed all WordPress handoff work: `AGENTS.md` (handoff + tools sections), `README.md` (handoff table), `wordpress/assets/css/eliet-tokens.css` (design tokens), `wordpress/PAGE-MAPPING.md`, `wordpress/assets/css/eliet-components.css`, `tools/export-products.mjs`, `wordpress/data/products.json` (10,752 lines), and 52 copied image assets in `wordpress/assets/images/`.
