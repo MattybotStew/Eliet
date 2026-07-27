@@ -113,14 +113,27 @@ site is expected to be light-mode only; dark tokens are included here for comple
 **Overpass** — loaded from Google Fonts:
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap");
 ```
 
 Apply globally:
 
 ```css
-body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea {
-  font-family: 'Overpass', sans-serif;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+button,
+input,
+select,
+textarea {
+  font-family: "Overpass", sans-serif;
 }
 ```
 
@@ -130,13 +143,13 @@ body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea {
 
 ### Heading scale (Tailwind defaults used in the prototype)
 
-| Element | Tailwind class | Computed size | Weight | Line height | Usage |
-|---------|---------------|---------------|--------|-------------|-------|
-| h1 | `text-2xl` | 1.5rem (24px) | 500 | 1.5 | Page titles on support pages |
-| h2 | `text-xl` | 1.25rem (20px) | 500 | 1.5 | Section headings |
-| h3 | `text-lg` | 1.125rem (18px) | 500 | 1.5 | Card titles, sub-sections |
-| h4 | `text-base` | 1rem (16px) | 500 | 1.5 | Small labels, captions |
-| p | `text-base` | 1rem (16px) | 400 | 1.5 | Body text |
+| Element | Tailwind class | Computed size   | Weight | Line height | Usage                        |
+| ------- | -------------- | --------------- | ------ | ----------- | ---------------------------- |
+| h1      | `text-2xl`     | 1.5rem (24px)   | 500    | 1.5         | Page titles on support pages |
+| h2      | `text-xl`      | 1.25rem (20px)  | 500    | 1.5         | Section headings             |
+| h3      | `text-lg`      | 1.125rem (18px) | 500    | 1.5         | Card titles, sub-sections    |
+| h4      | `text-base`    | 1rem (16px)     | 500    | 1.5         | Small labels, captions       |
+| p       | `text-base`    | 1rem (16px)     | 400    | 1.5         | Body text                    |
 
 > **Note:** The prototype also uses custom sizes in specific components (e.g. hero headings
 > at `text-[42px] sm:text-[64px]`). These are documented per-component below.
@@ -149,40 +162,40 @@ body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea {
 
 The prototype uses standard Tailwind spacing. In Elementor, match these values:
 
-| Tailwind | Value | Common usage |
-|----------|-------|-------------|
-| `p-2` | 0.5rem (8px) | Tight padding |
-| `p-4` | 1rem (16px) | Card padding |
-| `p-6` | 1.5rem (24px) | Section padding |
-| `p-8` | 2rem (32px) | Large section padding |
-| `gap-4` | 1rem (16px) | Grid gaps |
-| `gap-6` | 1.5rem (24px) | Card grid gaps |
-| `gap-8` | 2rem (32px) | Major layout gaps |
-| `mt-4` | 1rem (16px) | Small top margin |
-| `mt-8` | 2rem (32px) | Medium top margin |
-| `mt-12` | 3rem (48px) | Large top margin |
-| `mb-4` | 1rem (16px) | Small bottom margin |
-| `mb-8` | 2rem (32px) | Medium bottom margin |
-| `mb-12` | 3rem (48px) | Large bottom margin |
+| Tailwind | Value         | Common usage          |
+| -------- | ------------- | --------------------- |
+| `p-2`    | 0.5rem (8px)  | Tight padding         |
+| `p-4`    | 1rem (16px)   | Card padding          |
+| `p-6`    | 1.5rem (24px) | Section padding       |
+| `p-8`    | 2rem (32px)   | Large section padding |
+| `gap-4`  | 1rem (16px)   | Grid gaps             |
+| `gap-6`  | 1.5rem (24px) | Card grid gaps        |
+| `gap-8`  | 2rem (32px)   | Major layout gaps     |
+| `mt-4`   | 1rem (16px)   | Small top margin      |
+| `mt-8`   | 2rem (32px)   | Medium top margin     |
+| `mt-12`  | 3rem (48px)   | Large top margin      |
+| `mb-4`   | 1rem (16px)   | Small bottom margin   |
+| `mb-8`   | 2rem (32px)   | Medium bottom margin  |
+| `mb-12`  | 3rem (48px)   | Large bottom margin   |
 
 ### Max-width container
 
 The prototype uses Tailwind's default `max-w-*` scale. In Elementor, use the section
 width setting with these values:
 
-| Class | Value | Usage |
-|-------|-------|-------|
+| Class       | Value          | Usage                  |
+| ----------- | -------------- | ---------------------- |
 | `max-w-7xl` | 80rem (1280px) | Main content container |
-| `max-w-6xl` | 72rem (1152px) | Secondary content |
-| `max-w-4xl` | 56rem (896px) | Narrow content |
-| `max-w-2xl` | 42rem (672px) | Text blocks |
-| `max-w-md` | 28rem (448px) | Small cards |
+| `max-w-6xl` | 72rem (1152px) | Secondary content      |
+| `max-w-4xl` | 56rem (896px)  | Narrow content         |
+| `max-w-2xl` | 42rem (672px)  | Text blocks            |
+| `max-w-md`  | 28rem (448px)  | Small cards            |
 
 ### Grid patterns
 
-- **Products grid**: `grid grid-cols-2 lg:grid-cols-4` (2 columns mobile, 4 desktop)
-- **Featured machines**: `grid grid-cols-2 lg:grid-cols-4`
-- **Category grid**: 2 columns on mobile, 3 on desktop
+- **Products grid**: `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4` (single-column phones, 2-up small screens, 4 desktop)
+- **Featured machines**: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`
+- **Category grid**: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`
 - **Footer**: `grid grid-cols-2 md:grid-cols-4` (link columns)
 
 ---
@@ -191,34 +204,42 @@ width setting with these values:
 
 ### Primary brand colors
 
-| Name | Hex | Usage |
-|------|-----|-------|
+| Name         | Hex       | Usage                                            |
+| ------------ | --------- | ------------------------------------------------ |
 | ELIET Orange | `#ef7d00` | Primary CTA buttons, links, accents, focus rings |
-| Dark Navy | `#030213` | Primary text, dark backgrounds |
-| White | `#ffffff` | Backgrounds, text on dark |
+| Dark Navy    | `#030213` | Primary text, dark backgrounds                   |
+| White        | `#ffffff` | Backgrounds, text on dark                        |
 
 ### Semantic colors
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| Background | `#ffffff` | Page background |
-| Foreground | `oklch(0.145 0 0)` | Primary text |
-| Muted | `#ececf0` | Muted backgrounds |
-| Muted Foreground | `#717182` | Secondary text |
-| Accent | `#e9ebef` | Hover states, subtle highlights |
-| Border | `rgba(0, 0, 0, 0.1)` | Card borders, dividers |
-| Input Background | `#f3f3f5` | Form field backgrounds |
-| Destructive | `#d4183d` | Error states, delete actions |
+| Token            | Value                | Usage                           |
+| ---------------- | -------------------- | ------------------------------- |
+| Background       | `#ffffff`            | Page background                 |
+| Foreground       | `oklch(0.145 0 0)`   | Primary text                    |
+| Muted            | `#ececf0`            | Muted backgrounds               |
+| Muted Foreground | `#717182`            | Secondary text                  |
+| Accent           | `#e9ebef`            | Hover states, subtle highlights |
+| Border           | `rgba(0, 0, 0, 0.1)` | Card borders, dividers          |
+| Input Background | `#f3f3f5`            | Form field backgrounds          |
+| Destructive      | `#d4183d`            | Error states, delete actions    |
 
 ### Compare table difference highlight
 
-| Token | Value | Usage |
-|-------|-------|-------|
+| Token                | Value     | Usage                                                  |
+| -------------------- | --------- | ------------------------------------------------------ |
 | Different background | `#fef3e8` | Highlight cells with different values in compare table |
 
 ---
 
 ## Component Specs
+
+### Responsive implementation notes
+
+- **Base (<640px)**: prefer single-column sections, stacked forms, and horizontally scrollable pill/chip rows over cramped wraps.
+- **Touch targets**: interactive controls should generally stay at **44×44px minimum** (`min-h-11` / `min-w-11`) for phone usability.
+- **Compare UI safe area**: the sticky compare bar and back-to-top control account for `env(safe-area-inset-bottom)` on mobile devices.
+- **Compare-open page padding**: when the sticky compare bar is visible, the prototype adds bottom spacing to `main` via `body.eliet-compare-open main` so footer CTAs are not obscured.
+- **Long value rows**: product detail spec/accessory rows should stack or wrap on narrow screens rather than forcing label/value collisions.
 
 ### Header / Navigation
 
@@ -256,8 +277,8 @@ width setting with these values:
 
 ### Product Cards (Products page)
 
-- **Layout**: 2-column on mobile, 4-column on desktop
-- **Image height**: `260px` (increased from 200px)
+- **Layout**: `grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4`
+- **Image height**: `h-[200px] sm:h-[260px]` so 1-column mobile cards do not feel oversized
 - **Card content**: product image, name, SKU, engine, category badge
 - **Compare button**: styled checkbox (see below)
 - **Hover**: shadow lift, image scale
@@ -338,13 +359,13 @@ The compare UX mirrors the **Advanced Product Comparison** plugin in popup mode:
 
 Tailwind v4 default breakpoints used throughout:
 
-| Prefix | Min width | Usage |
-|--------|-----------|-------|
-| `sm:` | 640px | Small tablets |
-| `md:` | 768px | Tablets |
-| `lg:` | 1024px | Laptops |
-| `xl:` | 1280px | Desktops |
-| `2xl:` | 1536px | Large desktops |
+| Prefix | Min width | Usage          |
+| ------ | --------- | -------------- |
+| `sm:`  | 640px     | Small tablets  |
+| `md:`  | 768px     | Tablets        |
+| `lg:`  | 1024px    | Laptops        |
+| `xl:`  | 1280px    | Desktops       |
+| `2xl:` | 1536px    | Large desktops |
 
 ### Key responsive patterns
 
@@ -427,7 +448,10 @@ html {
 
 /* Button centering — critical for square/icon buttons */
 @layer base {
-  button, [type="button"], [type="submit"], [type="reset"] {
+  button,
+  [type="button"],
+  [type="submit"],
+  [type="reset"] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -448,15 +472,15 @@ pages with the same URL structure.
 
 ### Top-level nav items
 
-| Label | Prototype page | Production equivalent | Children |
-|-------|---------------|----------------------|----------|
-| Products | `products` | WooCommerce Shop | Shredders, Dethatchers, Seeders, Overseeders, Lawn Edgers, Aerator/Topdresser, Leaf Blowers & Vacuums, Sod Cutters |
-| Service | — | — | Downloads, Warranty Conditions, FAQ & Contact |
-| Where to Find ELIET | `dealers` | Dealer Locator | Dealer Locator, Sales Reps Locator, Finance Options |
-| About | `about` | About page | Brand Story / Innovation, USA Team, Testimonials, Request Brochure, Exhibitions & Events, FAQs |
-| Demo Tour | `demo` | Demo/Booking page | — |
-| Contact | `contact` | Contact page | — |
-| Login | `login` | My Account (WooCommerce) | — |
+| Label               | Prototype page | Production equivalent    | Children                                                                                                           |
+| ------------------- | -------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| Products            | `products`     | WooCommerce Shop         | Shredders, Dethatchers, Seeders, Overseeders, Lawn Edgers, Aerator/Topdresser, Leaf Blowers & Vacuums, Sod Cutters |
+| Service             | —              | —                        | Downloads, Warranty Conditions, FAQ & Contact                                                                      |
+| Where to Find ELIET | `dealers`      | Dealer Locator           | Dealer Locator, Sales Reps Locator, Finance Options                                                                |
+| About               | `about`        | About page               | Brand Story / Innovation, USA Team, Testimonials, Request Brochure, Exhibitions & Events, FAQs                     |
+| Demo Tour           | `demo`         | Demo/Booking page        | —                                                                                                                  |
+| Contact             | `contact`      | Contact page             | —                                                                                                                  |
+| Login               | `login`        | My Account (WooCommerce) | —                                                                                                                  |
 
 ### URL structure recommendation
 
@@ -485,6 +509,7 @@ pages with the same URL structure.
 Demo Tour CTA → Dealer Locator CTA → Why ELIET Banner → Newsletter → Footer
 
 **Key notes**:
+
 - Hero uses full-bleed background image with dark gradient overlay
 - Category grid: 2-col mobile, 3-col desktop
 - Trusted By: label column + 3 image columns
@@ -498,6 +523,7 @@ Demo Tour CTA → Dealer Locator CTA → Why ELIET Banner → Newsletter → Foo
 **Elementor sections**: Header → Page Hero → Category Filter Pills → Product Grid → Pagination → Newsletter → Footer
 
 **Key notes**:
+
 - Category pills: derived from product data (9 categories)
 - Product grid: 2-col mobile, 4-col desktop
 - Pagination: square buttons, centered labels
@@ -509,6 +535,7 @@ Demo Tour CTA → Dealer Locator CTA → Why ELIET Banner → Newsletter → Foo
 **Elementor sections**: Header → Product Hero (image + specs) → Tabs (Description / Specs / Features / Technology) → Engine Options → Accessories → Related Products → Newsletter → Footer
 
 **Key notes**:
+
 - Template renders any `ProductDetail` object — in production, WooCommerce product data
 - Specs tab: table of label/value pairs
 - Features tab: 6 feature cards with images
@@ -554,6 +581,7 @@ Demo Tour CTA → Dealer Locator CTA → Why ELIET Banner → Newsletter → Foo
 **Elementor sections**: Header → Login Form Card → Machine Registration Form Card → Why Register Benefits Band → Newsletter → Footer
 
 **Key notes**:
+
 - Two white form cards side by side (stacked on mobile)
 - Login form: email + password
 - Machine registration: model dropdown (fed from CATALOG), serial number, purchase date
@@ -569,26 +597,26 @@ directory contains the same files organized for easy upload to the WordPress Med
 
 ### Section → Directory mapping
 
-| Section | Source directory | Files |
-|---------|-----------------|-------|
-| Header / Logo | `src/imports/1Header/` | SVG icons |
-| Home (Desk) | `src/imports/Desk/` | Hero, categories, Why ELIET, Trusted By, Featured Machines |
-| Products | `src/imports/Products/` | Product card images |
-| Product Detail | `src/imports/Detail/` | Product detail images, feature thumbnails |
-| About ELIET | `src/imports/AboutEliet/` | Story, values, team, testimonials |
-| Demo Tour | `src/imports/DemoTour/` | Demo tour images |
-| Downloads | `src/imports/Downloads/` | Download thumbnails |
+| Section        | Source directory          | Files                                                      |
+| -------------- | ------------------------- | ---------------------------------------------------------- |
+| Header / Logo  | `src/imports/1Header/`    | SVG icons                                                  |
+| Home (Desk)    | `src/imports/Desk/`       | Hero, categories, Why ELIET, Trusted By, Featured Machines |
+| Products       | `src/imports/Products/`   | Product card images                                        |
+| Product Detail | `src/imports/Detail/`     | Product detail images, feature thumbnails                  |
+| About ELIET    | `src/imports/AboutEliet/` | Story, values, team, testimonials                          |
+| Demo Tour      | `src/imports/DemoTour/`   | Demo tour images                                           |
+| Downloads      | `src/imports/Downloads/`  | Download thumbnails                                        |
 
 ### Image sizes (as used in the prototype)
 
-| Component | Height | Notes |
-|-----------|--------|-------|
-| Category card | 480px | Was 440px, increased |
-| Machine card | 260px | Was 200px, increased |
-| Product card | 260px | Was 200px, increased |
-| Trusted By | 380px | Was 340px, increased |
-| Detail page hero | 520px | Was 460px, increased |
-| Featured Machines (mobile) | 200px | Below `sm` breakpoint |
+| Component                  | Height | Notes                 |
+| -------------------------- | ------ | --------------------- |
+| Category card              | 480px  | Was 440px, increased  |
+| Machine card               | 260px  | Was 200px, increased  |
+| Product card               | 260px  | Was 200px, increased  |
+| Trusted By                 | 380px  | Was 340px, increased  |
+| Detail page hero           | 520px  | Was 460px, increased  |
+| Featured Machines (mobile) | 200px  | Below `sm` breakpoint |
 
 ### Image optimization
 
@@ -599,21 +627,21 @@ from Figma Make, re-run compression — see `JOURNAL.md` for the recipe.
 
 ## File Reference
 
-| File | Purpose |
-|------|---------|
-| `src/app/App.tsx` | Main shell — all page sections, navigation, shared components |
-| `src/app/products.ts` | Product data — types, Maestro City detail, CATALOG (71 items) |
-| `src/app/comparison/` | Compare UX — checkbox, bar, popup, context, specs |
-| `src/styles/theme.css` | Design tokens (CSS custom properties) |
-| `src/styles/globals.css` | Global CSS rules (focus ring, scrollbar, button centering) |
-| `src/styles/fonts.css` | Overpass font import |
-| `wordpress/HANDOFF.md` | This document |
-| `wordpress/PAGE-MAPPING.md` | Detailed page → template mapping |
-| `wordpress/data/products.json` | Product data export for WooCommerce |
-| `wordpress/assets/css/eliet-tokens.css` | Design tokens as plain CSS |
-| `wordpress/assets/css/eliet-components.css` | Component-level CSS |
-| `wordpress/assets/images/` | Organized image assets |
+| File                                        | Purpose                                                       |
+| ------------------------------------------- | ------------------------------------------------------------- |
+| `src/app/App.tsx`                           | Main shell — all page sections, navigation, shared components |
+| `src/app/products.ts`                       | Product data — types, Maestro City detail, CATALOG (71 items) |
+| `src/app/comparison/`                       | Compare UX — checkbox, bar, popup, context, specs             |
+| `src/styles/theme.css`                      | Design tokens (CSS custom properties)                         |
+| `src/styles/globals.css`                    | Global CSS rules (focus ring, scrollbar, button centering)    |
+| `src/styles/fonts.css`                      | Overpass font import                                          |
+| `wordpress/HANDOFF.md`                      | This document                                                 |
+| `wordpress/PAGE-MAPPING.md`                 | Detailed page → template mapping                              |
+| `wordpress/data/products.json`              | Product data export for WooCommerce                           |
+| `wordpress/assets/css/eliet-tokens.css`     | Design tokens as plain CSS                                    |
+| `wordpress/assets/css/eliet-components.css` | Component-level CSS                                           |
+| `wordpress/assets/images/`                  | Organized image assets                                        |
 
 ---
 
-*Last updated: 2026-07-24*
+_Last updated: 2026-07-24_

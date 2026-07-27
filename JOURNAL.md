@@ -1,3 +1,19 @@
+## 2026-07-27 — Zed / GPT-5.4 — tablet / large-phone nav + footer polish
+
+- Follow-up responsive QA pass focused on awkward in-between widths.
+- Replaced header dropdown carets with **plus / minus** treatment: desktop nav now shows `+` on items with children; mobile accordion toggles use `+` / `−` instead of chevrons.
+- Improved mobile/tablet nav readability with slightly cleaner nested spacing.
+- Refined footer layout in `src/app/App.tsx` for large phones and tablets: moved from loose wrapping flex columns to a more structured grid, improved link wrapping, and ensured footer links keep comfortable tap targets.
+- Tightened banner / CTA behavior at mid widths: Demo Tour banner inner padding and Dealer escalation CTA alignment/button stacking now read more cleanly before full desktop.
+- Validation: `npm run build` passes.
+
+## 2026-07-27 — Zed / GPT-5.4 — finished responsive pass handoff
+
+- Completed the remaining responsive cleanup in `src/app/App.tsx`.
+- **Finished:** `WhyElietCompact` mobile padding, product card image height (`h-[200px] sm:h-[260px]`), detail spec row wrapping, accessories row stacking/wrapping, CTA band padding normalization, dealer phone/email tap targets with `tel:` / `mailto:` links, and compare popup narrow-screen button shortening (`View →` on mobile).
+- Updated `wordpress/HANDOFF.md` responsive notes to document the 1-column products grid on phones, touch target guidance, compare safe-area / compare-open padding behavior, and long-row wrapping expectations.
+- Validation: `npm run build` passes after the responsive finish.
+- Loose ends: latest responsive commit is still local unless pushed; prototype still intentionally uses placeholder FAQ / warranty / dealer content where client copy is pending.
 
 ## 2026-07-27 — Cursor — STOP handoff: responsive pass → Zed
 
@@ -42,7 +58,6 @@
   - **E401 PRO PDP copy bug**: Figma frame has dethatcher copy but shredder features — prototype correctly categorizes it as Dethatchers.
   - All 13 prototype pages map to Figma artboards. Category pills, pagination ("Showing X of Y"), compare dialog (1/2/3 states) all match.
 - Cursor assigned Figma alignment work; Cline handling code fixes + WordPress handoff.
-
 
 # Project journal — Eliet
 
@@ -167,7 +182,6 @@ Shared session log for all AI agents. Newest entries at the top.
 - Design refinements: page transitions (AnimatePresence), back-to-top button, globals.css (smooth scroll, focus ring, scrollbar, button centering).
 - Updated README.md (11 pages, shared components, style layers), AGENTS.md (shared components, CSS layers).
 
-
 ## 2026-07-07 — Cline (design refinement pass)
 
 - Added page-level transitions: `AnimatePresence` on the root `App` component so navigating between pages has a subtle cross-fade + slide (y:12→0 → y:0→-8, 250ms, eased).
@@ -176,7 +190,9 @@ Shared session log for all AI agents. Newest entries at the top.
 - Imported globals.css into `index.css` to load alongside tailwind/theme/fonts.
 
 ## 2026-07-07 — Claude Code (five support pages)
+
 Built all five missing pages from the approved content doc, in this order. Per-page status for picking up later:
+
 1. **Warranty** (`warranty`) — DONE. Coverage tiers, exclusions checklist, 4-step claims flow, register CTA. Content doc itself flags the warranty terms as placeholder — amber banner on page says so; needs real terms from client.
 2. **FAQ** (`faq`) — DONE structurally. All 10 approved questions render as accordions; ANSWERS ARE PLACEHOLDERS ("pending from client") because the content doc has [Missing Text: Content Required] for every answer.
 3. **Dealer Locator** (`dealers`) — DONE. Search bar + map placeholder + 12 dealer cards from the doc (doc data appears to be sample dealers); real map/search is production (WooCommerce/WP plugin) scope.
@@ -187,9 +203,11 @@ Wiring: header "Where to Find ELIET"→dealers, "Contact"→contact (desktop+mob
 Verified with Playwright: 12 assertions across all five pages + cross-links. Remaining for these pages: real FAQ answers, real warranty terms, real dealer list.
 
 ## 2026-07-07 — Matt + Claude Code (home hero)
+
 - Committed Matt's home-page edit: hero background now uses the shredder action photo (full opacity, lighter gradient), and the "Trusted by professionals" pillars reuse the Why-ELIET photos.
 
 ## 2026-07-07 — Claude Code (real product catalog)
+
 - Replaced the 12 mock products with the real 2026 equipment list: 71 machines, 9 categories (source: client's "Equipment List 2026.csv" Smartsheet export; parsed/cleaned into CATALOG in products.ts).
 - Category filter pills now derive from the data (Shredders, Dethatchers, Overseeders, Top Dressers, Edgers, Sod Cutters, Seeders, Blowers, Leaf Vacs).
 - Every catalog item opens the reusable detail template with its real name/SKU/engine; long-form description/specs/features still fall back to Maestro City content — real per-product copy lives in the client's Product Import Smartsheet (not yet provided).
@@ -197,6 +215,7 @@ Verified with Playwright: 12 assertions across all five pages + cross-links. Rem
 - Verified with Playwright: category filtering works, real products open the template with correct SKU/engine.
 
 ## 2026-07-07 — Claude Code (reusable detail template)
+
 - Refactored DetailPage into a reusable template: all content now renders from a ProductDetail object (new src/app/products.ts — type, MAESTRO_CITY data, productDetailFrom() helper). Visual design unchanged (matches Figma node 5359-182).
 - Every catalog card on the Products page now opens the template with its own name/SKU/engine/description; non-identity content falls back to Maestro City until real data exists. In production all of this comes from WooCommerce.
 - Fixed: the six Features-tab thumbnails were 1x1-pixel placeholders from the original Figma Make export — replaced with the real images from the Figma design (same filenames).
@@ -204,31 +223,37 @@ Verified with Playwright: 12 assertions across all five pages + cross-links. Rem
 - To add a real product: add a ProductDetail object in products.ts and pass it to openProduct().
 
 ## 2026-07-07 — Claude Code (GitHub Pages)
+
 - Added .github/workflows/deploy-pages.yml: every push to main builds and deploys dist/ to GitHub Pages (also runnable manually via workflow_dispatch).
 - Set Vite base './' so assets resolve under the /Eliet/ path prefix.
 - Prototype URL for the dev team: https://mattybotstew.github.io/Eliet/
 
 ## 2026-07-07 — Claude Code (prototype framing)
+
 - Rewrote README.md for the dev team: this repo is a design/functionality prototype; production will be WordPress + WooCommerce + Elementor + Astra. Included prototype-view → production-page mapping table. Kept the Figma source link.
 - Added "Project intent — prototype only" section to AGENTS.md: no real backend work here, optimize for design fidelity.
 
 ## 2026-07-07 — Claude Code (image compression)
+
 - Recompressed 13 large images in src/imports in place (palette PNG q85 / mozjpeg q80): 23.6MB -> 7.8MB, dist 32MB -> 24MB. Same filenames, no code changes; visually verified the most-compressed image.
 - The 1f82331... background PNG (4 copies) is already optimized — quantizing it made it bigger, left untouched. Don't retry.
 - If images are ever re-exported from Figma Make, rerun compression (script pattern: sharp, palette:true quality:85, only replace if ≥25% smaller).
 
 ## 2026-07-07 — Claude Code (build optimization)
+
 - Removed 12 unused dependencies (MUI, Emotion, react-dnd, react-router, react-slick, canvas-confetti, popper, masonry): node_modules 388MB → 181MB. Kept date-fns (react-day-picker peer) and tw-animate-css (CSS import).
 - Added manual vendor chunking in vite.config.ts (react / motion / vendor): app edits now only invalidate a ~28KB-gzip index chunk instead of the whole 117KB bundle.
 - Verified: production build passes (1.6s) and preview serves all chunks. App.tsx untouched.
 - Known remaining weight: multi-MB PNGs in src/imports ship unoptimized — compressing them is the next biggest win if page load matters.
 
 ## 2026-07-07 — Claude Code (project setup)
+
 - Added .gitignore (node_modules, dist, caches) and wrote a real AGENTS.md documenting the stack (Vite 6 + React 18 + Tailwind v4, Figma Make export), commands, and conventions.
 - Committed previously untracked source assets: src/imports images/SVGs (imported by App.tsx), public/, package-lock.json.
 - Left uncommitted: an in-progress edit to src/app/App.tsx (7+/8-) that predates this session — intentionally not committed.
 
 ## 2026-07-07 — Claude Code (setup)
+
 - Adopted agent-agnostic setup: AGENTS.md is canonical (CLAUDE.md is a symlink), this journal tracks cross-agent session history.
 - Recent git history at time of setup:
   - 9091eae Update files from Figma Make

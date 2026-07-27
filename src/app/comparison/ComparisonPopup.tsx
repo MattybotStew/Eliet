@@ -2,7 +2,11 @@ import { useEffect, Fragment } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useComparison } from "./ComparisonContext";
 import { CompareCheckbox } from "./CompareCheckbox";
-import { COMPARISON_CATEGORIES, getComparisonData, getRelatedInCategory } from "./comparisonSpecs";
+import {
+  COMPARISON_CATEGORIES,
+  getComparisonData,
+  getRelatedInCategory,
+} from "./comparisonSpecs";
 
 const ORANGE = "#ef7d00";
 const DIFF_BG = "#fef3e8";
@@ -92,7 +96,12 @@ export function ComparisonPopup() {
                   aria-label="Close comparison"
                 >
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 2L12 12M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <path
+                      d="M2 2L12 12M12 2L2 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
                   </svg>
                 </button>
               </div>
@@ -114,7 +123,10 @@ export function ComparisonPopup() {
                       <p className="font-['Overpass',sans-serif] text-[12px] text-[#888] mb-3">
                         More from {relatedCategory}
                       </p>
-                      <div className="flex gap-3 overflow-x-auto pb-1" style={{ scrollbarWidth: "thin" }}>
+                      <div
+                        className="flex gap-3 overflow-x-auto pb-1"
+                        style={{ scrollbarWidth: "thin" }}
+                      >
                         {related.map((p) => (
                           <div
                             key={p.id}
@@ -140,11 +152,20 @@ export function ComparisonPopup() {
                   {/* Scroll hint for narrow screens */}
                   <div className="flex items-center gap-2 px-5 py-2 text-[11px] text-[#aaa] font-['Overpass',sans-serif] border-b border-[#eee] sm:hidden">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M4 2L8 6L4 10" stroke="#aaa" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path
+                        d="M4 2L8 6L4 10"
+                        stroke="#aaa"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                     Scroll sideways to see all products
                   </div>
-                  <div className="overflow-x-auto" style={{ scrollbarWidth: "thin" }}>
+                  <div
+                    className="overflow-x-auto"
+                    style={{ scrollbarWidth: "thin" }}
+                  >
                     <table
                       id="exppc-comparison-table"
                       className="w-full border-collapse font-['Overpass',sans-serif] text-[13px]"
@@ -158,7 +179,10 @@ export function ComparisonPopup() {
                             &nbsp;
                           </th>
                           {products.map((p) => (
-                            <td key={p.id} className="px-4 py-4 text-center align-top min-w-[180px]">
+                            <td
+                              key={p.id}
+                              className="px-4 py-4 text-center align-top min-w-[180px]"
+                            >
                               <div className="relative inline-block w-[140px] aspect-[4/3] bg-[#f5f5f5] overflow-hidden mx-auto">
                                 <img
                                   src={p.image}
@@ -185,7 +209,10 @@ export function ComparisonPopup() {
                             Title
                           </th>
                           {products.map((p) => (
-                            <td key={p.id} className="px-4 py-3 text-center font-bold text-[#222] bg-[#fafafa]">
+                            <td
+                              key={p.id}
+                              className="px-4 py-3 text-center font-bold text-[#222] bg-[#fafafa]"
+                            >
                               {p.name}
                             </td>
                           ))}
@@ -199,7 +226,10 @@ export function ComparisonPopup() {
                             SKU
                           </th>
                           {products.map((p) => (
-                            <td key={p.id} className="px-4 py-3 text-center text-[#555]">
+                            <td
+                              key={p.id}
+                              className="px-4 py-3 text-center text-[#555]"
+                            >
                               {p.sku}
                             </td>
                           ))}
@@ -217,10 +247,16 @@ export function ComparisonPopup() {
                               </td>
                             </tr>
                             {category.rows.map((row) => {
-                              const values = products.map((p) => p.specs[row.key] || "—");
-                              const isDifferent = values.length > 1 && new Set(values).size > 1;
+                              const values = products.map(
+                                (p) => p.specs[row.key] || "—",
+                              );
+                              const isDifferent =
+                                values.length > 1 && new Set(values).size > 1;
                               return (
-                                <tr key={row.key} className="border-b border-[#eee]">
+                                <tr
+                                  key={row.key}
+                                  className="border-b border-[#eee]"
+                                >
                                   <th
                                     scope="row"
                                     className="sticky left-0 z-10 bg-white text-left font-semibold text-[#888] uppercase tracking-[0.5px] text-[11px] px-4 py-3 border-r border-[#eee] whitespace-nowrap"
@@ -232,9 +268,15 @@ export function ComparisonPopup() {
                                     <td
                                       key={p.id}
                                       className={`px-4 py-3 text-center leading-relaxed ${
-                                        isDifferent ? "different font-semibold text-[#222]" : "text-[#555]"
+                                        isDifferent
+                                          ? "different font-semibold text-[#222]"
+                                          : "text-[#555]"
                                       }`}
-                                      style={{ backgroundColor: isDifferent ? DIFF_BG : undefined }}
+                                      style={{
+                                        backgroundColor: isDifferent
+                                          ? DIFF_BG
+                                          : undefined,
+                                      }}
                                     >
                                       {p.specs[row.key] || "—"}
                                     </td>
@@ -257,11 +299,14 @@ export function ComparisonPopup() {
                               <button
                                 type="button"
                                 onClick={() => closePopup()}
-                                className="px-4 py-2 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1px] text-white transition-opacity hover:opacity-90"
+                                className="px-3 sm:px-4 py-2 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1px] text-white transition-opacity hover:opacity-90 whitespace-nowrap"
                                 style={{ backgroundColor: ORANGE }}
                                 title={`View ${p.name}`}
                               >
-                                View {p.name} →
+                                <span className="sm:hidden">View →</span>
+                                <span className="hidden sm:inline">
+                                  View {p.name} →
+                                </span>
                               </button>
                             </td>
                           ))}
