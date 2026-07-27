@@ -1,3 +1,22 @@
+## 2026-07-27 — Cursor / Composer — sitewide responsive propagation (≤1200)
+
+- Propagated home-page responsive conventions across all prototype views in `App.tsx` + builder heroes in `DevPages.tsx`.
+- **PageHero** (Warranty, FAQ, Finance, Dealers, Contact): H1 now matches HomeHero stepped scale (`36→44→52→56→64→72`); body adds `min-[1201px]:text-[22px]`.
+- **Inline page heroes** — Downloads, Products, About: same HomeHero discipline (removed `md:text-[90px]` / `lg:text-[110px]` jumps).
+- **DemoHero**: display-sized but capped through 1200 — `… lg:text-[72px] min-[1201px]:text-[96px] xl:text-[110px]` (was 110/132 at md/lg).
+- **WhyElietCompact** + Finance page: headline `min-[1201px]:text-[36px]`; Finance duplicate block replaced with shared `WhyElietCompact`.
+- **CTA bands** (home Demo/Dealer, Contact escalation, Warranty/FAQ/Dealer CTAs): softened to `md:text-[36px]` / `min-[1201px]:text-[38–48px]`.
+- **About tab H2s**: `lg:text-[42px]` → `min-[1201px]:text-[42px]`; Story intro keeps `xl:text-[52px]` for display emphasis.
+- **Detail PDP title**, **Login hero**, **DevPages** type samples: aligned to same breakpoint convention.
+- Validation: `npm run build` passes. Not committed.
+
+## 2026-07-27 — Cursor / Composer — responsive typography + category card heights
+
+- **WhyElietBanner** headline capped at ≤1200px: `text-[26px] sm:text-[28px] md:text-[30px] lg:text-[26px] min-[1201px]:text-[36px]` (was flat `md:text-[36px]` through laptop widths).
+- **ShopByCategory** `CategoryCard` heights: `h-[240px] sm:h-[280px] lg:h-[300px] min-[1201px]:h-[480px]` (was `h-[240px] sm:h-[380px] lg:h-[480px]`). Full 480px height only above 1200px.
+- **Responsive type pass** across `App.tsx`: section H2s (Why Eliet banners, About, support pages, CTA bands), TrustedBy column titles, demo/event headings, product card titles (`break-words`), PageHero body, About/Demo heroes, PDP tab headings, login cards, brochure subheads, finance cards, warranty durations. Pattern: `text-[28px] sm:text-[32px] md:text-[36px]` (or similar stepped scales matching HomeHero/PageHero discipline).
+- Validation: `npm run build` passes. Not committed.
+
 ## 2026-07-27 — Cursor — footer 4-col grid + local host
 
 - Picked up Zed footer/image-grid handoff: footer is now one grid `1 → 2×2 → 4` with brand as column 1 + three link groups (true 4-across at `xl`).

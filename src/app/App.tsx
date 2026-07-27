@@ -317,15 +317,8 @@ function Header({
   setPage: (p: Page) => void;
   svgData: typeof deskSvg;
 }) {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
   useEffect(() => {
     document.body.classList.toggle("eliet-nav-open", open);
@@ -346,10 +339,7 @@ function Header({
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50"
-      style={{
-        backgroundColor: "#131316",
-        boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.45)" : "none",
-      }}
+      style={{ backgroundColor: "#131316" }}
     >
       <div className="max-w-[1440px] mx-auto h-[70px] flex items-center justify-between px-6 md:px-12 lg:px-20">
         {/* Left */}
@@ -522,7 +512,7 @@ function HomeHero({ setPage }: { setPage: (p: Page) => void }) {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[64px] md:text-[90px] lg:text-[110px] text-white uppercase leading-none tracking-[-2px] mb-8"
+          className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px] text-white uppercase leading-tight tracking-[-1px] sm:tracking-[-1.5px] min-[1201px]:tracking-[-2px] mb-8"
         >
           Serious Equipment.
           <br />
@@ -532,7 +522,7 @@ function HomeHero({ setPage }: { setPage: (p: Page) => void }) {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="font-['Overpass',sans-serif] text-xl md:text-2xl text-white/70 max-w-xl mb-10 leading-relaxed"
+          className="font-['Overpass',sans-serif] text-[16px] sm:text-[18px] md:text-[20px] min-[1201px]:text-[22px] text-white/70 max-w-xl mb-10 leading-relaxed"
         >
           Engineered for professionals. Built to last. Family-owned since 1980.
         </motion.p>
@@ -594,7 +584,7 @@ function CategoryCard({ img, label }: { img: string; label: string }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
-      className="relative overflow-hidden rounded-2xl cursor-pointer w-full h-[240px] sm:h-[380px] lg:h-[480px]"
+      className="relative overflow-hidden rounded-2xl cursor-pointer w-full h-[240px] sm:h-[280px] lg:h-[300px] min-[1201px]:h-[480px]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -713,7 +703,7 @@ function TrustedBy() {
                     className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <p className="font-['Overpass',sans-serif] font-bold text-[28px] text-white uppercase">
+                <p className="font-['Overpass',sans-serif] font-bold text-[22px] sm:text-[26px] md:text-[28px] text-white uppercase leading-tight">
                   {col.title}
                 </p>
                 <p className="font-['Overpass',sans-serif] text-[15px] text-white/60 leading-relaxed">
@@ -779,7 +769,7 @@ function FeaturedMachines() {
       <FadeUp>
         <div className="max-w-[1440px] mx-auto flex flex-col gap-10">
           <div className="flex items-center justify-between flex-wrap gap-4">
-            <p className="font-['Overpass',sans-serif] font-semibold text-[16px] text-[#131316] uppercase tracking-[2px]">
+            <p className="font-['Overpass',sans-serif] font-semibold text-[14px] sm:text-[16px] text-[#131316] uppercase tracking-[2px]">
               Featured Machines
             </p>
             <button
@@ -846,7 +836,7 @@ function DemoTourBanner({ setPage }: { setPage: (p: Page) => void }) {
                 >
                   Now Scheduling 2026
                 </span>
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-4xl md:text-5xl text-white uppercase leading-none tracking-[-1px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-white uppercase leading-none tracking-[-1px]">
                   See ELIET In Action.
                   <br />
                   Book a Demo Tour.
@@ -904,7 +894,7 @@ function HomeDealerLocator({ setPage }: { setPage: (p: Page) => void }) {
             />
             <div className="relative z-10 h-full flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between gap-6 px-6 sm:px-10 md:px-12 lg:px-16 py-10 sm:py-12 lg:py-14 min-h-[280px] sm:min-h-[340px] lg:min-h-[420px]">
               <div className="flex flex-col gap-3 sm:gap-4 max-w-lg">
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-5xl md:text-[56px] lg:text-[62px] text-white uppercase leading-none tracking-[-1px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[48px] text-white uppercase leading-none tracking-[-1px]">
                   Dealer Locator
                 </h2>
                 <p className="font-['Overpass',sans-serif] text-[16px] text-white/65 leading-relaxed">
@@ -976,13 +966,13 @@ function WhyElietBanner({
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/65" />
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 min-h-[480px]">
-              <div className="col-span-1 lg:col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
-                <div className="hidden lg:flex">
+            <div className="relative z-10 grid grid-cols-1 min-[1201px]:grid-cols-3 min-h-[480px]">
+              <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
+                <div className="hidden min-[1201px]:flex">
                   <ElietLogo svgData={deskSvg} />
                 </div>
-                <div className="hidden lg:block h-px bg-white/15 w-full" />
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
+                <div className="hidden min-[1201px]:block h-px bg-white/15 w-full" />
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] min-[1201px]:text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
                   Why Professionals Choose ELIET
                 </h2>
                 <ul className="flex flex-col gap-4">
@@ -1026,15 +1016,15 @@ function WhyElietBanner({
                   {buttonLabel}
                 </button>
               </div>
-              <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] lg:col-span-2 lg:min-h-0">
-                <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+              <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] min-[1201px]:col-span-2 min-[1201px]:min-h-0">
+                <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] min-[1201px]:min-h-[480px]">
                   <img
                     src={photo1}
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
                   />
                 </div>
-                <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] min-[1201px]:min-h-[480px]">
                   <img
                     src={photo2}
                     alt=""
@@ -1073,7 +1063,7 @@ function WhyElietCompact({
             />
             <div className="absolute inset-0 bg-black/65" />
             <div className="relative z-10 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14 max-w-xl min-h-[420px]">
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] min-[1201px]:text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
                 Why Professionals Choose ELIET
               </h2>
               <ul className="flex flex-col gap-4">
@@ -1227,18 +1217,18 @@ function Footer({
   return (
     <footer style={{ backgroundColor: "#0a0a0d" }} className="w-full">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pt-8 md:pt-16 pb-10">
-        {/* Unified grid: brand + 3 link groups — hidden on mobile, 2×2 / 4-across on md+ */}
-        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-10 items-start text-left">
-          <div className="flex flex-col gap-5 max-w-[360px]">
+        {/* Unified grid: brand + 3 link groups — hidden on mobile; ≤1200 brand full width + 3-col links; >1200 4-across */}
+        <div className="hidden md:grid max-[1200px]:grid-cols-3 min-[1201px]:grid-cols-4 gap-x-8 gap-y-10 items-start text-left">
+          <div className="flex flex-col gap-5 max-[1200px]:col-span-3 min-[1201px]:col-span-1 max-[1200px]:max-w-none max-w-[360px]">
             <ElietLogo svgData={svgData} color={ORANGE} barColor={ORANGE} />
-            <p className="font-['Overpass',sans-serif] text-[14px] text-white/35 leading-relaxed max-w-[36ch]">
+            <p className="font-['Overpass',sans-serif] text-[14px] text-white/35 leading-relaxed max-[1200px]:w-3/4 min-[1201px]:max-w-[36ch]">
               ELIET is a Belgian-engineered professional equipment company. Our
               patented Chopping Principle™ delivers superior performance in
               shredding, lawn renovation, seeding, and top dressing.
             </p>
           </div>
           {FOOTER_COLS.map((col) => (
-            <div key={col.heading} className="flex flex-col gap-4 min-w-0">
+            <div key={col.heading} className="flex flex-col gap-4 min-w-0 col-span-1">
               <p className="font-['Overpass',sans-serif] font-bold text-[11px] text-white uppercase tracking-[2px]">
                 {col.heading}
               </p>
@@ -1341,7 +1331,7 @@ function DemoHero({ setPage }: { setPage: (p: Page) => void }) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="font-['Overpass',sans-serif] font-bold text-xl md:text-2xl text-white/65 uppercase tracking-[5px]"
+          className="font-['Overpass',sans-serif] font-bold text-[16px] sm:text-xl md:text-2xl text-white/65 uppercase tracking-[5px]"
         >
           About ELIET
         </motion.p>
@@ -1349,7 +1339,7 @@ function DemoHero({ setPage }: { setPage: (p: Page) => void }) {
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[64px] md:text-[110px] lg:text-[132px] text-white uppercase leading-none tracking-[-2px]"
+          className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[56px] md:text-[64px] lg:text-[72px] min-[1201px]:text-[96px] xl:text-[110px] text-white uppercase leading-none tracking-[-2px]"
         >
           Demo Tour
         </motion.h1>
@@ -1357,7 +1347,7 @@ function DemoHero({ setPage }: { setPage: (p: Page) => void }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="font-['Overpass',sans-serif] text-lg md:text-xl text-white/70 leading-relaxed max-w-xl"
+          className="font-['Overpass',sans-serif] text-[15px] sm:text-[17px] md:text-xl text-white/70 leading-relaxed max-w-xl"
         >
           Experience ELIET equipment in action — find a demo near you or request
           a private session.
@@ -1463,7 +1453,7 @@ function RequestDemoForm() {
       <div id="request-demo" className="flex flex-col gap-8">
         <div className="flex flex-col gap-3">
           <OrangeBar2 />
-          <h2 className="font-['Overpass',sans-serif] font-bold text-4xl md:text-[48px] text-[#131316] uppercase tracking-[-0.5px]">
+          <h2 className="font-['Overpass',sans-serif] font-bold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.5px]">
             Request a Private Demo
           </h2>
           <p className="font-['Overpass',sans-serif] text-[15px] text-[#777] leading-relaxed">
@@ -1628,7 +1618,7 @@ function EventCard({
         />
         <div className="pl-6 pr-6 py-7 flex flex-col sm:flex-row sm:items-center gap-5">
           <div
-            className="shrink-0 font-['Overpass',sans-serif] font-extrabold text-[52px] leading-none transition-colors duration-300"
+            className="shrink-0 font-['Overpass',sans-serif] font-extrabold text-[40px] sm:text-[46px] md:text-[52px] leading-none transition-colors duration-300"
             style={{ color: hovered ? ORANGE : "#e2e2e2" }}
           >
             {event.num}
@@ -1648,7 +1638,7 @@ function EventCard({
                 Upcoming
               </span>
             </div>
-            <p className="font-['Overpass',sans-serif] font-bold text-[22px] text-[#131316] uppercase tracking-[-0.3px]">
+            <p className="font-['Overpass',sans-serif] font-bold text-[18px] sm:text-[20px] md:text-[22px] text-[#131316] uppercase tracking-[-0.3px]">
               {event.city}
             </p>
             <div className="flex items-start gap-2">
@@ -1679,7 +1669,7 @@ function UpcomingEvents() {
       <FadeUp>
         <div className="flex flex-col gap-3">
           <OrangeBar2 />
-          <h2 className="font-['Overpass',sans-serif] font-bold text-4xl md:text-[48px] text-[#131316] uppercase tracking-[-0.5px]">
+          <h2 className="font-['Overpass',sans-serif] font-bold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.5px]">
             Upcoming Demo Events
           </h2>
           <p className="font-['Overpass',sans-serif] text-[15px] text-[#777]">
@@ -1723,7 +1713,7 @@ function DemoPage({ setPage }: { setPage: (p: Page) => void }) {
               <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-0 flex items-center pointer-events-none">
                 <div className="pl-10 md:pl-16 flex flex-col gap-3">
-                  <p className="font-['Overpass',sans-serif] font-bold text-3xl md:text-4xl text-white uppercase tracking-[-0.3px]">
+                  <p className="font-['Overpass',sans-serif] font-bold text-[24px] sm:text-[28px] md:text-[36px] text-white uppercase tracking-[-0.3px]">
                     Find a Demo Near You
                   </p>
                   <p className="font-['Overpass',sans-serif] text-[15px] text-white/70 max-w-xs">
@@ -1909,7 +1899,7 @@ function DownloadCategoryCard({
         </div>
 
         {/* Label */}
-        <p className="font-['Overpass',sans-serif] font-extrabold text-[20px] text-[#131316] uppercase tracking-[-0.5px] leading-tight">
+        <p className="font-['Overpass',sans-serif] font-extrabold text-[16px] sm:text-[18px] md:text-[20px] text-[#131316] uppercase tracking-[-0.5px] leading-tight">
           {cat.label}
         </p>
 
@@ -1967,7 +1957,7 @@ function FilterToolCard({ title, desc }: { title: string; desc: string }) {
           className="h-1 rounded-full w-full"
           style={{ backgroundColor: ORANGE }}
         />
-        <h3 className="font-['Overpass',sans-serif] font-extrabold text-[20px] text-[#131316] uppercase tracking-[-0.5px]">
+        <h3 className="font-['Overpass',sans-serif] font-extrabold text-[16px] sm:text-[18px] md:text-[20px] text-[#131316] uppercase tracking-[-0.5px]">
           {title}
         </h3>
         <p className="font-['Overpass',sans-serif] text-[13px] text-[#6b7280] leading-relaxed -mt-1">
@@ -2064,10 +2054,10 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h1 className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[56px] md:text-[90px] text-white uppercase leading-none tracking-[-2px]">
+            <h1 className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px] text-white uppercase leading-none tracking-[-1px] sm:tracking-[-1.5px] min-[1201px]:tracking-[-2px]">
               Downloads
             </h1>
-            <p className="font-['Overpass',sans-serif] text-[16px] sm:text-[20px] text-white/70 leading-relaxed">
+            <p className="font-['Overpass',sans-serif] text-[16px] sm:text-[18px] md:text-[20px] min-[1201px]:text-[22px] text-white/70 leading-relaxed">
               Find product manuals, maintenance schedules, and technical data
             </p>
           </motion.div>
@@ -2119,7 +2109,7 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
                 <OrangeAccent />
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[26px] sm:text-[30px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
                   Browse by Category
                 </h2>
                 <p className="font-['Overpass',sans-serif] text-[14px] text-[#6b7280]">
@@ -2150,7 +2140,7 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
                 <OrangeAccent />
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[26px] sm:text-[30px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
                   Filter Tools
                 </h2>
                 <p className="font-['Overpass',sans-serif] text-[14px] text-[#6b7280]">
@@ -2181,11 +2171,13 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/65" />
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 lg:col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
-                  <ElietLogo svgData={deskSvg} />
-                  <div className="h-px bg-white/15 w-full" />
-                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
+              <div className="relative z-10 grid grid-cols-1 min-[1201px]:grid-cols-3 min-h-[480px]">
+                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
+                  <div className="hidden min-[1201px]:flex">
+                    <ElietLogo svgData={deskSvg} />
+                  </div>
+                  <div className="hidden min-[1201px]:block h-px bg-white/15 w-full" />
+                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] min-[1201px]:text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
                     Why Professionals Choose ELIET
                   </h2>
                   <ul className="flex flex-col gap-4">
@@ -2234,15 +2226,15 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
                     All Products
                   </button>
                 </div>
-                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] lg:col-span-2 lg:min-h-0">
-                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] min-[1201px]:col-span-2 min-[1201px]:min-h-0">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] min-[1201px]:min-h-[480px]">
                     <img
                       src={imgDownloadsWhyP1}
                       alt=""
                       className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
                     />
                   </div>
-                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] min-[1201px]:min-h-[480px]">
                     <img
                       src={imgDownloadsWhyP2}
                       alt=""
@@ -2351,7 +2343,7 @@ function DetailPage({
 
               {/* Info */}
               <div className="flex-1 flex flex-col gap-6 px-5 sm:px-8 md:px-10 py-8 sm:py-10">
-                <h1 className="font-['Overpass',sans-serif] font-extrabold text-[32px] sm:text-[38px] md:text-[46px] text-[#131316] uppercase tracking-[1px] leading-none">
+                <h1 className="font-['Overpass',sans-serif] font-extrabold text-[32px] sm:text-[38px] md:text-[42px] min-[1201px]:text-[46px] text-[#131316] uppercase tracking-[1px] leading-none">
                   {product.name}
                 </h1>
                 <div className="flex items-center gap-5 flex-wrap">
@@ -2504,7 +2496,7 @@ function DetailPage({
                 <div className="max-w-2xl flex flex-col gap-8">
                   <div className="flex flex-col gap-3">
                     <OrangeAccent />
-                    <h3 className="font-['Overpass',sans-serif] font-extrabold text-[28px] text-[#131316] uppercase tracking-[-0.5px]">
+                    <h3 className="font-['Overpass',sans-serif] font-extrabold text-[22px] sm:text-[26px] md:text-[28px] text-[#131316] uppercase tracking-[-0.5px]">
                       {product.technology.heading}
                     </h3>
                   </div>
@@ -2562,7 +2554,7 @@ function DetailPage({
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
                       <OrangeAccent />
-                      <h3 className="font-['Overpass',sans-serif] font-extrabold text-[22px] text-[#131316] uppercase">
+                      <h3 className="font-['Overpass',sans-serif] font-extrabold text-[18px] sm:text-[20px] md:text-[22px] text-[#131316] uppercase">
                         Engine Options
                       </h3>
                     </div>
@@ -2576,7 +2568,7 @@ function DetailPage({
                             {eng.name}
                           </p>
                           <p
-                            className="font-['Overpass',sans-serif] font-extrabold text-[22px]"
+                            className="font-['Overpass',sans-serif] font-extrabold text-[18px] sm:text-[20px] md:text-[22px]"
                             style={{ color: ORANGE }}
                           >
                             {eng.hp}
@@ -2591,7 +2583,7 @@ function DetailPage({
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
                       <OrangeAccent />
-                      <h3 className="font-['Overpass',sans-serif] font-extrabold text-[22px] text-[#131316] uppercase">
+                      <h3 className="font-['Overpass',sans-serif] font-extrabold text-[18px] sm:text-[20px] md:text-[22px] text-[#131316] uppercase">
                         Accessories
                       </h3>
                     </div>
@@ -2671,11 +2663,13 @@ function DetailPage({
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/65" />
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 lg:col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
-                  <ElietLogo svgData={deskSvg} />
-                  <div className="h-px bg-white/15 w-full" />
-                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
+              <div className="relative z-10 grid grid-cols-1 min-[1201px]:grid-cols-3 min-h-[480px]">
+                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
+                  <div className="hidden min-[1201px]:flex">
+                    <ElietLogo svgData={deskSvg} />
+                  </div>
+                  <div className="hidden min-[1201px]:block h-px bg-white/15 w-full" />
+                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] min-[1201px]:text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
                     Why Professionals Choose ELIET
                   </h2>
                   <ul className="flex flex-col gap-4">
@@ -2724,15 +2718,15 @@ function DetailPage({
                     All Products
                   </button>
                 </div>
-                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] lg:col-span-2 lg:min-h-0">
-                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] min-[1201px]:col-span-2 min-[1201px]:min-h-0">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] min-[1201px]:min-h-[480px]">
                     <img
                       src={imgDetailWhyP1}
                       alt=""
                       className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
                     />
                   </div>
-                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] min-[1201px]:min-h-[480px]">
                     <img
                       src={imgDetailWhyP2}
                       alt=""
@@ -2817,7 +2811,7 @@ function ProductCard({
 
       {/* Info */}
       <div className="flex flex-col gap-2.5 p-5 flex-1">
-        <p className="font-['Overpass',sans-serif] font-bold text-[15px] text-[#131316] uppercase tracking-[0.5px] leading-tight">
+        <p className="font-['Overpass',sans-serif] font-bold text-[14px] sm:text-[15px] text-[#131316] uppercase tracking-[0.5px] leading-tight break-words">
           {product.name}
         </p>
         <p
@@ -2913,7 +2907,7 @@ function ProductsPage({
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[56px] md:text-[90px] text-white uppercase leading-none tracking-[-2px]"
+            className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px] text-white uppercase leading-none tracking-[-1px] sm:tracking-[-1.5px] min-[1201px]:tracking-[-2px]"
           >
             All Products
           </motion.h1>
@@ -2921,7 +2915,7 @@ function ProductsPage({
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="font-['Overpass',sans-serif] text-[16px] sm:text-[18px] md:text-[22px] text-white/70 max-w-xl leading-relaxed"
+            className="font-['Overpass',sans-serif] text-[16px] sm:text-[18px] md:text-[20px] min-[1201px]:text-[22px] text-white/70 max-w-xl leading-relaxed"
           >
             Professional-grade equipment for green waste processing, lawn care,
             and beyond.
@@ -3083,11 +3077,13 @@ function ProductsPage({
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/65" />
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 lg:col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
-                  <ElietLogo svgData={deskSvg} />
-                  <div className="h-px bg-white/15 w-full" />
-                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[38px] text-white uppercase leading-tight tracking-[-0.5px]">
+              <div className="relative z-10 grid grid-cols-1 min-[1201px]:grid-cols-3 min-h-[480px]">
+                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
+                  <div className="hidden min-[1201px]:flex">
+                    <ElietLogo svgData={deskSvg} />
+                  </div>
+                  <div className="hidden min-[1201px]:block h-px bg-white/15 w-full" />
+                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] min-[1201px]:text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
                     Why Professionals Choose ELIET
                   </h2>
                   <ul className="flex flex-col gap-4">
@@ -3132,15 +3128,15 @@ function ProductsPage({
                     All Products
                   </button>
                 </div>
-                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] lg:col-span-2 lg:min-h-0">
-                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] min-[1201px]:col-span-2 min-[1201px]:min-h-0">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] min-[1201px]:min-h-[480px]">
                     <img
                       src={imgProductsWhyPhoto1}
                       alt=""
                       className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
                     />
                   </div>
-                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] min-[1201px]:min-h-[480px]">
                     <img
                       src={imgProductsWhyPhoto2}
                       alt=""
@@ -3202,7 +3198,7 @@ function AboutHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="font-['Overpass',sans-serif] font-bold text-2xl md:text-[41px] text-white uppercase tracking-[-0.5px] leading-none mb-4"
+          className="font-['Overpass',sans-serif] font-bold text-[18px] sm:text-[22px] md:text-[26px] min-[1201px]:text-[32px] text-white uppercase tracking-[-0.5px] leading-none mb-4"
         >
           About ELIET
         </motion.p>
@@ -3210,7 +3206,7 @@ function AboutHero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[64px] md:text-[90px] lg:text-[110px] text-white uppercase leading-none tracking-[-2px] mb-8"
+          className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px] text-white uppercase leading-none tracking-[-1px] sm:tracking-[-1.5px] min-[1201px]:tracking-[-2px] mb-8"
         >
           Serious.
           <br />
@@ -3222,7 +3218,7 @@ function AboutHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="font-['Overpass',sans-serif] text-xl text-white/70 max-w-xl leading-relaxed"
+          className="font-['Overpass',sans-serif] text-[16px] sm:text-[18px] md:text-[20px] min-[1201px]:text-[22px] text-white/70 max-w-xl leading-relaxed"
         >
           Engineered for professionals. Built to last. Family-owned since 1980.
         </motion.p>
@@ -3279,7 +3275,7 @@ function ElietStorySection() {
             <div className="flex-1 min-w-0">
               <div className="flex flex-col gap-4 mb-6">
                 <OrangeAccent />
-                <h2 className="font-['Overpass',sans-serif] font-medium text-[42px] md:text-[52px] text-[#131316] uppercase tracking-[-0.96px] leading-tight">
+                <h2 className="font-['Overpass',sans-serif] font-medium text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] xl:text-[52px] text-[#131316] uppercase tracking-[-0.96px] leading-tight">
                   The ELIET Story
                 </h2>
               </div>
@@ -3493,7 +3489,7 @@ function ElietValuesSection() {
         <FadeUp>
           <div className="flex flex-col gap-3">
             <OrangeAccent />
-            <h2 className="font-['Overpass',sans-serif] font-medium text-[36px] md:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
+            <h2 className="font-['Overpass',sans-serif] font-medium text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
               ELIET Values
             </h2>
           </div>
@@ -3548,7 +3544,7 @@ function UsaTeamSection() {
         <FadeUp>
           <div className="flex flex-col gap-3">
             <OrangeAccent />
-            <h2 className="font-['Overpass',sans-serif] font-medium text-[36px] md:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
+            <h2 className="font-['Overpass',sans-serif] font-medium text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
               USA Team
             </h2>
           </div>
@@ -3569,7 +3565,7 @@ function UsaTeamSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <p className="font-['Overpass',sans-serif] font-bold text-[26px] text-[#131316] uppercase tracking-[-0.3px]">
+                  <p className="font-['Overpass',sans-serif] font-bold text-[20px] sm:text-[24px] md:text-[26px] text-[#131316] uppercase tracking-[-0.3px]">
                     {member.name}
                   </p>
                   <p className="font-['Overpass',sans-serif] font-semibold text-[14px] text-[#888] uppercase tracking-[0.5px]">
@@ -3618,7 +3614,7 @@ function TestimonialsSection() {
         <FadeUp>
           <div className="flex flex-col gap-3">
             <OrangeAccent />
-            <h2 className="font-['Overpass',sans-serif] font-medium text-[36px] md:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
+            <h2 className="font-['Overpass',sans-serif] font-medium text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
               Testimonials
             </h2>
           </div>
@@ -3628,7 +3624,7 @@ function TestimonialsSection() {
             <FadeUp key={i} delay={i * 0.1}>
               <div className="flex flex-col gap-6 p-7 rounded-xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] hover:shadow-md transition-all duration-300 h-full">
                 <div
-                  className="text-[36px] leading-none font-serif"
+                  className="text-[28px] sm:text-[32px] md:text-[36px] leading-none font-serif"
                   style={{ color: ORANGE }}
                 >
                   "
@@ -3749,7 +3745,7 @@ function BrochureFaqSection() {
         <FadeUp>
           <div className="flex flex-col gap-3 mb-14">
             <OrangeAccent />
-            <h2 className="font-['Overpass',sans-serif] font-medium text-[36px] md:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
+            <h2 className="font-['Overpass',sans-serif] font-medium text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
               Request a Brochure & FAQs
             </h2>
           </div>
@@ -3758,7 +3754,7 @@ function BrochureFaqSection() {
           {/* Brochure form */}
           <FadeUp>
             <div className="flex flex-col gap-6">
-              <h3 className="font-['Overpass',sans-serif] font-medium text-[22px] text-[#131316] uppercase tracking-[-0.5px]">
+              <h3 className="font-['Overpass',sans-serif] font-medium text-[18px] sm:text-[20px] md:text-[22px] text-[#131316] uppercase tracking-[-0.5px]">
                 Request a Brochure
               </h3>
               <form onSubmit={submit} className="flex flex-col gap-5">
@@ -3840,7 +3836,7 @@ function BrochureFaqSection() {
           {/* FAQ accordion */}
           <FadeUp delay={0.1}>
             <div className="flex flex-col gap-5">
-              <h3 className="font-['Overpass',sans-serif] font-medium text-[22px] text-[#131316] uppercase tracking-[-0.5px]">
+              <h3 className="font-['Overpass',sans-serif] font-medium text-[18px] sm:text-[20px] md:text-[22px] text-[#131316] uppercase tracking-[-0.5px]">
                 Quick FAQs
               </h3>
               <div className="flex flex-col gap-2.5">
@@ -3889,7 +3885,7 @@ function HaveAQuestionCta() {
             />
             <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 px-6 sm:px-10 md:px-12 lg:px-16 py-12 sm:py-14">
               <div className="flex flex-col gap-4 max-w-lg">
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-5xl md:text-[56px] lg:text-[62px] text-white uppercase leading-none tracking-[-1px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[48px] text-white uppercase leading-none tracking-[-1px]">
                   Have a question?
                 </h2>
                 <p className="font-['Overpass',sans-serif] text-[16px] text-white/65 leading-relaxed">
@@ -3932,7 +3928,7 @@ const TAB_SECTIONS: Record<AboutTab, React.ReactNode> = {
         <FadeUp>
           <div className="flex flex-col gap-3 mb-10">
             <OrangeAccent />
-            <h2 className="font-['Overpass',sans-serif] font-medium text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
+            <h2 className="font-['Overpass',sans-serif] font-medium text-[28px] sm:text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
               Video
             </h2>
           </div>
@@ -4026,7 +4022,7 @@ function PageHero({
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[48px] md:text-[72px] text-white uppercase leading-none tracking-[-2px]"
+          className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px] text-white uppercase leading-none tracking-[-1px] sm:tracking-[-1.5px] min-[1201px]:tracking-[-2px]"
         >
           {title}
         </motion.h1>
@@ -4034,7 +4030,7 @@ function PageHero({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="font-['Overpass',sans-serif] text-[17px] md:text-[20px] text-white/70 leading-relaxed"
+          className="font-['Overpass',sans-serif] text-[15px] sm:text-[17px] md:text-[20px] min-[1201px]:text-[22px] text-white/70 leading-relaxed"
         >
           {text}
         </motion.p>
@@ -4137,7 +4133,7 @@ function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
           <FadeUp>
             <div className="flex flex-col gap-2">
               <OrangeAccent />
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[26px] sm:text-[30px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
                 Warranty Coverage
               </h2>
             </div>
@@ -4151,7 +4147,7 @@ function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
                   </p>
                   <div>
                     <p
-                      className="font-['Overpass',sans-serif] font-extrabold text-[26px] leading-tight"
+                      className="font-['Overpass',sans-serif] font-extrabold text-[22px] sm:text-[24px] md:text-[26px] leading-tight"
                       style={{ color: ORANGE }}
                     >
                       {t.duration}
@@ -4196,7 +4192,7 @@ function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
           <FadeUp>
             <div className="flex flex-col gap-2">
               <OrangeAccent />
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[26px] sm:text-[30px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
                 What Is Not Covered?
               </h2>
             </div>
@@ -4234,7 +4230,7 @@ function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
           <FadeUp>
             <div className="flex flex-col gap-2">
               <OrangeAccent />
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[26px] sm:text-[30px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
                 How to File a Warranty Claim
               </h2>
             </div>
@@ -4270,7 +4266,7 @@ function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
             style={{ backgroundColor: "#0f172a" }}
           >
             <div className="flex flex-col gap-3 max-w-xl">
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[34px] lg:text-[38px] text-white uppercase leading-none tracking-[-1px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[24px] sm:text-[28px] md:text-[34px] min-[1201px]:text-[38px] text-white uppercase leading-none tracking-[-1px]">
                 Register Your Machine for Warranty
               </h2>
               <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">
@@ -4346,7 +4342,7 @@ function FaqPage({ setPage }: { setPage: (p: Page) => void }) {
             style={{ backgroundColor: "#0f172a" }}
           >
             <div className="flex flex-col gap-3 max-w-xl">
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[34px] lg:text-[38px] text-white uppercase leading-none tracking-[-1px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[24px] sm:text-[28px] md:text-[34px] min-[1201px]:text-[38px] text-white uppercase leading-none tracking-[-1px]">
                 Still Have Questions?
               </h2>
               <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">
@@ -4615,7 +4611,7 @@ function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
             style={{ backgroundColor: "#0f172a" }}
           >
             <div className="flex flex-col gap-3 max-w-xl">
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[34px] lg:text-[38px] text-white uppercase leading-none tracking-[-1px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[24px] sm:text-[28px] md:text-[34px] min-[1201px]:text-[38px] text-white uppercase leading-none tracking-[-1px]">
                 Don't See a Dealer Near You?
               </h2>
               <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">
@@ -4685,7 +4681,7 @@ function FinancePage({ setPage }: { setPage: (p: Page) => void }) {
             <FadeUp key={f.title} delay={i * 0.08}>
               <div className="h-full flex flex-col gap-4 p-9 rounded-2xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] transition-colors duration-300">
                 <OrangeAccent />
-                <p className="font-['Overpass',sans-serif] font-extrabold text-[24px] text-[#131316] uppercase tracking-[-0.5px]">
+                <p className="font-['Overpass',sans-serif] font-extrabold text-[20px] sm:text-[22px] md:text-[24px] text-[#131316] uppercase tracking-[-0.5px]">
                   {f.title}
                 </p>
                 <p className="font-['Overpass',sans-serif] text-[15px] text-[#666] leading-relaxed">
@@ -4697,59 +4693,7 @@ function FinancePage({ setPage }: { setPage: (p: Page) => void }) {
         </div>
       </section>
 
-      {/* Why ELIET */}
-      <section className="w-full px-6 md:px-12 lg:px-20 pb-20">
-        <FadeUp>
-          <div className="max-w-[1440px] mx-auto">
-            <div
-              className="relative rounded-2xl overflow-hidden"
-              style={{ minHeight: 420 }}
-            >
-              <img
-                src={imgDetailWhyBg}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/65" />
-              <div className="relative z-10 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14 max-w-xl min-h-[420px]">
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
-                  Why Professionals Choose ELIET
-                </h2>
-                <ul className="flex flex-col gap-4">
-                  {[
-                    "Same-day parts shipping",
-                    "Local reps across the US",
-                    "Service you can count on",
-                    "30+ years of engineering",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3">
-                      <div
-                        className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center"
-                        style={{ backgroundColor: ORANGE }}
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                      </div>
-                      <span className="font-['Overpass',sans-serif] font-semibold text-[15px] text-white">
-                        {item}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={() => {
-                    setPage("products");
-                    window.scrollTo({ top: 0 });
-                  }}
-                  className="self-start px-7 py-3.5 rounded-full bg-white font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
-                  style={{ color: DARK }}
-                >
-                  Our Products
-                </button>
-              </div>
-            </div>
-          </div>
-        </FadeUp>
-      </section>
+      <WhyElietCompact bg={imgDetailWhyBg} setPage={setPage} />
 
       <Newsletter />
       <Footer setPage={setPage} svgData={deskSvg} />
@@ -5155,7 +5099,7 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
             >
               Account Access
             </span>
-            <h1 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[40px] md:text-[48px] text-white uppercase leading-none tracking-[-1px]">
+            <h1 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[40px] md:text-[44px] min-[1201px]:text-[48px] text-white uppercase leading-none tracking-[-1px]">
               Login / Machine Registration
             </h1>
             <p className="font-['Overpass',sans-serif] text-[15px] text-white/65 leading-relaxed">
@@ -5175,7 +5119,7 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
                     className="h-[6px] w-16"
                     style={{ backgroundColor: ORANGE }}
                   />
-                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] text-[#131316] uppercase tracking-[-0.5px] leading-none">
+                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[22px] sm:text-[26px] md:text-[28px] text-[#131316] uppercase tracking-[-0.5px] leading-none">
                     Login
                   </h2>
                   <p className="font-['Overpass',sans-serif] text-[14px] text-[#666] leading-relaxed">
@@ -5269,7 +5213,7 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
                     className="h-[6px] w-16"
                     style={{ backgroundColor: ORANGE }}
                   />
-                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] text-[#131316] uppercase tracking-[-0.5px] leading-none">
+                  <h2 className="font-['Overpass',sans-serif] font-extrabold text-[22px] sm:text-[26px] md:text-[28px] text-[#131316] uppercase tracking-[-0.5px] leading-none">
                     Register Your Machine
                   </h2>
                   <p className="font-['Overpass',sans-serif] text-[14px] text-[#666] leading-relaxed">

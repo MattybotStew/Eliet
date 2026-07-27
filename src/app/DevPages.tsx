@@ -28,7 +28,7 @@ function Section({
         <p className="font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[2px] mb-2" style={{ color: ORANGE }}>
           {id}
         </p>
-        <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] md:text-[36px] text-[#131316] uppercase tracking-[-0.5px] leading-tight">
+        <h2 className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] uppercase tracking-[-0.5px] leading-tight">
           {title}
         </h2>
         {note && (
@@ -99,10 +99,10 @@ export function DesignSystemPage({ setPage }: { setPage: SetPage }) {
           <p className="font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[2px] mb-3" style={{ color: ORANGE }}>
             For the build team
           </p>
-          <h1 className="font-['Overpass',sans-serif] font-extrabold text-[42px] md:text-[64px] uppercase leading-none tracking-[-1.5px] mb-5">
+          <h1 className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] uppercase leading-none tracking-[-1.5px] mb-5">
             Design System
           </h1>
-          <p className="font-['Overpass',sans-serif] text-[16px] md:text-[18px] text-white/65 max-w-2xl leading-relaxed mb-8">
+          <p className="font-['Overpass',sans-serif] text-[16px] sm:text-[18px] md:text-[20px] min-[1201px]:text-[22px] text-white/65 max-w-2xl leading-relaxed mb-8">
             Living reference for tokens, type, and UI controls used in the ELIET prototype.
             Pair with <code className="text-white/90">wordpress/HANDOFF.md</code>,{" "}
             <code className="text-white/90">eliet-tokens.css</code>, and{" "}
@@ -167,13 +167,13 @@ export function DesignSystemPage({ setPage }: { setPage: SetPage }) {
           <div className="flex flex-col gap-6">
             <div>
               <p className="font-['Overpass',sans-serif] text-[11px] text-[#999] uppercase tracking-[2px] mb-2">Display / hero</p>
-              <p className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[64px] md:text-[90px] uppercase leading-none tracking-[-2px] text-[#131316]">
+              <p className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px] uppercase leading-none tracking-[-2px] text-[#131316]">
                 Serious Support.
               </p>
             </div>
             <div>
               <p className="font-['Overpass',sans-serif] text-[11px] text-[#999] uppercase tracking-[2px] mb-2">Section H2</p>
-              <p className="font-['Overpass',sans-serif] font-extrabold text-[28px] md:text-[36px] uppercase tracking-[-0.5px] text-[#131316]">
+              <p className="font-['Overpass',sans-serif] font-extrabold text-[28px] sm:text-[32px] min-[1201px]:text-[36px] uppercase tracking-[-0.5px] text-[#131316]">
                 Why Professionals Choose ELIET
               </p>
             </div>
@@ -449,10 +449,10 @@ export function NavigationLabPage({
           <p className="font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[2px] mb-3" style={{ color: ORANGE }}>
             For the build team
           </p>
-          <h1 className="font-['Overpass',sans-serif] font-extrabold text-[42px] md:text-[64px] uppercase leading-none tracking-[-1.5px] mb-5">
+          <h1 className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] uppercase leading-none tracking-[-1.5px] mb-5">
             Navigation
           </h1>
-          <p className="font-['Overpass',sans-serif] text-[16px] md:text-[18px] text-white/65 max-w-2xl leading-relaxed mb-6">
+          <p className="font-['Overpass',sans-serif] text-[16px] sm:text-[18px] md:text-[20px] min-[1201px]:text-[22px] text-white/65 max-w-2xl leading-relaxed mb-6">
             Spec for the sticky header: desktop hover dropdowns, mobile hamburger + accordion,
             Login + search. The live site header above this page is the interactive source of truth —
             hover <strong className="text-white font-semibold">Products</strong> (desktop) or resize below{" "}
@@ -474,7 +474,7 @@ export function NavigationLabPage({
             Desktop header anatomy
           </h2>
           <p className="font-['Overpass',sans-serif] text-[15px] text-[#666] mb-8 max-w-2xl">
-            Fixed bar · 70px · bg <code className="text-[13px]">#131316</code> · scroll shadow after 40px.
+            Fixed bar · 70px · bg <code className="text-[13px]">#131316</code> · no drop shadow.
             Horizontal nav hidden below <code className="text-[13px]">lg</code> (1024px).
           </p>
           <div className="rounded-2xl overflow-hidden border border-[#222]" style={{ backgroundColor: "#131316" }}>
