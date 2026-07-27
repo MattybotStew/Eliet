@@ -242,12 +242,6 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
     }
   };
 
-  const isNavPageActive = (item: NavItem): boolean => {
-    if (item.page && page === item.page) return true;
-    if (item.children) return item.children.some(c => c.page === page);
-    return false;
-  };
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50"
       style={{ backgroundColor: "#131316", boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.45)" : "none" }}>
@@ -883,7 +877,7 @@ function RequestDemoForm() {
             <DemoFormField label="Phone Number *" placeholder="+1 (000) 000-0000" type="tel" value={form.phone} onChange={set("phone")} />
             <DemoFormField label="Company / Organization" placeholder="Your company" value={form.company} onChange={set("company")} />
             <DemoFormField label="Location" placeholder="City, State" value={form.location} onChange={set("location")} />
-            <DemoFormField label="Preferred Date" placeholder="mm/dd/yyyy" type="date" value={form.date} onChange={set("date")} />
+            <DemoFormField label="Preferred Date" placeholder="mm/dd/yyyy" value={form.date} onChange={set("date")} />
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-['Overpass',sans-serif] font-semibold text-[11px] text-[#131316] uppercase tracking-[1px]">Message</label>
@@ -1715,6 +1709,15 @@ function ProductsPage({ setPage, openProduct }: { setPage: (p: Page) => void; op
   const [sort, setSort] = useState("Default sorting");
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilter, setShowFilter] = useState(false);
+
+  // Consume category filter intent set by nav dropdown
+  useEffect(() => {
+    const cat = (window as any).__navCategory;
+    if (cat && typeof cat === "string") {
+      setActiveCategory(cat);
+      delete (window as any).__navCategory;
+    }
+  }, []);
 
   const filtered = PRODUCTS_DATA.filter(
     (p) => activeCategory === "All" || p.category === activeCategory

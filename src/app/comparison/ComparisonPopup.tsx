@@ -260,7 +260,7 @@ export function ComparisonPopup() {
                                 style={{ backgroundColor: ORANGE }}
                                 title={`View ${p.name}`}
                               >
-                                View {p.name.split(" ")[0]} →
+                                View {p.name} →
                               </button>
                             </td>
                           ))}

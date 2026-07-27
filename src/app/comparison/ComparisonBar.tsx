@@ -46,7 +46,7 @@ export function ComparisonBar() {
                     className="relative flex items-center gap-2 border border-[#eee] rounded bg-[#fafafa] pl-1.5 pr-2 py-1.5 shrink-0"
                   >
                     <div className="w-9 h-9 rounded overflow-hidden bg-white shrink-0">
-                      <img src={p.image} alt="" className="w-full h-full object-cover" />
+                      <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
                     </div>
                     <span className="font-['Overpass',sans-serif] text-[12px] text-[#444] max-w-[110px] truncate hidden sm:block">
                       {p.name}
