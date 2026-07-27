@@ -12,7 +12,7 @@ import { DesignSystemPage, NavigationLabPage } from "./DevPages";
 
 // ─── Downloads assets ────────────────────────────────────────────────────────
 import downloadsSvg from "@/imports/Downloads/svg-q0xqbfjtec";
-import imgDownloadsHero from "@/imports/Downloads/abbc53ab6aad7b9899bebafa6de7dba793b1c7df.png";
+import imgDownloadsHero from "@/imports/Downloads/downloads-hero.jpg";
 import imgDownloadsWhyBg from "@/imports/Downloads/1f82331238f563e5b59fb3af78d5ffe2c314621b.png";
 import imgDownloadsWhyP1 from "@/imports/Downloads/00653fe968cdffe052e9eeb52f31990f947b3900.png";
 import imgDownloadsWhyP2 from "@/imports/Downloads/fdd6e374d528d07eceea4ad1a4b0646537fccb84.png";
@@ -31,7 +31,7 @@ import {
 
 // ─── Products assets ─────────────────────────────────────────────────────────
 import productsSvg from "@/imports/Products/svg-pctjnimoaf";
-import imgProductsHero from "@/imports/Products/2fb07080584865f70c7dcdae3920be4e533eb1e3.png";
+import imgProductsHero from "@/imports/Products/products-hero.jpg";
 import imgProductCard from "@/imports/Products/c94192fe59684f294c0e23b040e9535e1b810b60.png";
 import imgProductsWhyBg from "@/imports/Products/1f82331238f563e5b59fb3af78d5ffe2c314621b.png";
 import imgProductsWhyPhoto1 from "@/imports/Products/00653fe968cdffe052e9eeb52f31990f947b3900.png";
@@ -39,7 +39,12 @@ import imgProductsWhyPhoto2 from "@/imports/Products/fdd6e374d528d07eceea4ad1a4b
 
 // ─── About ELIET assets ───────────────────────────────────────────────────────
 // aboutSvg imported but path shapes not needed for UI
-import imgAboutHero from "@/imports/AboutEliet/11ad8bf46a3328fc0ee2f85536868fe966676ceb.png";
+import imgAboutHero from "@/imports/AboutEliet/about-hero.png";
+import imgFaqHero from "@/imports/FAQ/faq-hero.jpg";
+import imgContactHero from "@/imports/Contact/contact-hero.jpg";
+import imgDealerHero from "@/imports/DealerLocator/dealer-hero.jpg";
+import imgFinanceHero from "@/imports/Finance/finance-hero.jpg";
+import imgWarrantyHero from "@/imports/Warranty/warranty-hero.jpg";
 import imgAboutStory from "@/imports/AboutEliet/6e0ff4b6219e09581a4719005bace6b4968be30a.png";
 import imgAwardGoudenBuxus from "@/imports/AboutEliet/0a2ef09cb6e120e132bc4f741a4fd764a60816a7.png";
 import imgAwardGalabau from "@/imports/AboutEliet/979c7a67a0f7cad43010d57b45a675144ff1a31c.png";
@@ -4110,7 +4115,7 @@ function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
   return (
     <>
       <PageHero
-        img={imgDetailWhyBg}
+        img={imgWarrantyHero}
         title="Warranty Conditions"
         text="ELIET stands behind the quality of our equipment. Review warranty coverage, duration, and how to file a claim."
       />
@@ -4316,7 +4321,7 @@ function FaqPage({ setPage }: { setPage: (p: Page) => void }) {
   return (
     <>
       <PageHero
-        img={imgDownloadsWhyBg}
+        img={imgFaqHero}
         title="Frequently Asked Questions"
         text="Answers to common questions about ELIET machines, service, warranty, and support."
       />
@@ -4485,7 +4490,7 @@ function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
   return (
     <>
       <PageHero
-        img={imgDealerBg}
+        img={imgDealerHero}
         title="Dealer Locator"
         text="Find an authorized ELIET dealer near you for parts, service, and new equipment. Our network is growing across the United States."
       />
@@ -4670,7 +4675,7 @@ function FinancePage({ setPage }: { setPage: (p: Page) => void }) {
   return (
     <>
       <PageHero
-        img={imgDownloadsWhyP1}
+        img={imgFinanceHero}
         title="Finance Options"
         text="Flexible financing programs to get professional ELIET equipment working for your operation."
       />
@@ -4760,7 +4765,7 @@ function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
   return (
     <>
       <PageHero
-        img={imgAboutHero}
+        img={imgContactHero}
         title="Contact ELIET USA"
         text="Reach our team for sales, support, parts, and everything in between."
       />
