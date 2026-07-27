@@ -367,9 +367,9 @@ function MobileNavDemo({ nav }: { nav: NavItem[] }) {
 
   return (
     <div className="mx-auto w-full max-w-[390px] rounded-[28px] border border-[#333] overflow-hidden shadow-2xl" style={{ backgroundColor: "#131316" }}>
-      <div className="h-[70px] flex items-center justify-between px-5 border-b border-white/10">
+      <div className="h-[70px] flex items-center justify-between px-6 border-b border-white/10">
         <span className="font-['Overpass',sans-serif] font-extrabold text-[18px] text-white tracking-wide">ELIET</span>
-        <button type="button" className="text-white/80 p-1" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+        <button type="button" className="p-0 min-h-11 min-w-11 inline-flex items-center justify-center text-white/80" onClick={() => setOpen(!open)} aria-label="Toggle menu">
           <div className="space-y-1.5 w-5">
             <div className={`h-0.5 bg-white transition-all duration-200 ${open ? "rotate-45 translate-y-2" : ""}`} />
             <div className={`h-0.5 bg-white transition-all duration-200 ${open ? "opacity-0" : ""}`} />
@@ -385,7 +385,7 @@ function MobileNavDemo({ nav }: { nav: NavItem[] }) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden border-t border-white/10 bg-[#0f0f12]/98"
           >
-            <div className="flex flex-col items-stretch py-3 px-5">
+            <div className="flex flex-col items-stretch py-3 px-6">
               {nav.map((item) => (
                 <div key={item.label}>
                   {item.children ? (
@@ -393,11 +393,11 @@ function MobileNavDemo({ nav }: { nav: NavItem[] }) {
                       <button
                         type="button"
                         onClick={() => setExpanded(expanded === item.label ? null : item.label)}
-                        className="w-full flex items-center justify-between text-left text-white/65 text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] py-3.5 border-b border-white/5"
+                        className="w-full flex items-center text-left text-white/65 text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] py-3.5 border-b border-white/5"
                       >
-                        {item.label}
+                        <span className="flex-1 min-w-0 text-left">{item.label}</span>
                         <span
-                          className="min-w-5 text-right font-['Overpass',sans-serif] text-[18px] leading-none"
+                          className="w-11 min-w-11 shrink-0 inline-flex items-center justify-center font-['Overpass',sans-serif] text-[18px] leading-none"
                           style={{ color: ORANGE }}
                           aria-hidden="true"
                         >
@@ -407,7 +407,7 @@ function MobileNavDemo({ nav }: { nav: NavItem[] }) {
                       <AnimatePresence>
                         {expanded === item.label && (
                           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                            <div className="flex flex-col py-1 pl-4 sm:pl-5 border-b border-white/5">
+                            <div className="flex flex-col py-1 border-b border-white/5">
                               {item.children.map((child) => (
                                 <span key={child.label} className="block w-full text-left text-white/50 text-[12px] font-['Overpass',sans-serif] py-2.5">
                                   — {child.label}
@@ -489,7 +489,8 @@ export function NavigationLabPage({
           </h2>
           <p className="font-['Overpass',sans-serif] text-[15px] text-[#666] mb-8 max-w-2xl">
             Fixed bar · 70px · bg <code className="text-[13px]">#131316</code> · no drop shadow.
-            Horizontal nav hidden below <code className="text-[13px]">lg</code> (1024px).
+            Desktop nav hidden below <code className="text-[13px]">lg</code> (1024px).
+            Mobile header uses matching <code className="text-[13px]">px-6</code> inset — logo left, close/menu right (44px touch targets, <code className="text-[13px]">p-0</code> on icon buttons).
           </p>
           <div className="rounded-2xl overflow-hidden border border-[#222]" style={{ backgroundColor: "#131316" }}>
             <div className="h-[70px] flex items-center justify-between px-6 md:px-10">
@@ -540,10 +541,11 @@ export function NavigationLabPage({
             Mobile navigation
           </h2>
           <p className="font-['Overpass',sans-serif] text-[15px] text-[#666] mb-8 max-w-2xl">
-            Hamburger below <code className="text-[13px]">lg</code>. Full-width panel under header.
-            All rows left-aligned (<code className="text-[13px]">justify-start text-left</code> on link buttons).
-            Parents with children expand accordion-style (orange +/−). Login listed at the bottom
-            (desktop places Login outside the main nav).
+            Hamburger below <code className="text-[13px]">lg</code>. Panel uses the same{" "}
+            <code className="text-[13px]">max-w-[1440px] px-6 md:px-12</code> inset as the header —
+            link labels align with the ELIET logo (left); accordion +/− sit in a{" "}
+            <code className="text-[13px]">44px</code> column aligned with the close X (right).
+            Login listed at the bottom (desktop places Login outside the main nav).
           </p>
           <MobileNavDemo nav={navStructure} />
         </section>

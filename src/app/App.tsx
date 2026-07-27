@@ -137,6 +137,8 @@ function isAboutSectionId(id: string): id is (typeof ABOUT_SECTION_IDS)[number] 
   return (ABOUT_SECTION_IDS as readonly string[]).includes(id);
 }
 
+const HEADER_X_PADDING = "px-6 md:px-12 lg:px-20";
+
 const NAV_STRUCTURE: NavItem[] = [
   {
     label: "Products",
@@ -384,12 +386,12 @@ function Header({
       className="fixed top-0 left-0 right-0 z-50"
       style={{ backgroundColor: "#131316" }}
     >
-      <div className="max-w-[1440px] mx-auto h-[70px] flex items-center justify-between px-6 md:px-12 lg:px-20">
+      <div className={`max-w-[1440px] mx-auto h-[70px] flex items-center justify-between ${HEADER_X_PADDING}`}>
         {/* Left */}
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-10 min-w-0">
           <button
             onClick={() => handleNav("home")}
-            className="transition-opacity hover:opacity-80"
+            className="p-0 justify-start inline-flex items-center min-h-11 transition-opacity hover:opacity-80"
           >
             <ElietLogo svgData={svgData} />
           </button>
@@ -406,16 +408,16 @@ function Header({
           </nav>
         </div>
         {/* Right */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
           <button
             onClick={() => handleNav("login")}
-            className={`hidden md:inline-flex min-h-11 items-center px-2 text-[13px] tracking-[0.5px] font-['Overpass',sans-serif] font-normal uppercase transition-colors ${page === "login" ? "text-white" : "text-white/65 hover:text-white"}`}
+            className={`hidden md:inline-flex min-h-11 items-center justify-start px-2 text-[13px] tracking-[0.5px] font-['Overpass',sans-serif] font-normal uppercase transition-colors ${page === "login" ? "text-white" : "text-white/65 hover:text-white"}`}
           >
             Login
           </button>
           <button
             type="button"
-            className="min-h-11 min-w-11 inline-flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity"
+            className="p-0 min-h-11 min-w-11 inline-flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity"
             aria-label="Search"
           >
             <svg
@@ -428,10 +430,10 @@ function Header({
           </button>
           <button
             type="button"
-            className="lg:hidden min-h-11 min-w-11 inline-flex items-center justify-center text-white/80"
+            className="lg:hidden p-0 min-h-11 min-w-11 inline-flex items-center justify-center text-white/80"
             onClick={() => setOpen(!open)}
             aria-expanded={open}
-            aria-label="Menu"
+            aria-label={open ? "Close menu" : "Open menu"}
           >
             <div className="space-y-1.5 w-5">
               <div
@@ -450,7 +452,8 @@ function Header({
       {/* Mobile nav */}
       {open && (
         <div className="lg:hidden border-t border-white/10 bg-[#0f0f12]/98 backdrop-blur-xl max-h-[calc(100dvh-70px)] overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom,0px)]">
-          <div className="flex flex-col items-stretch py-3 px-6">
+          <div className={`max-w-[1440px] mx-auto ${HEADER_X_PADDING} py-3`}>
+            <div className="flex flex-col items-stretch">
             {NAV_STRUCTURE.map((item) => (
               <div key={item.label}>
                 {item.children ? (
@@ -459,11 +462,11 @@ function Header({
                       onClick={() =>
                         setExpanded(expanded === item.label ? null : item.label)
                       }
-                      className="w-full flex items-center justify-between text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors"
+                      className="w-full flex items-center text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors"
                     >
-                      {item.label}
+                      <span className="flex-1 min-w-0 text-left">{item.label}</span>
                       <span
-                        className="min-w-5 text-right font-['Overpass',sans-serif] text-[18px] leading-none transition-transform duration-200"
+                        className="w-11 min-w-11 shrink-0 inline-flex items-center justify-center font-['Overpass',sans-serif] text-[18px] leading-none"
                         style={{ color: ORANGE }}
                         aria-hidden="true"
                       >
@@ -479,7 +482,7 @@ function Header({
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden"
                         >
-                          <div className="flex flex-col py-1 pl-4 sm:pl-5 border-b border-white/5">
+                          <div className="flex flex-col py-1 border-b border-white/5">
                             {item.children.map((child) => (
                               <button
                                 key={child.label}
@@ -517,6 +520,7 @@ function Header({
             >
               Login
             </button>
+            </div>
           </div>
         </div>
       )}
