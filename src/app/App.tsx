@@ -43,6 +43,7 @@ import imgAboutHero from "@/imports/AboutEliet/about-hero.png";
 import imgFaqHero from "@/imports/FAQ/faq-hero.jpg";
 import imgContactHero from "@/imports/Contact/contact-hero.jpg";
 import imgDealerHero from "@/imports/DealerLocator/dealer-hero.jpg";
+import imgDealerMap from "@/imports/DealerLocator/dealer-map.jpg";
 import imgFinanceHero from "@/imports/Finance/finance-hero.jpg";
 import imgWarrantyHero from "@/imports/Warranty/warranty-hero.jpg";
 import imgAboutStory from "@/imports/AboutEliet/6e0ff4b6219e09581a4719005bace6b4968be30a.png";
@@ -4380,12 +4381,6 @@ function FaqPage({ setPage }: { setPage: (p: Page) => void }) {
 
 // ─── Dealer Locator ───────────────────────────────────────────────────────────
 
-const DEALER_TIER_STYLES: Record<string, { bg: string; color: string }> = {
-  "STAR DEALER": { bg: `${ORANGE}18`, color: ORANGE },
-  "PROFESSIONAL DEALER": { bg: "#13131614", color: "#131316" },
-  "RENTAL PARTNER": { bg: "#88888818", color: "#666" },
-};
-
 const DEALERS = [
   {
     tier: "STAR DEALER",
@@ -4487,6 +4482,9 @@ const DEALERS = [
 
 function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
   const [query, setQuery] = useState("19118");
+  const [radius, setRadius] = useState("50");
+  const [view, setView] = useState<"grid" | "list">("grid");
+
   return (
     <>
       <PageHero
@@ -4495,109 +4493,174 @@ function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
         text="Find an authorized ELIET dealer near you for parts, service, and new equipment. Our network is growing across the United States."
       />
 
-      {/* Search + map */}
-      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-12">
-        <div className="max-w-[1440px] mx-auto flex flex-col gap-8">
+      {/* Breadcrumb */}
+      <div className="bg-white w-full px-6 md:px-12 lg:px-20 pt-8">
+        <div className="max-w-[1440px] mx-auto">
+          <p className="font-['Overpass',sans-serif] text-[14px] text-[#777]">
+            <button
+              onClick={() => {
+                setPage("home");
+                window.scrollTo({ top: 0 });
+              }}
+              className="hover:underline transition-colors"
+              style={{ color: ORANGE }}
+            >
+              Home
+            </button>
+            <span> / </span>
+            <span style={{ color: ORANGE }}>Where to Find ELIET</span>
+            <span> / Dealer Locator</span>
+          </p>
+        </div>
+      </div>
+
+      {/* Search panel */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-10">
+        <div className="max-w-[1440px] mx-auto">
           <FadeUp>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-2xl">
-              <label className="sr-only">Zip code or city, state</label>
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Zip code or city, state"
-                className="flex-1 h-14 px-5 rounded-full border border-[#ddd] font-['Overpass',sans-serif] text-[15px] text-[#131316] focus:outline-none focus:border-[#ef7d00] transition-colors"
-              />
+            <div className="bg-[#131316] rounded-[14px] p-6 sm:p-8 flex flex-col lg:flex-row gap-6 lg:items-end">
+              <div className="flex-1 flex flex-col gap-2 min-w-[200px]">
+                <label
+                  htmlFor="dealer-search"
+                  className="font-['Overpass',sans-serif] font-bold text-[14px] text-white"
+                >
+                  Zip code or city, state
+                </label>
+                <input
+                  id="dealer-search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="h-12 px-4 rounded-[10px] border border-[#d1d1d1] bg-white font-['Overpass',sans-serif] text-[16px] text-[#131316] focus:outline-none focus:border-[#ef7d00] transition-colors w-full"
+                />
+              </div>
+              <div className="flex flex-col gap-2 w-full lg:w-[200px] shrink-0">
+                <label
+                  htmlFor="dealer-radius"
+                  className="font-['Overpass',sans-serif] font-bold text-[14px] text-white"
+                >
+                  Radius
+                </label>
+                <select
+                  id="dealer-radius"
+                  value={radius}
+                  onChange={(e) => setRadius(e.target.value)}
+                  className="h-12 px-4 rounded-[10px] border border-[#d1d1d1] bg-white font-['Overpass',sans-serif] text-[16px] text-[#131316] focus:outline-none focus:border-[#ef7d00] transition-colors w-full appearance-none"
+                >
+                  <option value="25">25 miles</option>
+                  <option value="50">50 miles</option>
+                  <option value="100">100 miles</option>
+                  <option value="250">250 miles</option>
+                </select>
+              </div>
               <button
-                className="h-14 px-9 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:brightness-110 transition-all"
-                style={{
-                  backgroundColor: ORANGE,
-                  boxShadow: `0 4px 20px ${ORANGE}40`,
-                }}
+                className="h-12 px-8 rounded-full font-['Overpass',sans-serif] font-bold text-[14px] text-white hover:brightness-110 transition-all shrink-0 w-full lg:w-auto"
+                style={{ backgroundColor: ORANGE }}
               >
                 Search
               </button>
             </div>
           </FadeUp>
+        </div>
+      </section>
+
+      {/* Map */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 pb-10">
+        <div className="max-w-[1440px] mx-auto">
           <FadeUp>
-            <div
-              className="w-full rounded-2xl border border-[#e0e0e0] bg-[#eef1f4] flex items-center justify-center"
-              style={{ height: 380 }}
-            >
-              <div className="flex flex-col items-center gap-3">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M12 21s-7-6.1-7-11a7 7 0 1114 0c0 4.9-7 11-7 11z"
-                    stroke="#94a3b8"
-                    strokeWidth="1.6"
-                  />
-                  <circle
-                    cx="12"
-                    cy="10"
-                    r="2.6"
-                    stroke="#94a3b8"
-                    strokeWidth="1.6"
-                  />
-                </svg>
-                <p className="font-['Overpass',sans-serif] text-[14px] text-[#94a3b8] uppercase tracking-[2px]">
-                  Interactive Map
-                </p>
-              </div>
+            <div className="w-full h-[280px] sm:h-[360px] lg:h-[432px] rounded-2xl overflow-hidden">
+              <img
+                src={imgDealerMap}
+                alt="Dealer map showing locations in the northeastern United States"
+                className="w-full h-full object-cover"
+              />
             </div>
           </FadeUp>
         </div>
       </section>
 
-      {/* Dealer grid */}
-      <section className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-14">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* Results header */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 pb-4 border-b border-[#eee]">
+        <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-4">
+          <p className="font-['Overpass',sans-serif] text-[14px] text-[#666]">
+            Showing {DEALERS.length} dealers within {radius} miles of {query}
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setView("grid")}
+              className={`px-3 py-1.5 rounded-lg font-['Overpass',sans-serif] font-bold text-[13px] transition-colors ${
+                view === "grid"
+                  ? "text-white"
+                  : "border border-[#ddd] text-[#131316] font-normal"
+              }`}
+              style={view === "grid" ? { backgroundColor: ORANGE } : undefined}
+            >
+              Grid
+            </button>
+            <button
+              onClick={() => setView("list")}
+              className={`px-3 py-1.5 rounded-lg font-['Overpass',sans-serif] text-[13px] transition-colors ${
+                view === "list"
+                  ? "font-bold text-white"
+                  : "border border-[#ddd] text-[#131316] font-normal"
+              }`}
+              style={view === "list" ? { backgroundColor: ORANGE } : undefined}
+            >
+              List
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Dealer results */}
+      <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-10 pb-16">
+        <div
+          className={`max-w-[1440px] mx-auto ${
+            view === "grid"
+              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+              : "flex flex-col gap-5"
+          }`}
+        >
           {DEALERS.map((d, i) => (
             <FadeUp key={d.name} delay={(i % 6) * 0.05}>
-              <div className="h-full flex flex-col gap-4 bg-white rounded-2xl border border-[#eee] p-7 hover:border-[#ef7d00] hover:shadow-md transition-all duration-300">
+              <div className="h-full flex flex-col gap-3 bg-white rounded-[14px] border border-[#e5e7eb] p-5 shadow-[0_8px_10px_rgba(0,0,0,0.05)]">
                 <span
-                  className="self-start px-2.5 py-1 rounded-full font-['Overpass',sans-serif] font-bold text-[10px] uppercase tracking-[1.5px]"
-                  style={{
-                    backgroundColor: DEALER_TIER_STYLES[d.tier].bg,
-                    color: DEALER_TIER_STYLES[d.tier].color,
-                  }}
+                  className="self-start px-2 py-1 rounded font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[2px] text-white"
+                  style={{ backgroundColor: ORANGE }}
                 >
                   {d.tier}
                 </span>
                 <p className="font-['Overpass',sans-serif] font-bold text-[18px] text-[#131316] leading-snug">
                   {d.name}
                 </p>
-                <div className="flex flex-col gap-1">
-                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#666]">
-                    {d.street}
-                  </p>
-                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#666]">
-                    {d.city}
-                  </p>
+                <div className="flex flex-col font-['Overpass',sans-serif] text-[14px] text-[#4a4a4a]">
+                  <p>{d.street}</p>
+                  <p>{d.city}</p>
                 </div>
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-1 font-['Overpass',sans-serif] text-[13px] text-[#131316]">
                   <a
                     href={`tel:${d.phone.replace(/[^\d]/g, "")}`}
-                    className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] text-[14px] text-[#444] font-semibold hover:opacity-70 transition-opacity"
+                    className="min-h-11 inline-flex items-center hover:opacity-70 transition-opacity"
                   >
                     {d.phone}
                   </a>
                   <a
                     href={`mailto:${d.email}`}
-                    className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] text-[13px] break-all hover:opacity-70 transition-opacity"
-                    style={{ color: ORANGE }}
+                    className="min-h-11 inline-flex items-center break-all hover:opacity-70 transition-opacity"
                   >
                     {d.email}
                   </a>
                 </div>
-                <div className="flex flex-wrap items-center gap-5 mt-auto pt-2">
+                <div className="flex flex-wrap items-center gap-4 mt-auto pt-1">
                   <button
-                    className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] hover:opacity-60 transition-opacity"
+                    className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] font-bold text-[13px] hover:opacity-70 transition-opacity"
                     style={{ color: ORANGE }}
                   >
-                    Get directions
+                    Get directions →
                   </button>
                   <a
                     href={`tel:${d.phone.replace(/[^\d]/g, "")}`}
-                    className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] text-[#131316] hover:opacity-60 transition-opacity"
+                    className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] font-bold text-[13px] hover:opacity-70 transition-opacity"
+                    style={{ color: ORANGE }}
                   >
                     Call dealer
                   </a>
@@ -4608,49 +4671,13 @@ function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
         </div>
       </section>
 
-      {/* Escalation */}
-      <section className="w-full px-6 md:px-12 lg:px-20 py-16 bg-white">
-        <FadeUp>
-          <div
-            className="max-w-[1440px] mx-auto rounded-2xl px-6 sm:px-10 md:px-12 lg:px-16 py-12 sm:py-14 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
-            style={{ backgroundColor: "#0f172a" }}
-          >
-            <div className="flex flex-col gap-3 max-w-xl">
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[24px] sm:text-[28px] md:text-[34px] min-[1201px]:text-[38px] text-white uppercase leading-none tracking-[-1px]">
-                Don't See a Dealer Near You?
-              </h2>
-              <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">
-                Our network is growing. Contact us directly and we'll help you
-                find support in your area.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3 sm:gap-4 shrink-0 w-full lg:w-auto">
-              <button
-                onClick={() => {
-                  setPage("contact");
-                  window.scrollTo({ top: 0 });
-                }}
-                className="w-full sm:w-auto px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
-                style={{
-                  backgroundColor: ORANGE,
-                  boxShadow: `0 4px 20px ${ORANGE}40`,
-                }}
-              >
-                Find a Sales Rep
-              </button>
-              <button
-                onClick={() => {
-                  setPage("contact");
-                  window.scrollTo({ top: 0 });
-                }}
-                className="w-full sm:w-auto text-left font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white/85 hover:text-white transition-colors"
-              >
-                Contact ELIET Directly →
-              </button>
-            </div>
-          </div>
-        </FadeUp>
-      </section>
+      <WhyElietBanner
+        bg={imgWhyBg}
+        photo1={imgWhyPhoto1}
+        photo2={imgWhyPhoto2}
+        buttonLabel="Our Products"
+        setPage={setPage}
+      />
 
       <Newsletter />
       <Footer setPage={setPage} svgData={deskSvg} />
