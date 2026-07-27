@@ -357,9 +357,9 @@ function HomeHero({ setPage }: { setPage: (p: Page) => void }) {
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.55 }}
           className="flex flex-wrap items-center gap-4">
-          <button onClick={() => { setPage("products"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          <button onClick={() => { (window as any).__navCategory = "Shredders"; setPage("products"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
             className="px-7 py-4 bg-white rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-[#131316] hover:scale-105 hover:shadow-lg transition-all duration-200">
-            All Products →
+            Shredders →
           </button>
           <button onClick={navigate}
             className="px-7 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white border border-white/30 hover:border-[#ef7d00] hover:text-[#ef7d00] transition-all duration-200">
@@ -733,7 +733,7 @@ const FOOTER_LINK_TARGETS: Record<string, Page> = {
 const FOOTER_COLS = [
   { heading: "AT ELIET", links: ["All Products", "Find a Dealer", "Demo Tour", "Downloads", "Finance Options"] },
   { heading: "ABOUT ELIET", links: ["About Us", "Service", "Machine Registration", "Press"] },
-  { heading: "GET IN TOUCH", links: ["19 E Moreland Ave, Philadelphia PA 19118", "+1 412 367 5185", "info@elietusa.com"] },
+  { heading: "GET IN TOUCH", links: ["2850 N Dug Gap Road, Dalton, GA 30720", "470-762-6266", "info@elietusa.com"] },
 ];
 
 function Footer({ setPage, svgData }: { setPage: (p: Page) => void; svgData: typeof deskSvg }) {
@@ -2773,9 +2773,9 @@ function FinancePage({ setPage }: { setPage: (p: Page) => void }) {
 // ─── Contact ELIET USA ────────────────────────────────────────────────────────
 
 const CONTACT_BLOCKS = [
-  { title: "Headquarters", context: null, lines: ["ELIET USA Inc.", "19 E Moreland Ave", "Philadelphia, PA 19118"], phone: "+1 412 367 5185", email: "info@elietusa.com" },
-  { title: "Customer Support", context: "For parts, service, warranty, and technical questions:", lines: [], phone: "+1 412 367 5185 (ext. 2)", email: "support@elietusa.com" },
-  { title: "Sales Inquiries", context: "For dealer partnerships, bulk orders or product questions:", lines: [], phone: "+1 412 367 5185 (ext. 1)", email: "sales@elietusa.com" },
+  { title: "Headquarters", context: null, lines: ["ELIET USA Inc.", "2850 N Dug Gap Road", "Dalton, GA 30720"], phone: "470-762-6266", email: "info@elietusa.com" },
+  { title: "Customer Support", context: "For parts, service, warranty, and technical questions:", lines: [], phone: "470-762-6266 (ext. 2)", email: "support@elietusa.com" },
+  { title: "Sales Inquiries", context: "For dealer partnerships, bulk orders or product questions:", lines: [], phone: "470-762-6266 (ext. 1)", email: "sales@elietusa.com" },
 ];
 
 const CONTACT_RESOURCES = [
@@ -2804,7 +2804,7 @@ function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
                   {b.context && <p className="font-['Overpass',sans-serif] text-[14px] text-[#666]">{b.context}</p>}
                   {b.lines.map(l => <p key={l} className="font-['Overpass',sans-serif] text-[15px] text-[#333] leading-snug">{l}</p>)}
                   <div className="flex flex-col gap-1 pt-1">
-                    <a href="tel:+14123675185" className="font-['Overpass',sans-serif] font-semibold text-[15px] text-[#131316] hover:opacity-70 transition-opacity">{b.phone}</a>
+                    <a href="tel:+14707626266" className="font-['Overpass',sans-serif] font-semibold text-[15px] text-[#131316] hover:opacity-70 transition-opacity">{b.phone}</a>
                     <a href={`mailto:${b.email}`} className="font-['Overpass',sans-serif] text-[14px] hover:opacity-70 transition-opacity" style={{ color: ORANGE }}>{b.email}</a>
                   </div>
                 </div>
@@ -2823,7 +2823,7 @@ function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
             </FadeUp>
             <FadeUp delay={0.25}>
               <div className="rounded-2xl border border-[#e0e0e0] bg-[#eef1f4] flex items-center justify-center" style={{ height: 240 }}>
-                <p className="font-['Overpass',sans-serif] text-[13px] text-[#94a3b8] uppercase tracking-[2px] text-center px-6">Interactive Map — ELIET USA Headquarters, Philadelphia, PA</p>
+                <p className="font-['Overpass',sans-serif] text-[13px] text-[#94a3b8] uppercase tracking-[2px] text-center px-6">Interactive Map — ELIET USA Headquarters, Dalton, GA</p>
               </div>
             </FadeUp>
           </div>

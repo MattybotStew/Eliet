@@ -26,10 +26,10 @@ Live design file (not Figma Make): [Eliet](https://www.figma.com/design/WfoDRzDK
 
 - Page **⚠️ Designs** (`node-id=3284-3221`) holds the full desktop artboard set at **1440** width: `desk` (home), `Products`, product PDP (e.g. E401 PRO), Downloads, FAQs, Dealer Locator, Contact, Finance Options, About ELIET, Warranty Conditions, Demo Tour, Login / Machine Registration, plus Compare **Dialog** states (1/2/3 products).
 - Use Cursor’s Figma MCP / skills for design review and design↔code work. Prefer `get_screenshot` + `get_metadata` for reviews; load **figma-design-to-code** before `get_design_context` when implementing.
-- The React prototype and this Figma file should stay aligned for handoff. When they diverge, prefer **client-approved copy** (xlsx / Equipment List) over inventing fixes; flag Figma-only issues in `JOURNAL.md` rather than silently inventing brand facts.
-- Known Figma canvas issues (reviewed 2026-07-27) — do not “fix” in code by inventing content:
-  - **Footer address split**: many Figma footers use Dalton, GA (2850 N Dug Gap Road); Products / PDP / some support frames and the **prototype** use **19 E Moreland Ave, Philadelphia PA 19118**. Until the client confirms HQ, keep the prototype’s Philadelphia footer; do not sync Dalton into code.
-  - **E401 PRO PDP**: Figma body copy says “dethatcher” while features describe a chipper/shredder — treat as a Figma content bug pending Product Import Smartsheet / Equipment List.
+- The React prototype and this Figma file should stay aligned for handoff. When they diverge on product/FAQ/warranty facts, prefer **client-approved copy** (xlsx / Equipment List) over inventing fixes; for shared chrome (footer HQ, hero subtext), prefer the **Desk / majority Figma artboards**.
+- **Canonical HQ (Figma Desk majority, aligned in prototype 2026-07-27):** `2850 N Dug Gap Road, Dalton, GA 30720`, phone `470-762-6266`, `info@elietusa.com`. Products/PDP Figma footers still show Philadelphia — treat those as Figma inconsistencies; do not reintroduce Philadelphia HQ into the prototype.
+- Other known Figma canvas issues:
+  - **E401 PRO PDP**: Figma body copy says “dethatcher” while features describe a chipper/shredder — Figma content bug; confirm against Equipment List / Product Import Smartsheet.
   - **Desktop only** on ⚠️ Designs — no mobile artboards; prototype already has responsive breakpoints.
   - **File hygiene**: orphan/unlabeled `Section` frames and “§5 - The Latest Drop” left of `desk`; Dialogs named only “Dialog”; shared Why Eliet / Footer should ideally be components.
 
@@ -84,8 +84,8 @@ The `wordpress/` directory is a **deliverable for the dev team** — not consume
 ## Content sources & pending content
 
 - Approved page copy: client's "Eliet Website Content Document" (xlsx). Product catalog: "Equipment List 2026.csv" (Smartsheet export) → `CATALOG` in `products.ts`.
-- **Prototype HQ / footer contact** (current code): `19 E Moreland Ave, Philadelphia PA 19118`, `+1 412 367 5185`, `info@elietusa.com`. Dealer-list rows may use other Philadelphia addresses as mock dealers — those are not HQ. Figma Dalton, GA footers are out of sync; do not adopt Dalton in code without client confirmation.
-- Longevity claim in UI: prefer **“30+ years of engineering”** (Why Eliet) / “Over 30 years…” (trust strip) — keep one approved claim; do not invent “40+” or similar.
+- **Prototype HQ / footer contact** (aligned to Figma Desk majority): `2850 N Dug Gap Road, Dalton, GA 30720`, `470-762-6266`, `info@elietusa.com`. Mock dealer-list rows may use other cities — those are not HQ. Figma Products/PDP/Contact artboards still inconsistently show Philadelphia / Moreland — keep prototype on Dalton until design file is cleaned.
+- Desk hero subtext matches Figma: **“Engineered for professionals. Built to last. Family-owned since 1980.”** Trust / Why Eliet use **“Over 30 years…”** / **“30+ years of engineering”** — both appear in Figma; keep both (different sections), do not invent “40+”.
 - Still pending from the client — do NOT invent this content, render clearly-marked placeholders instead: FAQ answers, real warranty terms, real dealer list, and per-product detail copy (comes from their "Product Import Smartsheet", not yet provided).
 
 ## Session continuity

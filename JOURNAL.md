@@ -1,4 +1,13 @@
 
+## 2026-07-27 — Cursor — Figma→prototype design alignment
+
+- Canonical HQ from Figma Desk majority (9× Dalton vs 3× Moreland): **2850 N Dug Gap Road, Dalton, GA 30720**, phone **470-762-6266**.
+- Updated `App.tsx`: `FOOTER_COLS`, `CONTACT_BLOCKS` (HQ + support/sales phone), Contact map label, `tel:` href. Left mock dealers + Demo Tour Philly event as placeholders.
+- Hero subtext already matched Figma (“Family-owned since 1980”); no change. Trust strip “Over 30 years” / Why Eliet “30+ years” already match Figma.
+- Also aligned Desk hero primary CTA to Figma: **Shredders →** (was All Products →) with `__navCategory` filter.
+- Updated `AGENTS.md` (Dalton canonical; reversed earlier “keep Philadelphia” note). Visual spot-checks + discrepancy list in session summary.
+- Loose ends: Figma Products/PDP/Contact still show Philadelphia in places; live GitHub Pages still shows old Philadelphia until deploy.
+
 ## 2026-07-27 — Cline — Finalization: 3 bug fixes, cleanup, WordPress refresh
 
 - Fixed 3 issues from code re-audit:
