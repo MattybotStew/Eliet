@@ -196,7 +196,7 @@ width setting with these values:
 - **Products grid**: `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4` (single-column phones, 2-up small screens, 4 desktop)
 - **Featured machines**: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`
 - **Category grid**: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`
-- **Footer**: `grid grid-cols-2 md:grid-cols-4` (link columns)
+- **Footer**: unified responsive footer with brand/about block + 3 link groups; stacked on phones, 2×2 at small/tablet widths, true 4-across on desktop
 
 ---
 
@@ -264,14 +264,14 @@ width setting with these values:
 ### Page Hero (Support pages: Warranty, FAQ, Dealers, Finance, Contact)
 
 - **Layout**: image left, text right (or stacked on mobile)
-- **Headline**: `text-[36px] sm:text-[48px] md:text-[72px]`
-- **Description**: `text-[16px] sm:text-[18px]`
+- **Headline**: `text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px]`
+- **Description**: stepped support-page body scale; avoid oversized display jumps below `min-[1201px]`
 - **Background**: light gray (`#ececf0`)
 
 ### Category Cards
 
-- **Layout**: 2-column grid on mobile, 3-column on desktop
-- **Image height**: `480px` (increased from original 440px)
+- **Layout**: `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`
+- **Image height**: shorter through 1200px; full `min-[1201px]:h-[480px]`
 - **Card style**: white background, rounded corners (`0.625rem`), subtle border
 - **Hover**: slight scale transform on image
 
@@ -296,7 +296,7 @@ The compare UX mirrors the **Advanced Product Comparison** plugin in popup mode:
 
 ### Why ELIET Banner (3-column)
 
-- **Layout**: 3 columns on desktop, stacked on mobile
+- **Layout**: stacked until `min-[1201px]`; 3 columns only above 1200px
 - **Each column**: image + title + description
 - **Images**: from `src/imports/Desk/` (WhyElietBanner section)
 - **Reused on**: Home, Products, Detail, About, Demo Tour
@@ -304,7 +304,7 @@ The compare UX mirrors the **Advanced Product Comparison** plugin in popup mode:
 ### Why ELIET Compact (single column)
 
 - **Layout**: single centered column
-- **Used on**: Finance page only
+- **Used on**: Finance page (shared compact treatment also appears on support/info flows where wired in the current prototype)
 
 ### Trusted By Professionals
 
@@ -327,11 +327,11 @@ The compare UX mirrors the **Advanced Product Comparison** plugin in popup mode:
 
 ### Footer
 
-- **Layout**: 4-column grid (2 columns on mobile)
-- **Background**: dark navy (`#030213`)
-- **Text**: white
-- **Links**: organized by category (Products, Service, Where to Find, About)
-- **Bottom bar**: copyright, legal links
+- **Layout**: unified responsive footer with one brand/about block plus 3 link groups; stacked on phones, 2×2 at small/tablet widths, 4-across above 1200px
+- **Background**: near-black footer surface (`#0a0a0d` / dark navy family)
+- **Text**: white with muted secondary link/body copy
+- **Content**: brand intro, navigation/service/contact link groups, Dalton GA HQ details, builder-only links in prototype
+- **Bottom bar**: copyright / powered-by row; on narrow screens the prototype simplifies footer chrome below `md`
 
 ### Pagination (Products page)
 
@@ -369,8 +369,8 @@ Tailwind v4 default breakpoints used throughout:
 
 ### Key responsive patterns
 
-- **Hero headings**: `text-[42px] sm:text-[64px]` (Home), `text-[36px] sm:text-[48px] md:text-[72px]` (PageHero)
-- **Grids**: 2 columns mobile → 4 columns desktop (`grid-cols-2 lg:grid-cols-4`)
+- **Hero headings**: Home/PageHero use stepped scales and avoid oversized jumps until `min-[1201px]`; treat `text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px]` as the support-page reference
+- **Grids**: prefer 1-col phones, 2-col `sm`, 3-col `md` where appropriate, 4-col `lg`/desktop; some showcase sections intentionally delay full desktop treatment until `min-[1201px]`
 - **Navigation**: hamburger below `lg`, full nav at `lg` and above
 - **Page hero**: stacked below `sm`, side-by-side at `sm` and above
 
@@ -511,7 +511,7 @@ Demo Tour CTA → Dealer Locator CTA → Why ELIET Banner → Newsletter → Foo
 **Key notes**:
 
 - Hero uses full-bleed background image with dark gradient overlay
-- Category grid: 2-col mobile, 3-col desktop
+- Category grid: 1-col phones, 2-col `sm`, 4-col desktop; card heights stay shorter through 1200px and expand fully above that
 - Trusted By: label column + 3 image columns
 - Featured Machines: 2x2 grid below `lg`, 4-col at `lg`
 - Why ELIET Banner: 3-column, reused across 5 pages
@@ -566,7 +566,7 @@ Demo Tour CTA → Dealer Locator CTA → Why ELIET Banner → Newsletter → Foo
 
 ### 9. Dealer Locator
 
-**Elementor sections**: Header → Page Hero → Search Bar → Map Placeholder → Dealer Cards Grid → Newsletter → Footer
+**Elementor sections**: Header → Page Hero / breadcrumb → Dark zip+radius search panel → Map image → Dealer results cards/list → Why ELIET Banner → Newsletter → Footer
 
 ### 10. Finance Options
 

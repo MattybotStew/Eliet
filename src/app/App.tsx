@@ -46,19 +46,22 @@ import imgDealerHero from "@/imports/DealerLocator/dealer-hero.jpg";
 import imgDealerMap from "@/imports/DealerLocator/dealer-map.jpg";
 import imgFinanceHero from "@/imports/Finance/finance-hero.jpg";
 import imgWarrantyHero from "@/imports/Warranty/warranty-hero.jpg";
-import imgAboutStory from "@/imports/AboutEliet/6e0ff4b6219e09581a4719005bace6b4968be30a.png";
-import imgAwardGoudenBuxus from "@/imports/AboutEliet/0a2ef09cb6e120e132bc4f741a4fd764a60816a7.png";
-import imgAwardGalabau from "@/imports/AboutEliet/979c7a67a0f7cad43010d57b45a675144ff1a31c.png";
-import imgAwardAre from "@/imports/AboutEliet/6d4497285cef71dac60b543573edfe109856ebe3.png";
-import imgAwardSiber from "@/imports/AboutEliet/aec15ec9c611943df408cd609e60958997ed9f9f.png";
-import imgAwardOmnigreen from "@/imports/AboutEliet/4cb14bfdd2f5e20483a75e3f6715c003602bd6a0.png";
-import imgAwardGalabau2 from "@/imports/AboutEliet/ba68bc1bb83b886576a98aad46937a2f0457498e.png";
-import imgAwardDaw from "@/imports/AboutEliet/a72e07cf7bcb010d0c8da3a72816f9818f62d652.png";
-import imgAwardDme from "@/imports/AboutEliet/06632b6a9d5275da0e2f7f4b34f1fa2593331b44.png";
-import imgValueIcon from "@/imports/AboutEliet/14f6882065d85cf5e711b6a4221e9ef56bd5bffc.png";
-import imgTeamAndrew from "@/imports/AboutEliet/c3f6d35359531f51e05f7683a024bcd9a020b103.png";
-import imgTeamTbd1 from "@/imports/AboutEliet/cd85afd83515126bc91b481b498e23240638deb6.png";
-import imgTeamTbd2 from "@/imports/AboutEliet/0f053d766e22a6dc04114fa8f27cf54add7caa6b.png";
+import imgAboutStory from "@/imports/AboutEliet/eliet-story.jpg";
+import imgAwardGoudenBuxus from "@/imports/AboutEliet/award-gouden-buxus.png";
+import imgAwardGalabau from "@/imports/AboutEliet/award-galabau.png";
+import imgAwardAre from "@/imports/AboutEliet/award-gouden-bronzen-aar.png";
+import imgAwardSiber from "@/imports/AboutEliet/award-siber-2007.png";
+import imgAwardOmnigreen from "@/imports/AboutEliet/award-omnigreen.png";
+import imgAwardGalabau2 from "@/imports/AboutEliet/award-galabau-2.png";
+import imgAwardDaw from "@/imports/AboutEliet/award-daw.png";
+import imgAwardDme from "@/imports/AboutEliet/award-dme.png";
+import imgValueIconInnovation from "@/imports/AboutEliet/value-icon-innovation.svg";
+import imgValueIconPerformance from "@/imports/AboutEliet/value-icon-performance.svg";
+import imgValueIconUserFriendliness from "@/imports/AboutEliet/value-icon-user-friendliness.svg";
+import imgValueIconListenCustomer from "@/imports/AboutEliet/value-icon-listen-customer.svg";
+import imgTeamAndrew from "@/imports/AboutEliet/team-andrew-shields.png";
+import imgTeamTbd1 from "@/imports/AboutEliet/team-cfo-tbd.png";
+import imgTeamTbd2 from "@/imports/AboutEliet/team-cso-tbd.png";
 import imgAboutDealer from "@/imports/AboutEliet/251a1cb33423b5471808f54174524ddaf2538a27.png";
 
 // ─── Home page assets (Desk) ──────────────────────────────────────────────────
@@ -3166,14 +3169,17 @@ function ProductsPage({
 // ABOUT ELIET PAGE
 // ══════════════════════════════════════════════════════════════════════════════
 
-const ABOUT_TABS = [
-  "The ELIET Story",
-  "ELIET Values",
-  "USA Team",
-  "Testimonials",
-  "Video",
+/** About page in-page anchor targets (sticky subnav scrolls to these). */
+const ABOUT_ANCHORS = [
+  { id: "story", label: "The ELIET Story" },
+  { id: "values", label: "ELIET Values" },
+  { id: "team", label: "USA Team" },
+  { id: "testimonials", label: "Testimonials" },
+  { id: "video", label: "Video" },
 ] as const;
-type AboutTab = (typeof ABOUT_TABS)[number];
+
+/** Header (70px) + sticky subnav (~60px) — keep sections visible below chrome. */
+const ABOUT_SCROLL_MT = "scroll-mt-[130px]";
 
 function AboutHero() {
   return (
@@ -3233,36 +3239,72 @@ function AboutHero() {
   );
 }
 
-function AboutSubnav({
-  active,
-  setActive,
-}: {
-  active: AboutTab;
-  setActive: (t: AboutTab) => void;
-}) {
+function AboutSubnav() {
+  const [activeId, setActiveId] = useState<string>(ABOUT_ANCHORS[0].id);
+
+  useEffect(() => {
+    const sections = ABOUT_ANCHORS.map(({ id }) => document.getElementById(id)).filter(
+      (el): el is HTMLElement => el !== null,
+    );
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]?.target.id) {
+          setActiveId(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-130px 0px -55% 0px",
+        threshold: [0, 0.1, 0.25, 0.5],
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+  ) => {
+    e.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setActiveId(id);
+    window.history.replaceState(null, "", `#${id}`);
+  };
+
   return (
-    <div className="sticky top-[70px] z-40 bg-white border-b border-[#ddd] w-full">
+    <nav
+      aria-label="About page sections"
+      className="sticky top-[70px] z-40 bg-white border-b border-[#ddd] w-full"
+    >
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 flex items-center gap-0 overflow-x-auto">
-        {ABOUT_TABS.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActive(tab)}
-            className="shrink-0 relative px-5 py-4 font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] transition-colors duration-200 whitespace-nowrap"
-            style={{ color: active === tab ? "#1a1a1a" : "#888" }}
+        {ABOUT_ANCHORS.map(({ id, label }) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            onClick={(e) => scrollToSection(e, id)}
+            aria-current={activeId === id ? "true" : undefined}
+            className="shrink-0 relative px-5 py-4 font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] transition-colors duration-200 whitespace-nowrap no-underline"
+            style={{ color: activeId === id ? "#1a1a1a" : "#888" }}
           >
-            {tab}
-            {active === tab && (
+            {label}
+            {activeId === id && (
               <motion.div
-                layoutId="about-tab-bar"
+                layoutId="about-anchor-bar"
                 className="absolute top-0 left-0 right-0 h-[3px]"
                 style={{ backgroundColor: ORANGE }}
                 transition={{ duration: 0.2 }}
               />
             )}
-          </button>
+          </a>
         ))}
       </div>
-    </div>
+    </nav>
   );
 }
 
@@ -3272,7 +3314,7 @@ function ElietStorySection() {
   return (
     <section
       id="story"
-      className="bg-white w-full px-6 md:px-12 lg:px-20 py-20"
+      className={`bg-white w-full px-6 md:px-12 lg:px-20 py-20 ${ABOUT_SCROLL_MT}`}
     >
       <div className="max-w-[1440px] mx-auto flex flex-col gap-16">
         {/* Intro copy + photo */}
@@ -3440,19 +3482,19 @@ function ElietStorySection() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
               {[
-                imgAwardGoudenBuxus,
-                imgAwardGalabau,
-                imgAwardAre,
-                imgAwardSiber,
-                imgAwardOmnigreen,
-                imgAwardGalabau2,
-                imgAwardDaw,
-                imgAwardDme,
-              ].map((img, i) => (
+                { src: imgAwardGoudenBuxus, alt: "Gouden Buxus" },
+                { src: imgAwardGalabau, alt: "Innovationsmedaille op Galabau" },
+                { src: imgAwardAre, alt: "Gouden Are - Bronzen are" },
+                { src: imgAwardSiber, alt: "Medaille Siber 2007" },
+                { src: imgAwardOmnigreen, alt: "Innovatieprijs op Omnigreen" },
+                { src: imgAwardGalabau2, alt: "Innovationsmedaille op Galabau" },
+                { src: imgAwardDaw, alt: "Design at Work Award" },
+                { src: imgAwardDme, alt: "DME" },
+              ].map((award, i) => (
                 <img
                   key={i}
-                  src={img}
-                  alt="Award"
+                  src={award.src}
+                  alt={award.alt}
                   className="h-[72px] w-auto object-contain grayscale hover:grayscale-0 opacity-70 hover:opacity-100 transition-all duration-300"
                 />
               ))}
@@ -3469,18 +3511,22 @@ function ElietStorySection() {
 const VALUES = [
   {
     title: "Innovation",
+    icon: imgValueIconInnovation,
     text: "The ELIET Creative Lab™ constantly develops new concepts. An ELIET machine is never truly finished — we listen to customers and evolve.",
   },
   {
     title: "Performance",
+    icon: imgValueIconPerformance,
     text: "The performance of every ELIET machine is worth more than its price. Higher productivity, dependability, and excellent ROI.",
   },
   {
     title: "User-Friendliness",
+    icon: imgValueIconUserFriendliness,
     text: "We design for operator comfort and safety. Every machine is tested under professional working conditions.",
   },
   {
     title: "Listen to the Customer",
+    icon: imgValueIconListenCustomer,
     text: "Customer feedback drives our development. Suggested modifications can be implemented quickly thanks to our flexible structure.",
   },
 ];
@@ -3489,7 +3535,7 @@ function ElietValuesSection() {
   return (
     <section
       id="values"
-      className="bg-white w-full px-6 md:px-12 lg:px-20 py-20"
+      className={`bg-white w-full px-6 md:px-12 lg:px-20 py-20 ${ABOUT_SCROLL_MT}`}
     >
       <div className="max-w-[1440px] mx-auto flex flex-col gap-10">
         <FadeUp>
@@ -3503,19 +3549,19 @@ function ElietValuesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {VALUES.map((v, i) => (
             <FadeUp key={v.title} delay={i * 0.08}>
-              <div className="flex gap-5 items-start p-6 rounded-xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] hover:shadow-md transition-all duration-300 group">
-                <div className="shrink-0 w-16 h-16 rounded-xl overflow-hidden bg-[#eee]">
+              <div className="flex gap-6 items-start p-[21px] rounded-[14px] bg-white border border-[#e5e7eb] hover:border-[#ef7d00] hover:shadow-md transition-all duration-300 h-full">
+                <div className="shrink-0 size-16 overflow-hidden">
                   <img
-                    src={imgValueIcon}
+                    src={v.icon}
                     alt=""
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                    className="size-full"
                   />
                 </div>
-                <div className="flex flex-col gap-2">
-                  <p className="font-['Overpass',sans-serif] font-bold text-[16px] text-[#131316] uppercase tracking-[1px]">
+                <div className="flex flex-col gap-2 min-w-0">
+                  <p className="font-['Overpass',sans-serif] font-extrabold text-[14px] text-[#131316] uppercase tracking-[0.5px]">
                     {v.title}
                   </p>
-                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#666] leading-relaxed">
+                  <p className="font-['Overpass',sans-serif] text-[14px] text-[#555] leading-[22px]">
                     {v.text}
                   </p>
                 </div>
@@ -3544,7 +3590,7 @@ function UsaTeamSection() {
   return (
     <section
       id="team"
-      className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-20"
+      className={`bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-20 ${ABOUT_SCROLL_MT}`}
     >
       <div className="max-w-[1440px] mx-auto flex flex-col gap-10">
         <FadeUp>
@@ -3555,7 +3601,7 @@ function UsaTeamSection() {
             </h2>
           </div>
         </FadeUp>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {TEAM.map((member, i) => (
             <FadeUp key={member.name + i} delay={i * 0.1}>
               <div className="flex flex-col gap-5 group">
@@ -3614,7 +3660,7 @@ function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className="bg-white w-full px-6 md:px-12 lg:px-20 py-20"
+      className={`bg-white w-full px-6 md:px-12 lg:px-20 py-20 ${ABOUT_SCROLL_MT}`}
     >
       <div className="max-w-[1440px] mx-auto flex flex-col gap-10">
         <FadeUp>
@@ -3625,24 +3671,18 @@ function TestimonialsSection() {
             </h2>
           </div>
         </FadeUp>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {TESTIMONIALS.map((t, i) => (
             <FadeUp key={i} delay={i * 0.1}>
-              <div className="flex flex-col gap-6 p-7 rounded-xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] hover:shadow-md transition-all duration-300 h-full">
-                <div
-                  className="text-[28px] sm:text-[32px] md:text-[36px] leading-none font-serif"
-                  style={{ color: ORANGE }}
-                >
-                  "
-                </div>
-                <p className="font-['Overpass',sans-serif] italic text-[14px] text-[#555] leading-relaxed flex-1">
+              <div className="flex flex-col gap-6 p-6 rounded-lg bg-[#131316] h-full min-h-[200px]">
+                <p className="font-['Overpass',sans-serif] italic text-[13px] text-white/75 leading-[1.6] flex-1">
                   {t.quote}
                 </p>
-                <div className="border-t border-[#e5e5e5] pt-4">
-                  <p className="font-['Overpass',sans-serif] font-bold text-[15px] text-[#131316] uppercase tracking-[0.5px]">
+                <div>
+                  <p className="font-['Overpass',sans-serif] font-bold text-[18px] text-white uppercase tracking-[1.5px]">
                     {t.name}
                   </p>
-                  <p className="font-['Overpass',sans-serif] text-[12px] text-[#999] uppercase tracking-[0.5px]">
+                  <p className="font-['Overpass',sans-serif] text-[12px] text-white/50 uppercase tracking-[0.5px] mt-1">
                     {t.role}
                   </p>
                 </div>
@@ -3746,7 +3786,10 @@ function BrochureFaqSection() {
   };
 
   return (
-    <section className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-20">
+    <section
+      id="brochure"
+      className={`bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-20 ${ABOUT_SCROLL_MT}`}
+    >
       <div className="max-w-[1440px] mx-auto">
         <FadeUp>
           <div className="flex flex-col gap-3 mb-14">
@@ -3858,9 +3901,49 @@ function BrochureFaqSection() {
   );
 }
 
+// ─── Video ────────────────────────────────────────────────────────────────────
+
+function VideoSection() {
+  return (
+    <section
+      id="video"
+      className={`bg-white w-full px-6 md:px-12 lg:px-20 py-20 ${ABOUT_SCROLL_MT}`}
+    >
+      <div className="max-w-[1440px] mx-auto">
+        <FadeUp>
+          <div className="flex flex-col gap-3 mb-10">
+            <OrangeAccent />
+            <h2 className="font-['Overpass',sans-serif] font-medium text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.96px]">
+              Video
+            </h2>
+          </div>
+          <div
+            className="relative rounded-2xl overflow-hidden bg-[#131316] flex items-center justify-center"
+            style={{ height: 420 }}
+          >
+            <div className="flex flex-col items-center gap-4 text-center">
+              <div
+                className="w-20 h-20 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: ORANGE }}
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <p className="font-['Overpass',sans-serif] text-white/50 text-[15px]">
+                Video content coming soon
+              </p>
+            </div>
+          </div>
+        </FadeUp>
+      </div>
+    </section>
+  );
+}
+
 // ─── Have a Question CTA ──────────────────────────────────────────────────────
 
-function HaveAQuestionCta() {
+function HaveAQuestionCta({ setPage }: { setPage: (p: Page) => void }) {
   return (
     <section className="w-full px-6 md:px-12 lg:px-20 py-6 pb-20">
       <FadeUp>
@@ -3900,8 +3983,10 @@ function HaveAQuestionCta() {
                 </p>
               </div>
               <button
+                type="button"
                 className="shrink-0 w-full sm:w-auto px-8 py-4 bg-white rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
                 style={{ color: DARK }}
+                onClick={() => setPage("faq")}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = ORANGE;
                   e.currentTarget.style.color = "white";
@@ -3911,7 +3996,7 @@ function HaveAQuestionCta() {
                   e.currentTarget.style.color = DARK;
                 }}
               >
-                Contact Us
+                FAQs
               </button>
             </div>
           </div>
@@ -3923,65 +4008,27 @@ function HaveAQuestionCta() {
 
 // ─── About page root ──────────────────────────────────────────────────────────
 
-const TAB_SECTIONS: Record<AboutTab, React.ReactNode> = {
-  "The ELIET Story": <ElietStorySection />,
-  "ELIET Values": <ElietValuesSection />,
-  "USA Team": <UsaTeamSection />,
-  Testimonials: <TestimonialsSection />,
-  Video: (
-    <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-20">
-      <div className="max-w-[1440px] mx-auto">
-        <FadeUp>
-          <div className="flex flex-col gap-3 mb-10">
-            <OrangeAccent />
-            <h2 className="font-['Overpass',sans-serif] font-medium text-[28px] sm:text-[32px] md:text-[36px] text-[#131316] uppercase tracking-[-0.96px]">
-              Video
-            </h2>
-          </div>
-          <div
-            className="relative rounded-2xl overflow-hidden bg-[#131316] flex items-center justify-center"
-            style={{ height: 420 }}
-          >
-            <div className="flex flex-col items-center gap-4 text-center">
-              <div
-                className="w-20 h-20 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: ORANGE }}
-              >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <p className="font-['Overpass',sans-serif] text-white/50 text-[15px]">
-                Video content coming soon
-              </p>
-            </div>
-          </div>
-        </FadeUp>
-      </div>
-    </section>
-  ),
-};
-
 function AboutPage({ setPage }: { setPage: (p: Page) => void }) {
-  const [activeTab, setActiveTab] = useState<AboutTab>("The ELIET Story");
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash && ABOUT_ANCHORS.some(({ id }) => id === hash)) {
+      requestAnimationFrame(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, []);
 
   return (
     <>
       <AboutHero />
-      <AboutSubnav active={activeTab} setActive={setActiveTab} />
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {TAB_SECTIONS[activeTab]}
-        </motion.div>
-      </AnimatePresence>
+      <AboutSubnav />
+      <ElietStorySection />
+      <ElietValuesSection />
+      <UsaTeamSection />
+      <TestimonialsSection />
+      <VideoSection />
       <BrochureFaqSection />
-      <HaveAQuestionCta />
+      <HaveAQuestionCta setPage={setPage} />
       <Newsletter />
       <Footer setPage={setPage} svgData={deskSvg} />
     </>

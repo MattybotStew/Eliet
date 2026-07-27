@@ -1,6 +1,6 @@
 import svgPaths from "./svg-v8umou6p43";
 import img2Hero from "./11ad8bf46a3328fc0ee2f85536868fe966676ceb.png";
-import imgImg from "./6e0ff4b6219e09581a4719005bace6b4968be30a.png";
+import imgImg from "./eliet-story.jpg";
 import imgGoudenBuxus from "./0a2ef09cb6e120e132bc4f741a4fd764a60816a7.png";
 import imgInnovationsmedailleOpGalabau from "./979c7a67a0f7cad43010d57b45a675144ff1a31c.png";
 import imgGoudenAreBronzenAre from "./6d4497285cef71dac60b543573edfe109856ebe3.png";

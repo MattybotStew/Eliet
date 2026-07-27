@@ -28,6 +28,15 @@ Live design file (not Figma Make): [Eliet](https://www.figma.com/design/WfoDRzDK
 - Use Cursor’s Figma MCP / skills for design review and design↔code work. Prefer `get_screenshot` + `get_metadata` for reviews; load **figma-design-to-code** before `get_design_context` when implementing.
 - The React prototype and this Figma file should stay aligned for handoff. When they diverge on product/FAQ/warranty facts, prefer **client-approved copy** (xlsx / Equipment List) over inventing fixes; for shared chrome (footer HQ, hero subtext), prefer the **Desk / majority Figma artboards**.
 - **Canonical HQ (Figma Desk majority, aligned in prototype 2026-07-27):** `2850 N Dug Gap Road, Dalton, GA 30720`, phone `470-762-6266`, `info@elietusa.com`. Products/PDP Figma footers still show Philadelphia — treat those as Figma inconsistencies; do not reintroduce Philadelphia HQ into the prototype.
+- **Page hero assets** (wired from Designs artboards; mirrored under `wordpress/assets/images/`):
+  - Products `5757:4939` → `src/imports/Products/products-hero.jpg`
+  - Downloads `5497:1220` → `src/imports/Downloads/downloads-hero.jpg`
+  - FAQ `5497:1568` → `src/imports/FAQ/faq-hero.jpg`
+  - Contact `5509:746` → `src/imports/Contact/contact-hero.jpg`
+  - Dealer Locator `5497:1883` / page `5481:459` → `dealer-hero.jpg` + `dealer-map.jpg`
+  - Finance `5497:2058` → `src/imports/Finance/finance-hero.jpg`
+  - About `5480:226` → `src/imports/AboutEliet/about-hero.png`
+  - Warranty `5497:2086` → `src/imports/Warranty/warranty-hero.jpg`
 - Other known Figma canvas issues:
   - **E401 PRO PDP**: Figma body copy says “dethatcher” while features describe a chipper/shredder — Figma content bug; confirm against Equipment List / Product Import Smartsheet.
   - **Desktop only** on ⚠️ Designs — no mobile artboards; prototype already has responsive breakpoints.
@@ -51,30 +60,39 @@ Live design file (not Figma Make): [Eliet](https://www.figma.com/design/WfoDRzDK
   - `body.eliet-nav-open` — locks scroll while mobile header menu is open.
   - `body.eliet-compare-open main` — adds bottom padding so sticky `ComparisonBar` doesn’t cover CTAs/footer.
 - `src/app/components/ui/` — shadcn-style primitives; `src/app/components/figma/` — Figma Make helpers. Don't hand-edit generated primitives unless the task requires it.
-- `src/imports/<Section>/` — Figma-exported images and SVG modules, imported directly by `App.tsx`. These are source files: they must be committed, never gitignored or "cleaned up" — deleting an unreferenced-looking hash-named file can break a view.
+- `src/imports/<Section>/` — Figma-exported images and SVG modules, imported directly by `App.tsx`. These are source files: they must be committed, never gitignored or "cleaned up" — deleting an unreferenced-looking hash-named file can break a view. Dedicated page hero JPGs/PNGs per artboard — see **Figma design source → Page hero assets**.
+- **Dealer Locator** (`DealerLocatorPage`): aligned to Figma `5481:459` — breadcrumb, dark zip+radius search panel, map image, grid/list results, orange-tier cards, `WhyElietBanner` (not old escalation band). Mock dealer rows remain placeholders until client data arrives.
+- **About ELIET** (`AboutPage`): single long page with sticky in-page anchor subnav (`#story`, `#values`, `#team`, `#testimonials`, `#video`, plus `#brochure` below nav). Subnav uses smooth-scroll links + `scroll-mt-[130px]` on sections (70px header + sticky subnav). Not tab panels.
 - The React and Tailwind Vite plugins are both required by Figma Make even if unused — do not remove them from `vite.config.ts`.
 - Images in `src/imports/` were compressed in place on 2026-07-07. Re-exporting from Figma Make overwrites them with heavyweight originals — re-run compression afterwards (recipe in JOURNAL.md).
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md` only.
 
-## Responsive pass — COMPLETE (with footer grid follow-up)
+## Responsive pass — COMPLETE (main, 2026-07-27)
 
-**Goal:** professional mobile → tablet → desktop fidelity. Figma Designs has **no mobile artboards** — use `HomeHero` / `PageHero` type scales and `sm`/`md`/`lg` conventions below.
+**Goal:** professional mobile → tablet → desktop fidelity. Figma Designs has **no mobile artboards** — use `HomeHero` / `PageHero` as the type-scale reference and the conventions below. **Soften large display sizes until `min-[1201px]`** — don't blow out at 768–1200.
 
-Zed finished the Cursor handoff list (2026-07-27). Cursor then closed the footer / image-grid follow-up:
+**Shipped on `main`:** sitewide typography propagation; HomeHero / PageHero stepped H1; WhyElietBanner stacked until 1201px; ShopByCategory shorter cards ≤1200; footer copyright-only below `md`; header no drop shadow; Figma page heroes wired (see **Page hero assets**); Dealer Locator aligned to Figma `5481:459`. Visual polish / remaining Figma page matching is the **Cursor track** — not Zed's scope.
 
-- **Footer:** unified grid `grid-cols-1 sm:grid-cols-2 xl:grid-cols-4` with **brand block as column 1** + AT ELIET / ABOUT / GET IN TOUCH → true **4-across** at `xl`, **2×2** at `sm`–`lg`. Bottom bar left-aligned.
-- **USA Team:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` (2×2 tablet, 4-up desktop).
-- **TrustedBy:** stays `md:grid-cols-3` (three narrative columns — intentional, not a bug).
-- Builder pages: Design System / Nav Lab in `src/app/DevPages.tsx` (About dropdown + footer entry may vary — check current nav).
+### Key patterns (keep consistent)
 
-### Breakpoint convention (keep consistent)
+- **Hero H1** (`HomeHero` / `PageHero`): `text-[36px] sm:text-[44px] md:text-[52px] lg:text-[56px] min-[1201px]:text-[64px] xl:text-[72px]`
+- **WhyElietBanner:** stacked until `min-[1201px]`; 3-col only above 1200; logo hidden below 1201
+- **ShopByCategory** card heights: shorter ≤1200, full height `min-[1201px]:h-[480px]`
+- **Header:** no scroll drop shadow
+- **Footer:** copyright-only below `md`; ≤1200 brand full-width + 3 link cols under; >1200 **4-across**; brand body `max-[1200px]:w-3/4`; link buttons `justify-start`
+- **TrustedBy:** `items-stretch` / full-width images on mobile; `md:grid-cols-3` intentional (three narrative columns)
+- **USA Team:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` (2×2 tablet, 4-up desktop)
+- Builder pages: Design System / Nav Lab in `src/app/DevPages.tsx` (About dropdown + footer entry may vary — check current nav)
 
-| Prefix | Width    | Expectation                                          |
-| ------ | -------- | ---------------------------------------------------- |
-| (base) | &lt; 640 | Single column; stacked forms; hamburger nav          |
-| `sm:`  | ≥ 640    | 2-col cards where appropriate                        |
-| `md:`  | ≥ 768    | 2–3 col grids; sticky subnavs                        |
-| `lg:`  | ≥ 1024   | Desktop horizontal nav + hover dropdowns; 4-col shop |
+### Breakpoint convention
+
+| Prefix          | Width    | Expectation                                                                   |
+| --------------- | -------- | ----------------------------------------------------------------------------- |
+| (base)          | &lt; 640 | Single column; stacked forms; hamburger nav                                   |
+| `sm:`           | ≥ 640    | 2-col cards where appropriate                                                 |
+| `md:`           | ≥ 768    | 2–3 col grids; sticky subnavs                                                 |
+| `lg:`           | ≥ 1024   | Desktop horizontal nav + hover dropdowns; 4-col shop                          |
+| `min-[1201px]:` | ≥ 1201   | Full desktop display sizes (hero H1 64px, banner 3-col, category cards 480px) |
 
 Touch targets: prefer **≥ 44×44** (`min-h-11 min-w-11`) for icon/hamburger/compare remove.
 
@@ -113,9 +131,52 @@ The `wordpress/` directory is a **deliverable for the dev team** — not consume
 - Desk hero subtext matches Figma: **“Engineered for professionals. Built to last. Family-owned since 1980.”** Trust / Why Eliet use **“Over 30 years…”** / **“30+ years of engineering”** — both appear in Figma; keep both (different sections), do not invent “40+”.
 - Still pending from the client — do NOT invent this content, render clearly-marked placeholders instead: FAQ answers, real warranty terms, real dealer list, and per-product detail copy (comes from their "Product Import Smartsheet", not yet provided).
 
+## Agent handoff — next for Zed (Option A + C)
+
+**Scope:** cleanup and dev-prep audit + pre-release checklist only. **Do not** do visual/Figma polish or invent pending client content (FAQ answers, warranty terms, dealer list, per-product Smartsheet copy).
+
+### Option A — cleanup / handoff audit
+
+Produce a recommended cleanup list (fix only if trivial; otherwise report):
+
+- **Dead code:** unused imports, unreachable components, orphan hash-named files in `src/imports/` (never delete without confirming zero references).
+- **Doc mismatches:** `AGENTS.md` ↔ `README.md` ↔ `wordpress/HANDOFF.md` ↔ `wordpress/PAGE-MAPPING.md` (breakpoints, page list, compare flow, HQ contact).
+- **Asset / handoff mirrors:** new or changed files in `src/imports/` missing from `wordpress/assets/images/`; hero map in **Page hero assets** still accurate.
+- **Data export:** if `products.ts` / `comparisonSpecs.ts` changed since last export, run `node tools/export-products.mjs` and note drift.
+- **Stale JOURNAL entries:** superseded handoff notes (e.g. old “responsive IN PROGRESS” items) — flag, don't rewrite history.
+
+### Cleanup audit status — 2026-07-27
+
+- **Completed doc sync:** `README.md`, `wordpress/HANDOFF.md`, and `wordpress/PAGE-MAPPING.md` were updated to match the current prototype state.
+- **README:** now points to the canonical Eliet Figma file `WfoDRzDKzzZxCez2ksbCEF` instead of the old Enhance Design file.
+- **WordPress handoff docs:** footer notes now reflect the current responsive structure (brand/about block + 3 link groups, true 4-across above 1200px rather than the old simplified `grid-cols-2 md:grid-cols-4` wording).
+- **Dealer Locator docs:** handoff docs now describe the current page structure more accurately (breadcrumb, dark zip+radius search panel, map image, dealer results cards/list, `WhyElietBanner`) instead of the older placeholder-only mapping with `WhyElietCompact`.
+- **Responsive doc alignment:** handoff notes now better match the shipped `1 / 2 / 4` category/shop/footer patterns and the stepped PageHero type scale.
+- **Asset mirror audit:** newly referenced hero assets checked present in both prototype and WordPress mirror paths:
+  - `src/imports/Contact/contact-hero.jpg` ↔ `wordpress/assets/images/Contact/contact-hero.jpg`
+  - `src/imports/FAQ/faq-hero.jpg` ↔ `wordpress/assets/images/FAQ/faq-hero.jpg`
+  - `src/imports/Products/products-hero.jpg` ↔ `wordpress/assets/images/Products/products-hero.jpg`
+- **Remaining release hygiene:** after Cursor finishes visual work, verify the new image files are actually tracked/committed (`git status`) before pushing `main`.
+
+### Option C — pre-release checklist
+
+- **Go/no-go:** `npm run build` passes; triage uncommitted work; confirm nothing half-finished should hit `main`.
+- **Commit:** only when user asks; message reflects handoff/cleanup not visual WIP.
+- **Deploy:** pushing `main` auto-publishes GitHub Pages — warn if visual polish is still in flight.
+- **Post-deploy smoke:** https://mattybotstew.github.io/Eliet/ — Home, Products, one PDP, Contact, Login; hamburger nav + scroll lock; add-to-compare → bar → popup; footer HQ shows Dalton GA.
+
+### Parallel tracks (avoid doc collisions)
+
+| Agent      | Owns                                                                       |
+| ---------- | -------------------------------------------------------------------------- |
+| **Zed**    | Option A + C above; doc consistency; `wordpress/` handoff accuracy         |
+| **Cursor** | Figma page matching / visual polish in `App.tsx` (+ hero assets as needed) |
+
+If both agents need doc updates, **Zed owns handoff docs**; Cursor limits doc edits to visual notes in JOURNAL unless coordinating.
+
 ## Session continuity
 
-This project is worked on by multiple AI agents (Claude Code, Gemini CLI, Deep Code, Cursor, …).
+This project is worked on by multiple AI agents (Claude Code, Gemini CLI, Deep Code, Cursor, Zed, …).
 
 - At session start: read `JOURNAL.md` (newest first) and recent `git log`.
 - Before ending a session: add a short entry at the top of `JOURNAL.md` — date, agent/model, what was done, decisions, loose ends.

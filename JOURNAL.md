@@ -1,3 +1,26 @@
+## 2026-07-27 — Cursor — Zed handoff (Option A + C)
+
+- Updated **AGENTS.md** for next agent: responsive pass marked complete with 2026-07-27 shipped summary; new **Agent handoff — next for Zed** section (Option A cleanup audit + Option C pre-release checklist); parallel-track table (Zed = docs/handoff, Cursor = Figma/visual in `App.tsx`).
+- Zed should stay out of visual polish and pending client content; prefer consistency across AGENTS / JOURNAL / `wordpress/HANDOFF.md`.
+- Docs only — no commit/push.
+
+## 2026-07-27 — Cursor — AGENTS.md sync (heroes, dealer, responsive)
+
+- Updated **AGENTS.md** to reflect recent pushes: Figma page hero asset map (Products/Downloads/FAQ/Contact/Dealer/Finance/About/Warranty), Dealer Locator alignment to Figma `5481:459`, and completed responsive pass with **≤1200 / `min-[1201px]`** conventions (hero H1 scale, WhyElietBanner, ShopByCategory heights, header/footer/TrustedBy rules).
+- Recent commits on `main`: `c1797d1` Figma hero images, `ee2ba6d` Dealer Locator, `5fc36c0` responsive type/≤1200 layouts, `ea36295` footer 4-col grid.
+- Docs only — no code or deploy changes this session.
+
+## 2026-07-27 — Zed / GPT-5.4 — cleanup audit + handoff doc sync
+
+- Performed the requested cleanup/dev-prep audit (no visual polish changes).
+- Verified repo health: diagnostics clean; recent work already committed on `main`; newly referenced hero assets confirmed present in both prototype and WordPress mirror paths for Contact, FAQ, and Products.
+- Updated docs to match the current prototype state:
+  - `README.md` now points to the canonical Eliet Figma file `WfoDRzDKzzZxCez2ksbCEF`
+  - `wordpress/HANDOFF.md` now reflects the current responsive footer structure, stepped PageHero type guidance, and the newer Dealer Locator section structure
+  - `wordpress/PAGE-MAPPING.md` now reflects the real responsive footer, removes stale Dealer Locator `WhyElietCompact` mapping, and documents Dealer Locator as breadcrumb/search panel/map/results/`WhyElietBanner`
+  - `AGENTS.md` now includes a cleanup audit status section summarizing the doc sync + remaining release hygiene
+- Remaining release hygiene: after Cursor finishes visual/image work, confirm the new image files are actually tracked/committed with `git status` before pushing `main`.
+
 ## 2026-07-27 — Cursor / Composer — sitewide responsive propagation (≤1200)
 
 - Propagated home-page responsive conventions across all prototype views in `App.tsx` + builder heroes in `DevPages.tsx`.

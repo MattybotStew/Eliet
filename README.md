@@ -4,7 +4,7 @@
 
 **Live prototype: https://mattybotstew.github.io/Eliet/** (auto-deploys from `main`)
 
-The original design is in Figma: https://www.figma.com/design/YRjrjX3xv6rOWEIMAj4X7x/Enhance-Design
+The current design source is in Figma: https://www.figma.com/design/WfoDRzDKzzZxCez2ksbCEF/Eliet
 
 ## What this prototype is for
 
@@ -24,24 +24,25 @@ npm run build    # static build to dist/
 
 Single-page React app (Vite + Tailwind v4 + motion). Page views live in `src/app/App.tsx` (plus `src/app/comparison/` for Compare), organized by section comments:
 
-| Prototype view | Production equivalent |
-|---|---|
-| Desk (home) | Front page |
-| Products | WooCommerce shop/category page |
-| Detail | WooCommerce single product page |
-| Downloads | Resources/downloads page |
-| About ELIET | About page |
-| Demo Tour | Demo/booking page |
-| Warranty | Warranty/terms page |
-| FAQ | FAQ page |
-| Dealer Locator | Dealer/store locator |
-| Finance Options | Financing information |
-| Contact | Contact form page |
-| Login | Login / machine registration (mock) |
-| Design System | Builder reference — tokens & components |
-| Navigation Lab | Builder reference — desktop + mobile nav |
+| Prototype view  | Production equivalent                    |
+| --------------- | ---------------------------------------- |
+| Desk (home)     | Front page                               |
+| Products        | WooCommerce shop/category page           |
+| Detail          | WooCommerce single product page          |
+| Downloads       | Resources/downloads page                 |
+| About ELIET     | About page                               |
+| Demo Tour       | Demo/booking page                        |
+| Warranty        | Warranty/terms page                      |
+| FAQ             | FAQ page                                 |
+| Dealer Locator  | Dealer/store locator                     |
+| Finance Options | Financing information                    |
+| Contact         | Contact form page                        |
+| Login           | Login / machine registration (mock)      |
+| Design System   | Builder reference — tokens & components  |
+| Navigation Lab  | Builder reference — desktop + mobile nav |
 
 **Key shared components** (drawn from `App.tsx`):
+
 - `WhyElietBanner` — 3-column "Why Professionals Choose ELIET" banner (reused across 5 pages)
 - `WhyElietCompact` — single-column variant (Finance page)
 - `PageHero` — consistent page hero with image, title, and description (Warranty, FAQ, Dealers, Finance, Contact)
@@ -49,6 +50,7 @@ Single-page React app (Vite + Tailwind v4 + motion). Page views live in `src/app
 - `FaqItem` — expandable accordion item
 
 **Style layers** (cascaded in `src/styles/index.css`):
+
 - `fonts.css` — @font-face declarations (Overpass)
 - `tailwind.css` — Tailwind v4 (`@tailwindcss/vite`) + `tw-animate-css`
 - `theme.css` — Figma Make theme tokens
@@ -67,27 +69,27 @@ Images are in `src/imports/<Section>/`. Interaction/animation patterns use the `
 
 The `wordpress/` directory contains deliverables to accelerate the production build:
 
-| File | Purpose |
-|------|---------|
-| `wordpress/HANDOFF.md` | Design tokens, component specs, page-by-page build notes |
-| `wordpress/PAGE-MAPPING.md` | Prototype views → WordPress templates, Elementor sections, WooCommerce integrations |
-| `wordpress/assets/css/eliet-tokens.css` | Design tokens as plain CSS variables |
-| `wordpress/assets/css/eliet-components.css` | Component CSS (compare button, pagination, focus ring, fade-up, FAQ, etc.) |
-| `wordpress/assets/images/` | All image assets from the prototype, organized by section |
-| `wordpress/data/products.json` | Full 71-product catalog with comparison specs, WC attribute slugs, and Maestro City detail |
+| File                                        | Purpose                                                                                    |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `wordpress/HANDOFF.md`                      | Design tokens, component specs, page-by-page build notes                                   |
+| `wordpress/PAGE-MAPPING.md`                 | Prototype views → WordPress templates, Elementor sections, WooCommerce integrations        |
+| `wordpress/assets/css/eliet-tokens.css`     | Design tokens as plain CSS variables                                                       |
+| `wordpress/assets/css/eliet-components.css` | Component CSS (compare button, pagination, focus ring, fade-up, FAQ, etc.)                 |
+| `wordpress/assets/images/`                  | All image assets from the prototype, organized by section                                  |
+| `wordpress/data/products.json`              | Full 71-product catalog with comparison specs, WC attribute slugs, and Maestro City detail |
 
 ## Product comparison → Advanced Product Comparison (Extify)
 
 The compare UI in `src/app/comparison/` follows **[Advanced Product Comparison for WooCommerce](https://woocommerce.com/products/advanced-product-comparison/)** in **popup / widget mode**:
 
-| User action | Prototype (= Extify popup mode) |
-|---|---|
-| Click **Compare** button on shop card or product page | Product added; **popup opens automatically** |
-| Sticky bar | Shows selected products (hidden while popup is open) |
-| Sticky bar **Compare** | Re-opens the popup |
-| Inside popup | Spec table + related products strip; difference highlight |
-| Max products | **3** |
-| Escape / backdrop / × | Closes popup (list kept; sticky bar returns) |
+| User action                                           | Prototype (= Extify popup mode)                           |
+| ----------------------------------------------------- | --------------------------------------------------------- |
+| Click **Compare** button on shop card or product page | Product added; **popup opens automatically**              |
+| Sticky bar                                            | Shows selected products (hidden while popup is open)      |
+| Sticky bar **Compare**                                | Re-opens the popup                                        |
+| Inside popup                                          | Spec table + related products strip; difference highlight |
+| Max products                                          | **3**                                                     |
+| Escape / backdrop / ×                                 | Closes popup (list kept; sticky bar returns)              |
 
 Production: install Advanced Product Comparison, enable sticky bar + auto-open widget, set max products to 3, styled Compare button on listings + product page. Spec rows map to WooCommerce attributes (`wcSlug` / `pa_*` in `comparisonSpecs.ts`). Theme with Eliet orange (`#ef7d00`) and Overpass.
 
@@ -99,7 +101,7 @@ Under **Products → Attributes**, create attributes matching `wcSlug` values in
 
 ```css
 .compare-button {
-  font-family: 'Overpass', sans-serif;
+  font-family: "Overpass", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   background: #ef7d00 !important;
@@ -111,7 +113,7 @@ Under **Products → Attributes**, create attributes matching `wcSlug` values in
 .exppc-sticky-bar button {
   background: #ef7d00 !important;
   color: #fff !important;
-  font-family: 'Overpass', sans-serif;
+  font-family: "Overpass", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
 }
