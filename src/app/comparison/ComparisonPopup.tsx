@@ -88,7 +88,7 @@ export function ComparisonPopup() {
                 <button
                   type="button"
                   onClick={closePopup}
-                  className="w-8 h-8 flex items-center justify-center text-[#666] hover:text-[#111] transition-colors"
+                  className="min-w-11 min-h-11 flex items-center justify-center text-[#666] hover:text-[#111] transition-colors"
                   aria-label="Close comparison"
                 >
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

@@ -5,6 +5,7 @@ import { ComparisonProvider, useComparison } from "./comparison/ComparisonContex
 import { CompareCheckbox } from "./comparison/CompareCheckbox";
 import { ComparisonBar } from "./comparison/ComparisonBar";
 import { ComparisonPopup } from "./comparison/ComparisonPopup";
+import { DesignSystemPage, NavigationLabPage } from "./DevPages";
 
 // ─── Downloads assets ────────────────────────────────────────────────────────
 import downloadsSvg from "@/imports/Downloads/svg-q0xqbfjtec";
@@ -73,7 +74,7 @@ const ORANGE = "#ef7d00";
 const DARK = "#0f0f12";
 
 // ─── Navigation state ────────────────────────────────────────────────────────
-type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact" | "login";
+type Page = "home" | "demo" | "about" | "products" | "detail" | "downloads" | "warranty" | "faq" | "dealers" | "finance" | "contact" | "login" | "design-system" | "nav-lab";
 
 type NavItem = {
   label: string;
@@ -123,6 +124,8 @@ const NAV_STRUCTURE: NavItem[] = [
       { label: "Request Brochure", page: "about" },
       { label: "Exhibitions & Events", page: "demo" },
       { label: "FAQs", page: "faq" },
+      { label: "Design System", page: "design-system" },
+      { label: "Navigation Lab", page: "nav-lab" },
     ],
   },
   { label: "Demo Tour", page: "demo" },
@@ -231,6 +234,11 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle("eliet-nav-open", open);
+    return () => document.body.classList.remove("eliet-nav-open");
+  }, [open]);
+
   const handleNav = (p: Page, cat?: string) => {
     setPage(p);
     setOpen(false);
@@ -259,15 +267,15 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
           </nav>
         </div>
         {/* Right */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button onClick={() => handleNav("login")}
-            className={`hidden md:block text-[13px] tracking-[0.5px] font-['Overpass',sans-serif] font-normal uppercase transition-colors ${page === "login" ? "text-white" : "text-white/65 hover:text-white"}`}>Login</button>
-          <div className="w-[18px] h-[18px] relative opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
-            <svg className="absolute inset-0 size-full" fill="none" viewBox="0 0 15.6758 15.9999">
+            className={`hidden md:inline-flex min-h-11 items-center px-2 text-[13px] tracking-[0.5px] font-['Overpass',sans-serif] font-normal uppercase transition-colors ${page === "login" ? "text-white" : "text-white/65 hover:text-white"}`}>Login</button>
+          <button type="button" className="min-h-11 min-w-11 inline-flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity" aria-label="Search">
+            <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 15.6758 15.9999">
               <path d={svgData.p28358500} fill="white" />
             </svg>
-          </div>
-          <button className="lg:hidden text-white/80 p-1" onClick={() => setOpen(!open)}>
+          </button>
+          <button type="button" className="lg:hidden min-h-11 min-w-11 inline-flex items-center justify-center text-white/80" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Menu">
             <div className="space-y-1.5 w-5">
               <div className={`h-0.5 bg-white transition-all duration-200 ${open ? "rotate-45 translate-y-2" : ""}`} />
               <div className={`h-0.5 bg-white transition-all duration-200 ${open ? "opacity-0" : ""}`} />
@@ -278,7 +286,7 @@ function Header({ page, setPage, svgData }: { page: Page; setPage: (p: Page) => 
       </div>
       {/* Mobile nav */}
       {open && (
-        <div className="lg:hidden border-t border-white/10 bg-[#0f0f12]/98 backdrop-blur-xl">
+        <div className="lg:hidden border-t border-white/10 bg-[#0f0f12]/98 backdrop-blur-xl max-h-[calc(100dvh-70px)] overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom,0px)]">
           <div className="flex flex-col py-3 px-6">
             {NAV_STRUCTURE.map((item) => (
               <div key={item.label}>
@@ -391,17 +399,16 @@ const CATEGORIES = [
 function CategoryCard({ img, label }: { img: string; label: string }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <div className="relative overflow-hidden rounded-2xl cursor-pointer flex-1 min-w-[240px]"
-      style={{ height: 480 }}
+    <div className="relative overflow-hidden rounded-2xl cursor-pointer w-full aspect-[3/4] sm:aspect-auto sm:h-[380px] lg:h-[480px]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}>
       <img src={img} alt={label} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
         style={{ transform: hovered ? "scale(1.06)" : "scale(1)" }} />
       <div className="absolute inset-0 transition-all duration-300"
-        style={{ background: hovered ? "linear-gradient(to top, rgba(15,15,18,0.85) 30%, rgba(15,15,18,0.15) 100%)" : "linear-gradient(to top, rgba(15,15,18,0.55) 0%, rgba(15,15,18,0.05) 60%)" }} />
-      <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col gap-2">
-        <p className="font-['Overpass',sans-serif] font-bold text-2xl text-white uppercase tracking-[0.5px]">{label}</p>
-        <div className="flex items-center gap-2 transition-all duration-200" style={{ opacity: hovered ? 1 : 0, transform: hovered ? "translateY(0)" : "translateY(8px)" }}>
+        style={{ background: hovered ? "linear-gradient(to top, rgba(15,15,18,0.85) 30%, rgba(15,15,18,0.15) 100%)" : "linear-gradient(to top, rgba(15,15,18,0.65) 0%, rgba(15,15,18,0.15) 60%)" }} />
+      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 flex flex-col gap-2">
+        <p className="font-['Overpass',sans-serif] font-bold text-xl sm:text-2xl text-white uppercase tracking-[0.5px]">{label}</p>
+        <div className={`flex items-center gap-2 transition-all duration-200 opacity-100 translate-y-0 md:opacity-0 md:translate-y-2 ${hovered ? "md:!opacity-100 md:!translate-y-0" : ""}`}>
           <div className="h-px flex-1 max-w-[40px]" style={{ backgroundColor: ORANGE }} />
           <span className="font-['Overpass',sans-serif] font-semibold text-[12px] uppercase tracking-[1.5px]" style={{ color: ORANGE }}>Explore →</span>
         </div>
@@ -412,16 +419,16 @@ function CategoryCard({ img, label }: { img: string; label: string }) {
 
 function ShopByCategory() {
   return (
-    <section className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-20">
+    <section className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-14 sm:py-20">
       <FadeUp>
-        <div className="max-w-[1440px] mx-auto flex flex-col gap-10">
+        <div className="max-w-[1440px] mx-auto flex flex-col gap-8 sm:gap-10">
           <div className="flex items-center justify-between flex-wrap gap-4">
-            <p className="font-['Overpass',sans-serif] font-semibold text-[16px] text-[#131316] uppercase tracking-[2px]">Browse by Category</p>
-            <button className="font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[1px] transition-colors hover:opacity-70" style={{ color: ORANGE }}>
+            <p className="font-['Overpass',sans-serif] font-semibold text-[14px] sm:text-[16px] text-[#131316] uppercase tracking-[2px]">Browse by Category</p>
+            <button className="min-h-11 font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[1px] transition-colors hover:opacity-70" style={{ color: ORANGE }}>
               View all 8 categories →
             </button>
           </div>
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {CATEGORIES.map((c) => <CategoryCard key={c.label} {...c} />)}
           </div>
         </div>
@@ -445,17 +452,17 @@ function TrustedBy() {
         {/* Left label */}
         <FadeUp className="shrink-0 lg:w-64 lg:pt-16">
           <div className="h-[10px] w-[133px] bg-white mb-8" />
-          <p className="font-['Overpass',sans-serif] font-bold text-[36px] lg:text-[28px] text-white uppercase leading-tight">
+          <p className="font-['Overpass',sans-serif] font-bold text-[28px] sm:text-[32px] lg:text-[28px] text-white uppercase leading-tight">
             Trusted by <span style={{ color: ORANGE }}>professionals</span>
           </p>
         </FadeUp>
         {/* Product columns */}
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-8">
           {PRODUCT_COLS.map((col, i) => (
             <FadeUp key={col.title} delay={i * 0.1}>
-              <div className={`flex flex-col gap-6 ${col.offset ? "sm:pt-14" : "sm:pb-10"}`}>
-                {/* Image first in DOM so mobile always shows it above its headline; offset columns move it below the text on sm+ */}
-                <div className={`relative overflow-hidden rounded-xl h-[380px] ${col.offset ? "sm:order-last" : ""}`}>
+              <div className={`flex flex-col gap-6 ${col.offset ? "md:pt-14" : "md:pb-10"}`}>
+                {/* Image first in DOM so mobile always shows it above its headline; offset columns move it below the text on md+ */}
+                <div className={`relative overflow-hidden rounded-xl h-[280px] sm:h-[340px] md:h-[380px] ${col.offset ? "md:order-last" : ""}`}>
                   <img src={col.img} alt={col.title} className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
                 <p className="font-['Overpass',sans-serif] font-bold text-[28px] text-white uppercase">{col.title}</p>
@@ -507,7 +514,7 @@ function FeaturedMachines() {
               View All →
             </button>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {MACHINES.map((m) => <MachineCard key={m.name} {...m} />)}
           </div>
         </div>
@@ -607,7 +614,7 @@ function WhyElietBanner({ bg, photo1, photo2, buttonLabel, setPage, wrapperClass
             <img src={bg} alt="" className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/65" />
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
-              <div className="col-span-1 flex flex-col justify-center gap-7 px-10 md:px-14 py-14">
+              <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
                 <ElietLogo svgData={deskSvg} />
                 <div className="h-px bg-white/15 w-full" />
                 <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
@@ -695,11 +702,11 @@ function Newsletter() {
   };
 
   return (
-    <section style={{ backgroundColor: DARK }} className="w-full py-24 px-6">
+    <section style={{ backgroundColor: DARK }} className="w-full py-16 sm:py-24 px-6 md:px-12 lg:px-20">
       <FadeUp>
         <div className="max-w-[600px] mx-auto flex flex-col items-center gap-7 text-center">
           <OrangeAccent />
-          <h2 className="font-['Overpass',sans-serif] font-extrabold text-4xl md:text-5xl text-white uppercase tracking-[-0.5px]">
+          <h2 className="font-['Overpass',sans-serif] font-extrabold text-3xl sm:text-4xl md:text-5xl text-white uppercase tracking-[-0.5px]">
             Be the First to Know
           </h2>
           <p className="font-['Overpass',sans-serif] text-[16px] text-white/55 leading-relaxed">
@@ -728,11 +735,13 @@ const FOOTER_LINK_TARGETS: Record<string, Page> = {
   "All Products": "products", "Find a Dealer": "dealers", "Demo Tour": "demo",
   "Downloads": "downloads", "Finance Options": "finance", "About Us": "about",
   "Service": "faq", "Machine Registration": "login",
+  "Design System": "design-system", "Navigation Lab": "nav-lab",
 };
 
 const FOOTER_COLS = [
   { heading: "AT ELIET", links: ["All Products", "Find a Dealer", "Demo Tour", "Downloads", "Finance Options"] },
   { heading: "ABOUT ELIET", links: ["About Us", "Service", "Machine Registration", "Press"] },
+  { heading: "FOR BUILDERS", links: ["Design System", "Navigation Lab"] },
   { heading: "GET IN TOUCH", links: ["2850 N Dug Gap Road, Dalton, GA 30720", "470-762-6266", "info@elietusa.com"] },
 ];
 
@@ -810,7 +819,7 @@ function DemoHero({ setPage }: { setPage: (p: Page) => void }) {
           About ELIET
         </motion.p>
         <motion.h1 initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Overpass',sans-serif] font-extrabold text-[72px] md:text-[110px] lg:text-[132px] text-white uppercase leading-none tracking-[-2px]">
+          className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[64px] md:text-[110px] lg:text-[132px] text-white uppercase leading-none tracking-[-2px]">
           Demo Tour
         </motion.h1>
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }}
@@ -1176,10 +1185,10 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
           <motion.div className="flex flex-col gap-5 items-center"
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}>
-            <h1 className="font-['Overpass',sans-serif] font-extrabold text-[72px] md:text-[90px] text-white uppercase leading-none tracking-[-2px]">
+            <h1 className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[56px] md:text-[90px] text-white uppercase leading-none tracking-[-2px]">
               Downloads
             </h1>
-            <p className="font-['Overpass',sans-serif] text-[20px] text-white/70 leading-relaxed">
+            <p className="font-['Overpass',sans-serif] text-[16px] sm:text-[20px] text-white/70 leading-relaxed">
               Find product manuals, maintenance schedules, and technical data
             </p>
           </motion.div>
@@ -1189,9 +1198,9 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             onSubmit={handleSearch}
-            className="flex gap-4 w-full max-w-[920px]"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-[920px]"
           >
-            <div className="flex-1 relative">
+            <div className="flex-1 relative min-w-0">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5">
                 <svg className="w-full h-full" fill="none" viewBox="0 0 20 20">
                   <path d={(downloadsSvg as Record<string, string>).p1615880} stroke="#9ca3af" strokeLinecap="round" strokeWidth="2" />
@@ -1208,7 +1217,7 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
             </div>
             <button
               type="submit"
-              className="h-14 px-8 rounded-lg font-['Overpass',sans-serif] font-extrabold text-[14px] text-white uppercase tracking-[1px] hover:brightness-110 hover:scale-[1.02] transition-all duration-200 shrink-0"
+              className="h-14 w-full sm:w-auto px-8 rounded-lg font-['Overpass',sans-serif] font-extrabold text-[14px] text-white uppercase tracking-[1px] hover:brightness-110 hover:scale-[1.02] transition-all duration-200 shrink-0"
               style={{ backgroundColor: searched ? "#16a34a" : ORANGE }}
             >
               {searched ? "✓ Found" : "Search"}
@@ -1283,7 +1292,7 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
               <img src={imgDownloadsWhyBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/65" />
               <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 flex flex-col justify-center gap-7 px-10 md:px-14 py-14">
+                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
                   <ElietLogo svgData={deskSvg} />
                   <div className="h-px bg-white/15 w-full" />
                   <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
@@ -1380,8 +1389,8 @@ function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p:
               </div>
 
               {/* Info */}
-              <div className="flex-1 flex flex-col gap-6 px-8 md:px-10 py-10">
-                <h1 className="font-['Overpass',sans-serif] font-extrabold text-[38px] md:text-[46px] text-[#131316] uppercase tracking-[1px] leading-none">
+              <div className="flex-1 flex flex-col gap-6 px-5 sm:px-8 md:px-10 py-8 sm:py-10">
+                <h1 className="font-['Overpass',sans-serif] font-extrabold text-[32px] sm:text-[38px] md:text-[46px] text-[#131316] uppercase tracking-[1px] leading-none">
                   {product.name}
                 </h1>
                 <div className="flex items-center gap-5 flex-wrap">
@@ -1414,7 +1423,7 @@ function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p:
                   </button>
                   <button
                     onClick={() => { setPage("downloads"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-                    className="font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] hover:opacity-60 transition-opacity"
+                    className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[1px] hover:opacity-60 transition-opacity"
                     style={{ color: ORANGE }}>
                     ↓ Download the Manual
                   </button>
@@ -1433,7 +1442,7 @@ function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p:
           <div className="relative max-w-3xl w-full mx-6" onClick={e => e.stopPropagation()}>
             <img src={product.image} alt={product.name} className="w-full rounded-2xl shadow-2xl" />
             <button onClick={() => setLightbox(false)}
-              className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg hover:bg-[#f0f0f0] transition-colors font-bold text-[#131316] text-xl leading-none">
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-lg hover:bg-[#f0f0f0] transition-colors font-bold text-[#131316] text-xl leading-none z-10">
               ×
             </button>
           </div>
@@ -1469,8 +1478,8 @@ function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p:
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {product.features.map((f, i) => (
                     <FadeUp key={f.title} delay={i * 0.06}>
-                      <div className="flex gap-5 p-5 rounded-xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] hover:shadow-md transition-all duration-300 group h-full">
-                        <div className="shrink-0 w-[110px] h-[110px] rounded-xl overflow-hidden bg-[#e8e8e8]">
+                      <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 p-4 sm:p-5 rounded-xl bg-[#f8f8f8] border border-[#eee] hover:border-[#ef7d00] hover:shadow-md transition-all duration-300 group h-full">
+                        <div className="shrink-0 w-full sm:w-[110px] h-[160px] sm:h-[110px] rounded-xl overflow-hidden bg-[#e8e8e8]">
                           <img src={f.img} alt={f.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
@@ -1588,7 +1597,7 @@ function DetailPage({ product, setPage }: { product: ProductDetail; setPage: (p:
               <img src={imgDetailWhyBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/65" />
               <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 flex flex-col justify-center gap-7 px-10 md:px-14 py-14">
+                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
                   <ElietLogo svgData={deskSvg} />
                   <div className="h-px bg-white/15 w-full" />
                   <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
@@ -1747,14 +1756,14 @@ function ProductsPage({ setPage, openProduct }: { setPage: (p: Page) => void; op
           <motion.h1
             initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="font-['Overpass',sans-serif] font-extrabold text-[64px] md:text-[90px] text-white uppercase leading-none tracking-[-2px]"
+            className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[56px] md:text-[90px] text-white uppercase leading-none tracking-[-2px]"
           >
             All Products
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="font-['Overpass',sans-serif] text-[18px] md:text-[22px] text-white/70 max-w-xl leading-relaxed"
+            className="font-['Overpass',sans-serif] text-[16px] sm:text-[18px] md:text-[22px] text-white/70 max-w-xl leading-relaxed"
           >
             Professional-grade equipment for green waste processing, lawn care, and beyond.
           </motion.p>
@@ -1765,22 +1774,22 @@ function ProductsPage({ setPage, openProduct }: { setPage: (p: Page) => void; op
       <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-5 border-b border-[#eee]">
         <div className="max-w-[1440px] mx-auto">
           <p className="font-['Overpass',sans-serif] text-[14px] text-[#777]">
-            <button onClick={() => setPage("home")} className="transition-colors hover:underline" style={{ color: ORANGE }}>Home</button>
+            <button onClick={() => setPage("home")} className="transition-colors hover:underline min-h-11 inline-flex items-center" style={{ color: ORANGE }}>Home</button>
             <span> / Products</span>
           </p>
         </div>
       </section>
 
       {/* Filter + Sort toolbar */}
-      <section className="bg-white w-full px-6 md:px-12 lg:px-20 pt-8 pb-6 sticky top-[70px] z-30 border-b border-[#f0f0f0]" style={{ backdropFilter: "blur(10px)" }}>
-        <div className="max-w-[1440px] mx-auto flex flex-col gap-4">
-          {/* Category pills */}
-          <div className="flex flex-wrap gap-2">
+      <section className="bg-white/95 w-full px-6 md:px-12 lg:px-20 pt-4 sm:pt-6 pb-4 sticky top-[70px] z-30 border-b border-[#f0f0f0]" style={{ backdropFilter: "blur(10px)" }}>
+        <div className="max-w-[1440px] mx-auto flex flex-col gap-3 sm:gap-4">
+          {/* Category pills — horizontal scroll on small screens */}
+          <div className="flex flex-nowrap sm:flex-wrap gap-2 overflow-x-auto pb-1 -mx-1 px-1" style={{ scrollbarWidth: "none" }}>
             {PRODUCT_CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => { setActiveCategory(cat); setCurrentPage(1); }}
-                className="px-4 py-2 rounded-full font-['Overpass',sans-serif] font-semibold text-[12px] uppercase tracking-[1px] transition-all duration-200"
+                className="shrink-0 min-h-10 px-4 py-2 rounded-full font-['Overpass',sans-serif] font-semibold text-[12px] uppercase tracking-[1px] transition-all duration-200"
                 style={{
                   backgroundColor: activeCategory === cat ? ORANGE : "#f4f4f4",
                   color: activeCategory === cat ? "white" : "#555",
@@ -1823,7 +1832,7 @@ function ProductsPage({ setPage, openProduct }: { setPage: (p: Page) => void; op
       <section className="bg-white w-full px-6 md:px-12 lg:px-20 py-10">
         <div className="max-w-[1440px] mx-auto flex flex-col gap-10">
           {paginated.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
               {paginated.map((p) => (
                 <ProductCard key={p.id} product={p}
                   onClick={() => { openProduct(productDetailFrom(p)); window.scrollTo({ top: 0, behavior: "smooth" }); }} />
@@ -1875,7 +1884,7 @@ function ProductsPage({ setPage, openProduct }: { setPage: (p: Page) => void; op
               <img src={imgProductsWhyBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/65" />
               <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 flex flex-col justify-center gap-7 px-10 md:px-14 py-14">
+                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
                   <ElietLogo svgData={deskSvg} />
                   <div className="h-px bg-white/15 w-full" />
                   <h2 className="font-['Overpass',sans-serif] font-extrabold text-[38px] text-white uppercase leading-tight tracking-[-0.5px]">
@@ -1939,7 +1948,7 @@ function AboutHero() {
           About ELIET
         </motion.p>
         <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="font-['Overpass',sans-serif] font-extrabold text-[64px] md:text-[90px] lg:text-[110px] text-white uppercase leading-none tracking-[-2px] mb-8">
+          className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-[64px] md:text-[90px] lg:text-[110px] text-white uppercase leading-none tracking-[-2px] mb-8">
           Serious.<br />Purposeful.<br /><span style={{ color: ORANGE }}>Belgian.</span>
         </motion.h1>
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }}
@@ -2228,7 +2237,7 @@ function BrochureFaqSection() {
             <div className="flex flex-col gap-6">
               <h3 className="font-['Overpass',sans-serif] font-medium text-[22px] text-[#131316] uppercase tracking-[-0.5px]">Request a Brochure</h3>
               <form onSubmit={submit} className="flex flex-col gap-5">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     { label: "First name *", k: "firstName", placeholder: "First name" },
                     { label: "Last name *", k: "lastName", placeholder: "Last name" },
@@ -2888,6 +2897,8 @@ function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
+  const { state } = useComparison();
+  const compareOpen = state.selectedIds.length > 0 && !state.isPopupOpen;
   useEffect(() => {
     const fn = () => setVisible(window.scrollY > 500);
     window.addEventListener("scroll", fn, { passive: true });
@@ -2900,8 +2911,8 @@ function BackToTop() {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200"
-      style={{ backgroundColor: DARK, border: `1.5px solid ${ORANGE}40` }}
+      className={`fixed right-4 sm:right-8 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200 ${compareOpen ? "bottom-24" : "bottom-8"}`}
+      style={{ backgroundColor: DARK, border: `1.5px solid ${ORANGE}40`, marginBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label="Back to top"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -3101,6 +3112,13 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
 function AppContent() {
   const [page, setPage] = useState<Page>("home");
   const [detailProduct, setDetailProduct] = useState<ProductDetail>(MAESTRO_CITY);
+  const { state } = useComparison();
+
+  useEffect(() => {
+    const compareVisible = state.selectedIds.length > 0 && !state.isPopupOpen;
+    document.body.classList.toggle("eliet-compare-open", compareVisible);
+    return () => document.body.classList.remove("eliet-compare-open");
+  }, [state.selectedIds.length, state.isPopupOpen]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
@@ -3136,6 +3154,10 @@ function AppContent() {
               <ContactPage setPage={setPage} />
             ) : page === "login" ? (
               <LoginPage setPage={setPage} />
+            ) : page === "design-system" ? (
+              <DesignSystemPage setPage={(p) => setPage(p as Page)} />
+            ) : page === "nav-lab" ? (
+              <NavigationLabPage setPage={(p) => setPage(p as Page)} navStructure={NAV_STRUCTURE} />
             ) : (
               <DownloadsPage setPage={setPage} />
             )}
@@ -3144,7 +3166,7 @@ function AppContent() {
       </main>
       <ComparisonBar />
       <ComparisonPopup />
-      <Toaster position="top-right" />
+      <Toaster position="top-center" offset={88} />
       <BackToTop />
     </div>
   );

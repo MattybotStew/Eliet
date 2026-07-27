@@ -37,6 +37,9 @@ Single-page React app (Vite + Tailwind v4 + motion). Page views live in `src/app
 | Dealer Locator | Dealer/store locator |
 | Finance Options | Financing information |
 | Contact | Contact form page |
+| Login | Login / machine registration (mock) |
+| Design System | Builder reference — tokens & components |
+| Navigation Lab | Builder reference — desktop + mobile nav |
 
 **Key shared components** (drawn from `App.tsx`):
 - `WhyElietBanner` — 3-column "Why Professionals Choose ELIET" banner (reused across 5 pages)
@@ -56,6 +59,7 @@ Images are in `src/imports/<Section>/`. Interaction/animation patterns use the `
 ## For the build team
 
 - Match the design as closely as Elementor/Astra allows; where a 1:1 match isn't practical, match the intent (hierarchy, rhythm, imagery treatment).
+- Open **Design System** and **Navigation Lab** from the footer (**FOR BUILDERS**) or About dropdown — interactive specs for tokens and header/nav behavior.
 - Product data, cart, checkout, and account flows come from WooCommerce — nothing in this repo defines them.
 - `JOURNAL.md` logs the prototype's change history; `AGENTS.md` is instructions for AI coding agents working on the prototype itself.
 

@@ -281,6 +281,18 @@ Prototype navigation (hash-based) → WordPress menu (URL-based):
 | `#finance` | `/finance-options/` | Finance Options |
 | `#contact` | `/contact/` | Contact |
 | `#login` | `/my-account/` | WooCommerce My Account |
+| Design System / Navigation Lab | *(prototype only)* | Builder reference views — not production WP pages; use for Astra header + design tokens |
+
+---
+
+## Builder reference views (prototype only)
+
+| Prototype | Purpose | Entry |
+|-----------|---------|-------|
+| `design-system` (`src/app/DevPages.tsx`) | Colors, type, buttons, pills, forms, FAQ, compare, breakpoints | Footer **FOR BUILDERS** · About → Design System |
+| `nav-lab` | Desktop dropdown open-states, mobile accordion (390px frame), menu → WP map | Footer **FOR BUILDERS** · About → Navigation Lab |
+
+Do **not** create public WordPress pages for these — they exist so the Elementor/Astra team can inspect chrome without hunting through marketing pages.
 
 ---
 

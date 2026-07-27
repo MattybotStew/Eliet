@@ -227,9 +227,10 @@ width setting with these values:
 - **Logo**: ELIET logo (SVG, in `src/imports/1Header/`)
 - **Nav items**: Products (dropdown), Service (dropdown), Where to Find ELIET (dropdown),
   About (dropdown), Demo Tour, Contact
-- **CTA**: Login button (orange, top right)
+- **CTA**: Login button (top right); search icon
 - **Sticky**: Header is sticky on scroll
-- **Dropdown behavior**: pure CSS hover on desktop, click-to-expand on mobile
+- **Dropdown behavior**: hover on desktop, click-to-expand accordion on mobile
+- **Interactive lab**: prototype view `nav-lab` (footer **FOR BUILDERS** / About → Navigation Lab) shows all dropdown open-states + a mobile phone-frame demo. Pair with Design System view `design-system` for tokens/components.
 
 ### Hero Sections (Home)
 

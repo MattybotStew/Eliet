@@ -14,14 +14,14 @@ export function CompareCheckbox({ productId }: { productId: number }) {
 
   return (
     <label
-      className={`inline-flex items-center gap-1.5 cursor-pointer select-none transition-opacity duration-150 ${
+      className={`inline-flex items-center gap-2 min-h-11 cursor-pointer select-none transition-opacity duration-150 ${
         disabled ? "opacity-40 pointer-events-none" : ""
       }`}
       aria-disabled={disabled}
       onClick={(e) => e.stopPropagation()}
     >
       <span
-        className="relative w-4 h-4 rounded-sm border transition-colors duration-150 flex items-center justify-center shrink-0"
+        className="relative w-5 h-5 rounded-sm border transition-colors duration-150 flex items-center justify-center shrink-0"
         style={{
           backgroundColor: selected ? ORANGE : "#fff",
           borderColor: selected ? ORANGE : "#ccc",

@@ -26,11 +26,12 @@ export function ComparisonBar() {
             backgroundColor: "#fff",
             borderTop: "1px solid #e5e5e5",
             boxShadow: "0 -4px 24px rgba(0,0,0,0.08)",
+            paddingBottom: "env(safe-area-inset-bottom, 0px)",
           }}
           role="region"
           aria-label="Compare products"
         >
-          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3 sm:gap-4">
             <div className="flex items-center gap-3 flex-1 min-w-0 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
               <span className="font-['Overpass',sans-serif] text-[13px] font-bold text-[#333] whitespace-nowrap shrink-0">
                 Compare
@@ -43,7 +44,7 @@ export function ComparisonBar() {
                 {products.map((p) => (
                   <div
                     key={p.id}
-                    className="relative flex items-center gap-2 border border-[#eee] rounded bg-[#fafafa] pl-1.5 pr-2 py-1.5 shrink-0"
+                    className="relative flex items-center gap-2 border border-[#eee] rounded bg-[#fafafa] pl-1.5 pr-1 py-1.5 shrink-0"
                   >
                     <div className="w-9 h-9 rounded overflow-hidden bg-white shrink-0">
                       <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
@@ -54,7 +55,7 @@ export function ComparisonBar() {
                     <button
                       type="button"
                       onClick={() => remove(p.id)}
-                      className="w-5 h-5 rounded-full flex items-center justify-center text-[#999] hover:text-[#333] hover:bg-[#eee] transition-colors shrink-0"
+                      className="min-w-11 min-h-11 -mr-1 rounded-full flex items-center justify-center text-[#999] hover:text-[#333] hover:bg-[#eee] transition-colors shrink-0"
                       aria-label={`Remove ${p.name}`}
                     >
                       <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
@@ -66,18 +67,18 @@ export function ComparisonBar() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               <button
                 type="button"
                 onClick={clearAll}
-                className="font-['Overpass',sans-serif] text-[12px] text-[#888] hover:text-[#333] transition-colors hidden sm:inline"
+                className="min-h-11 px-2 font-['Overpass',sans-serif] text-[12px] text-[#888] hover:text-[#333] transition-colors hidden sm:inline-flex items-center"
               >
                 Clear all
               </button>
               <button
                 type="button"
                 onClick={openPopup}
-                className="px-5 py-2.5 font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[0.5px] text-white transition-opacity hover:opacity-90"
+                className="min-h-11 px-5 py-2.5 font-['Overpass',sans-serif] font-bold text-[12px] uppercase tracking-[0.5px] text-white transition-opacity hover:opacity-90"
                 style={{ backgroundColor: ORANGE }}
               >
                 Compare

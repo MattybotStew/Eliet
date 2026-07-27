@@ -1,6 +1,6 @@
 # Eliet — agent instructions
 
-Marketing/product website for ELIET (garden machinery brand), originally exported from Figma Make and evolved in code. Single-page React app with client-side section routing between views: Desk (home), Products, product Detail, Downloads, About ELIET, Demo Tour, Warranty, FAQ, Dealer Locator, Finance Options, Contact, and Login.
+Marketing/product website for ELIET (garden machinery brand), originally exported from Figma Make and evolved in code. Single-page React app with client-side section routing between views: Desk (home), Products, product Detail, Downloads, About ELIET, Demo Tour, Warranty, FAQ, Dealer Locator, Finance Options, Contact, Login, plus builder-only **Design System** and **Navigation Lab**.
 
 ## Project intent — prototype only
 
@@ -36,6 +36,7 @@ Live design file (not Figma Make): [Eliet](https://www.figma.com/design/WfoDRzDK
 ## Structure & conventions
 
 - `src/app/App.tsx` — main shell (~3,100+ lines): page sections, navigation state, and asset imports. Keep its section-comment organization (`─── Section ───`) intact. Key shared components live here: `WhyElietBanner` (3-column banner reused across 5 pages), `WhyElietCompact` (single-column variant), `PageHero` (hero for support pages), `FadeUp` (scroll-reveal), `FaqItem` (accordion). Products grid pagination lives here — square page buttons must use `inline-flex items-center justify-center leading-none` so labels stay centered.
+  - **Builder reference views** (not production marketing pages): `design-system` and `nav-lab` live in `src/app/DevPages.tsx`. Entry points: About dropdown + footer **FOR BUILDERS**. Design System shows tokens/type/buttons/pills/forms/FAQ/compare; Navigation Lab shows desktop dropdown open-states, mobile accordion phone frame, and WP menu map.
   - **Nav → Products category filtering**: The header nav dropdown stores the target category on `window.__navCategory` when navigating to the Products page. `ProductsPage` consumes it in a `useEffect` on mount (sets `activeCategory`, then deletes the property). Don't break this two-step pattern.
   - **Form date fields**: Use regular text inputs (`type="text"`) with placeholder hints (`mm/dd/yyyy`). Native `type="date"` inputs ignore the placeholder attribute — the hint becomes invisible.
 - `src/app/products.ts` — product data: the `ProductDetail` type, full Maestro City content, `productDetailFrom()` helper, and the 71-item `CATALOG` (real 2026 equipment list). `DetailPage` is a reusable template that renders whatever `ProductDetail` it's given — to add a real product page, add a `ProductDetail` object here; don't hardcode product content in `App.tsx`.
@@ -46,12 +47,57 @@ Live design file (not Figma Make): [Eliet](https://www.figma.com/design/WfoDRzDK
   - `ComparisonContext` — max 3, `localStorage` list (`exppc_compare_list`)
   - `comparisonSpecs.ts` — attribute rows with `wcSlug` / `pa_*` + `getRelatedInCategory()`
   - Flow: Compare → sticky bar → **popup**. Production uses that extension + WooCommerce attributes — do not invent a custom compare backend. See README “Product comparison → Advanced Product Comparison”.
-- `src/styles/` — CSS layers loaded via `index.css`: `fonts.css` (Overpass), `tailwind.css` (Tailwind v4 + tw-animate-css), `theme.css` (Figma Make tokens), `globals.css` (smooth scroll, scrollbar, orange focus ring, selection color). In `@layer base`, buttons use `inline-flex` + `align-items` + **`justify-content: center`** so square controls (pagination, icon buttons) center correctly; Tailwind utilities can still override per-button.
+- `src/styles/` — CSS layers loaded via `index.css`: `fonts.css` (Overpass), `tailwind.css` (Tailwind v4 + tw-animate-css), `theme.css` (Figma Make tokens), `globals.css` (smooth scroll, scrollbar, orange focus ring, selection color, **safe-area / compare-open / nav-open body classes**). In `@layer base`, buttons use `inline-flex` + `align-items` + **`justify-content: center`** so square controls (pagination, icon buttons) center correctly; Tailwind utilities can still override per-button.
+  - `body.eliet-nav-open` — locks scroll while mobile header menu is open.
+  - `body.eliet-compare-open main` — adds bottom padding so sticky `ComparisonBar` doesn’t cover CTAs/footer.
 - `src/app/components/ui/` — shadcn-style primitives; `src/app/components/figma/` — Figma Make helpers. Don't hand-edit generated primitives unless the task requires it.
 - `src/imports/<Section>/` — Figma-exported images and SVG modules, imported directly by `App.tsx`. These are source files: they must be committed, never gitignored or "cleaned up" — deleting an unreferenced-looking hash-named file can break a view.
 - The React and Tailwind Vite plugins are both required by Figma Make even if unused — do not remove them from `vite.config.ts`.
 - Images in `src/imports/` were compressed in place on 2026-07-07. Re-exporting from Figma Make overwrites them with heavyweight originals — re-run compression afterwards (recipe in JOURNAL.md).
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md` only.
+
+## Responsive pass — IN PROGRESS (handoff to Zed)
+
+**Goal:** professional mobile → tablet → desktop fidelity across the prototype (not just desktop 1440). Figma Designs page has **no mobile artboards** — use prototype judgment + existing `sm`/`md`/`lg` patterns (`HomeHero` / `PageHero` as the type-scale reference).
+
+### Already done (uncommitted on `main` as of 2026-07-27 Cursor stop)
+
+Working tree includes these changes — **commit before continuing** (also includes untracked `src/app/DevPages.tsx` from Design System / Nav Lab):
+
+- **Hero type scale:** Products / Downloads / Demo / About → `text-[42px] sm:… md:…` (was fixed huge sizes that clipped on phones).
+- **Grids:** Shop-by-category → `grid-cols-1 sm:2 lg:4` + aspect heights; Featured machines → 1-col mobile; Products shop → `grid-cols-1 sm:2 md:3 lg:4`; TrustedBy → `md:grid-cols-3` (not `sm`).
+- **Category cards:** Explore CTA always visible on touch; hover-only fade reserved for `md+`.
+- **Products filter pills:** horizontal scroll on small screens; lighter sticky toolbar.
+- **Downloads search:** stacks `flex-col sm:flex-row`.
+- **Brochure form:** `grid-cols-1 sm:grid-cols-2`.
+- **Header:** 44px tap targets (menu/search); mobile nav `max-h-[calc(100dvh-70px)] overflow-y-auto` + body scroll lock.
+- **Compare:** safer tap targets on bar remove / checkbox / popup close; safe-area on bar; `eliet-compare-open` main padding; BackToTop lifts when bar visible.
+- **Misc:** Newsletter gutters + type; PDP feature cards stack image above text on mobile; lightbox close inset; toaster `top-center`.
+- **Build:** `npm run build` passes with current WIP.
+
+### Next steps for Zed (finish the pass)
+
+1. **Commit current WIP** if not already (DevPages + responsive + docs) so Pages deploy isn’t half-done later — or finish polish first then one commit; ask user preference.
+2. **Finish WhyElietCompact padding** — two remaining `px-10 md:px-14 py-14` blocks in `App.tsx` (~665, ~2753 Finance compact). Match banner: `px-6 sm:px-10 md:px-14 py-12 sm:py-14`.
+3. **ProductCard image height** — still fixed `height: 260`; use `h-[200px] sm:h-[260px]` (or similar) so 1-col mobile cards aren’t oversized.
+4. **Detail specs / accessories rows** — long values can collide; `flex-col sm:flex-row` or `gap` + `break-words` / `min-w-0`.
+5. **CTA / escalation bands** — any remaining `px-10` without `sm:` step (dealer/FAQ/contact bands ~2530–2690); align to `px-6 sm:px-10`.
+6. **Dealer text links** — ensure `min-h-11` tap targets on phone/email.
+7. **Comparison popup mobile** — optional: truncate “View {name} →” / shorter label on narrow; table already scrolls horizontally.
+8. **Visual QA** — resize or device check: Home, Products, PDP, Contact, Login, Design System, Nav Lab; open compare bar on phone width; open hamburger + accordion scroll.
+9. **Docs after finish** — note responsive conventions in `wordpress/HANDOFF.md` Responsive Breakpoints (safe-area, compare padding, 1-col product grid); short JOURNAL entry; sync `eliet-components.css` only if new reusable rules belong there.
+10. **Do not** invent Figma mobile frames; do not touch Cline-owned WordPress export unless catalog/compare specs change.
+
+### Breakpoint convention (keep consistent)
+
+| Prefix | Width | Expectation |
+|--------|-------|-------------|
+| (base) | &lt; 640 | Single column; stacked forms; hamburger nav |
+| `sm:` | ≥ 640 | 2-col cards where appropriate |
+| `md:` | ≥ 768 | 2–3 col grids; sticky subnavs |
+| `lg:` | ≥ 1024 | Desktop horizontal nav + hover dropdowns; 4-col shop |
+
+Touch targets: prefer **≥ 44×44** (`min-h-11 min-w-11`) for icon/hamburger/compare remove.
 
 ## WordPress handoff (`wordpress/`)
 

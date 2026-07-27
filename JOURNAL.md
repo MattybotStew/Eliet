@@ -1,4 +1,20 @@
 
+## 2026-07-27 — Cursor — STOP handoff: responsive pass → Zed
+
+- **Stopped mid responsive professional pass.** Core P0/P1 work is in the working tree (uncommitted) + untracked `src/app/DevPages.tsx`.
+- **Done:** hero type scales, 1-col mobile product/featured/category grids, touch Explore on category cards, products pill scroll, downloads search stack, brochure 1-col form, header 44px targets + scrollable mobile nav + body lock, compare bar safe-area/padding/BackToTop lift, PDP feature stack, lightbox inset, toaster top-center. `npm run build` OK.
+- **Zed next:** see **AGENTS.md → “Responsive pass — IN PROGRESS”** numbered list (WhyElietCompact padding leftovers, ProductCard image height, detail spec rows, CTA `px-10`, dealer tap targets, compare popup polish, visual QA, then commit + HANDOFF note).
+- Do not start unrelated work until that section is cleared or cancelled.
+
+## 2026-07-27 — Cursor — Design System + Navigation Lab pages
+
+- Added builder-only prototype views in `src/app/DevPages.tsx`:
+  - **Design System** (`design-system`): colors, type, buttons, category pills, forms, FAQ accordion, compare control, layout/breakpoints table.
+  - **Navigation Lab** (`nav-lab`): desktop header anatomy, all dropdowns shown open, interactive mobile accordion in a 390px frame, WP menu map table.
+- Wired into `App.tsx` routing; entry via About dropdown + footer **FOR BUILDERS**.
+- Docs: `AGENTS.md`, `README.md`, `wordpress/HANDOFF.md`, `wordpress/PAGE-MAPPING.md`.
+- Not production WP pages — handoff reference only. Build passes.
+
 ## 2026-07-27 — Cursor — Figma→prototype design alignment
 
 - Canonical HQ from Figma Desk majority (9× Dalton vs 3× Moreland): **2850 N Dug Gap Road, Dalton, GA 30720**, phone **470-762-6266**.

@@ -3,6 +3,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Safe areas for fixed chrome (compare bar, back-to-top, mobile nav) */
+:root {
+  --eliet-header-h: 70px;
+  --eliet-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+body.eliet-nav-open {
+  overflow: hidden;
+}
+
+/* When compare tray is visible, keep page content clear of the sticky bar */
+body.eliet-compare-open main {
+  padding-bottom: calc(5.5rem + var(--eliet-safe-bottom));
+}
+
 /* ─── Consistent focus ring ──────────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid #ef7d00;
