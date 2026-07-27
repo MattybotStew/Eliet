@@ -154,8 +154,6 @@ const NAV_STRUCTURE: NavItem[] = [
       { label: "Request Brochure", page: "about" },
       { label: "Exhibitions & Events", page: "demo" },
       { label: "FAQs", page: "faq" },
-      { label: "Design System", page: "design-system" },
-      { label: "Navigation Lab", page: "nav-lab" },
     ],
   },
   { label: "Demo Tour", page: "demo" },
@@ -1192,8 +1190,6 @@ const FOOTER_LINK_TARGETS: Record<string, Page> = {
   "About Us": "about",
   Service: "faq",
   "Machine Registration": "login",
-  "Design System": "design-system",
-  "Navigation Lab": "nav-lab",
 };
 
 const FOOTER_COLS = [
@@ -1211,7 +1207,6 @@ const FOOTER_COLS = [
     heading: "ABOUT ELIET",
     links: ["About Us", "Service", "Machine Registration", "Press"],
   },
-  { heading: "FOR BUILDERS", links: ["Design System", "Navigation Lab"] },
   {
     heading: "GET IN TOUCH",
     links: [
@@ -5441,16 +5436,59 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
 }
 
 function AppContent() {
-  const [page, setPage] = useState<Page>("home");
+  const hashToPage = (hash: string): Page | null => {
+    if (hash === "#design-system") return "design-system";
+    if (hash === "#nav-lab") return "nav-lab";
+    return null;
+  };
+
+  const pageToHash = (nextPage: Page): string => {
+    if (nextPage === "design-system") return "#design-system";
+    if (nextPage === "nav-lab") return "#nav-lab";
+    return "";
+  };
+
+  const initialHashPage = hashToPage(window.location.hash);
+  const [page, setPageState] = useState<Page>(initialHashPage ?? "home");
   const [detailProduct, setDetailProduct] =
     useState<ProductDetail>(MAESTRO_CITY);
   const { state } = useComparison();
+
+  const setPage = (nextPage: Page) => {
+    setPageState(nextPage);
+    const nextHash = pageToHash(nextPage);
+    const currentHash = window.location.hash;
+    if (nextHash) {
+      if (currentHash !== nextHash)
+        window.history.replaceState(null, "", nextHash);
+    } else if (currentHash) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
+    }
+  };
 
   useEffect(() => {
     const compareVisible = state.selectedIds.length > 0 && !state.isPopupOpen;
     document.body.classList.toggle("eliet-compare-open", compareVisible);
     return () => document.body.classList.remove("eliet-compare-open");
   }, [state.selectedIds.length, state.isPopupOpen]);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const hashPage = hashToPage(window.location.hash);
+      if (hashPage) {
+        setPageState(hashPage);
+      } else if (page === "design-system" || page === "nav-lab") {
+        setPageState("home");
+      }
+    };
+
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, [page]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
