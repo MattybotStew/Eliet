@@ -906,11 +906,11 @@ function HomeDealerLocator({ setPage }: { setPage: (p: Page) => void }) {
               style={{ backgroundColor: ORANGE }}
             />
             <div
-              className="relative z-10 h-full flex flex-col md:flex-row items-center justify-between gap-8 px-10 md:px-16 py-14"
+              className="relative z-10 h-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 px-6 sm:px-10 md:px-12 lg:px-16 py-12 sm:py-14"
               style={{ minHeight: 420 }}
             >
               <div className="flex flex-col gap-4 max-w-lg">
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-5xl md:text-[62px] text-white uppercase leading-none tracking-[-1px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-5xl md:text-[56px] lg:text-[62px] text-white uppercase leading-none tracking-[-1px]">
                   Dealer Locator
                 </h2>
                 <p className="font-['Overpass',sans-serif] text-[16px] text-white/65 leading-relaxed">
@@ -923,7 +923,7 @@ function HomeDealerLocator({ setPage }: { setPage: (p: Page) => void }) {
                   setPage("dealers");
                   window.scrollTo({ top: 0 });
                 }}
-                className="shrink-0 px-8 py-4 bg-white rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
+                className="shrink-0 w-full sm:w-auto px-8 py-4 bg-white rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
                 style={{ color: DARK }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = ORANGE;
@@ -1703,7 +1703,7 @@ function DemoPage({ setPage }: { setPage: (p: Page) => void }) {
       <DemoHero setPage={setPage} />
       {/* Form + Events */}
       <section className="bg-white w-full py-24 px-6 md:px-12 lg:px-20">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-start">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-1 xl:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-start">
           <RequestDemoForm />
           <UpcomingEvents />
         </div>
@@ -3882,9 +3882,9 @@ function HaveAQuestionCta() {
               className="absolute top-0 left-0 h-1 w-16"
               style={{ backgroundColor: ORANGE }}
             />
-            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 px-10 md:px-16 py-14">
+            <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 px-6 sm:px-10 md:px-12 lg:px-16 py-12 sm:py-14">
               <div className="flex flex-col gap-4 max-w-lg">
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-5xl md:text-[62px] text-white uppercase leading-none tracking-[-1px]">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-5xl md:text-[56px] lg:text-[62px] text-white uppercase leading-none tracking-[-1px]">
                   Have a question?
                 </h2>
                 <p className="font-['Overpass',sans-serif] text-[16px] text-white/65 leading-relaxed">
@@ -3893,7 +3893,7 @@ function HaveAQuestionCta() {
                 </p>
               </div>
               <button
-                className="shrink-0 px-8 py-4 bg-white rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
+                className="shrink-0 w-full sm:w-auto px-8 py-4 bg-white rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] transition-all duration-200 hover:scale-105"
                 style={{ color: DARK }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = ORANGE;
@@ -4261,11 +4261,11 @@ function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
       <section className="w-full px-6 md:px-12 lg:px-20 pb-20">
         <FadeUp>
           <div
-            className="max-w-[1440px] mx-auto rounded-2xl px-10 py-14 flex flex-col md:flex-row items-center justify-between gap-8"
+            className="max-w-[1440px] mx-auto rounded-2xl px-6 sm:px-10 md:px-12 lg:px-16 py-12 sm:py-14 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
             style={{ backgroundColor: "#0f172a" }}
           >
             <div className="flex flex-col gap-3 max-w-xl">
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[38px] text-white uppercase leading-none tracking-[-1px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[34px] lg:text-[38px] text-white uppercase leading-none tracking-[-1px]">
                 Register Your Machine for Warranty
               </h2>
               <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">
@@ -4278,7 +4278,7 @@ function WarrantyPage({ setPage }: { setPage: (p: Page) => void }) {
                 setPage("contact");
                 window.scrollTo({ top: 0 });
               }}
-              className="shrink-0 px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
+              className="shrink-0 w-full sm:w-auto px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
               style={{
                 backgroundColor: ORANGE,
                 boxShadow: `0 4px 20px ${ORANGE}40`,
@@ -4337,11 +4337,11 @@ function FaqPage({ setPage }: { setPage: (p: Page) => void }) {
       <section className="w-full px-6 md:px-12 lg:px-20 pb-20">
         <FadeUp>
           <div
-            className="max-w-[1440px] mx-auto rounded-2xl px-10 py-14 flex flex-col md:flex-row items-center justify-between gap-8"
+            className="max-w-[1440px] mx-auto rounded-2xl px-6 sm:px-10 md:px-12 lg:px-16 py-12 sm:py-14 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
             style={{ backgroundColor: "#0f172a" }}
           >
             <div className="flex flex-col gap-3 max-w-xl">
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[38px] text-white uppercase leading-none tracking-[-1px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[34px] lg:text-[38px] text-white uppercase leading-none tracking-[-1px]">
                 Still Have Questions?
               </h2>
               <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">
@@ -4354,7 +4354,7 @@ function FaqPage({ setPage }: { setPage: (p: Page) => void }) {
                 setPage("contact");
                 window.scrollTo({ top: 0 });
               }}
-              className="shrink-0 px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
+              className="shrink-0 w-full sm:w-auto px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
               style={{
                 backgroundColor: ORANGE,
                 boxShadow: `0 4px 20px ${ORANGE}40`,
@@ -4606,11 +4606,11 @@ function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
       <section className="w-full px-6 md:px-12 lg:px-20 py-16 bg-white">
         <FadeUp>
           <div
-            className="max-w-[1440px] mx-auto rounded-2xl px-6 sm:px-10 py-12 sm:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
+            className="max-w-[1440px] mx-auto rounded-2xl px-6 sm:px-10 md:px-12 lg:px-16 py-12 sm:py-14 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
             style={{ backgroundColor: "#0f172a" }}
           >
             <div className="flex flex-col gap-3 max-w-xl">
-              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[38px] text-white uppercase leading-none tracking-[-1px]">
+              <h2 className="font-['Overpass',sans-serif] font-extrabold text-[30px] md:text-[34px] lg:text-[38px] text-white uppercase leading-none tracking-[-1px]">
                 Don't See a Dealer Near You?
               </h2>
               <p className="font-['Overpass',sans-serif] text-[15px] text-white/55">
@@ -4618,13 +4618,13 @@ function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
                 find support in your area.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3 sm:gap-4 shrink-0 w-full md:w-auto">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3 sm:gap-4 shrink-0 w-full lg:w-auto">
               <button
                 onClick={() => {
                   setPage("contact");
                   window.scrollTo({ top: 0 });
                 }}
-                className="px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
+                className="w-full sm:w-auto px-8 py-4 rounded-full font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white hover:scale-105 hover:brightness-110 transition-all duration-200"
                 style={{
                   backgroundColor: ORANGE,
                   boxShadow: `0 4px 20px ${ORANGE}40`,
@@ -4637,7 +4637,7 @@ function DealersPage({ setPage }: { setPage: (p: Page) => void }) {
                   setPage("contact");
                   window.scrollTo({ top: 0 });
                 }}
-                className="font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white/85 hover:text-white transition-colors"
+                className="w-full sm:w-auto text-left font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white/85 hover:text-white transition-colors"
               >
                 Contact ELIET Directly →
               </button>
@@ -4845,13 +4845,13 @@ function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
                   <div className="flex flex-col gap-1 pt-1">
                     <a
                       href="tel:+14707626266"
-                      className="font-['Overpass',sans-serif] font-semibold text-[15px] text-[#131316] hover:opacity-70 transition-opacity"
+                      className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] font-semibold text-[15px] text-[#131316] hover:opacity-70 transition-opacity"
                     >
                       {b.phone}
                     </a>
                     <a
                       href={`mailto:${b.email}`}
-                      className="font-['Overpass',sans-serif] text-[14px] hover:opacity-70 transition-opacity"
+                      className="min-h-11 inline-flex items-center font-['Overpass',sans-serif] text-[14px] hover:opacity-70 transition-opacity break-all"
                       style={{ color: ORANGE }}
                     >
                       {b.email}
@@ -4875,7 +4875,7 @@ function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
                 ].map(([d, h]) => (
                   <div
                     key={d}
-                    className="flex items-center justify-between border-b border-[#eee] last:border-0 pb-2 last:pb-0"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 border-b border-[#eee] last:border-0 pb-2 last:pb-0"
                   >
                     <span className="font-['Overpass',sans-serif] text-[14px] text-[#444] font-semibold">
                       {d}
@@ -4991,7 +4991,7 @@ function ContactPage({ setPage }: { setPage: (p: Page) => void }) {
 
       {/* Resource redirection */}
       <section className="bg-[#f4f4f4] w-full px-6 md:px-12 lg:px-20 py-14">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
           {CONTACT_RESOURCES.map((c, i) => (
             <FadeUp key={c.title} delay={i * 0.07}>
               <button
@@ -5197,8 +5197,8 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
                       className={lightInput}
                     />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <label className="flex flex-col sm:flex-row sm:items-center gap-2 cursor-pointer min-w-0">
                       <input
                         type="checkbox"
                         className="w-4 h-4 accent-[#ef7d00]"
@@ -5209,7 +5209,7 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
                     </label>
                     <button
                       type="button"
-                      className="font-['Overpass',sans-serif] font-semibold text-[13px] hover:underline"
+                      className="font-['Overpass',sans-serif] font-semibold text-[13px] hover:underline self-start sm:self-auto"
                       style={{ color: ORANGE }}
                     >
                       Forgot password?

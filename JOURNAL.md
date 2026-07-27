@@ -1,3 +1,11 @@
+## 2026-07-27 — Zed / GPT-5.4 — 768px tablet cleanup pass
+
+- Follow-up pass for the user-reported broken **768px** view.
+- Kept major CTA / escalation banners stacked until `lg` instead of forcing side-by-side layout at `md`, and softened their tablet heading scales/padding so they stop feeling overblown at iPad-width screens.
+- Refined tablet behavior in Contact/Login flows: contact resource cards now stay `1 → 2 → 3` columns (`base` / `sm` / `xl`), office-hours rows wrap cleanly, phone/email links keep stronger tap targets, and the login remember/forgot row no longer collides at mid widths.
+- Dealer/support CTA buttons now expand full-width on narrow/tight widths for more stable large-phone/tablet layouts.
+- Validation: `npm run build` passes.
+
 ## 2026-07-27 — Zed / GPT-5.4 — tablet / large-phone nav + footer polish
 
 - Follow-up responsive QA pass focused on awkward in-between widths.
