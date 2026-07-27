@@ -84,7 +84,6 @@ import imgWhyPhoto2 from "@/imports/Desk/fdd6e374d528d07eceea4ad1a4b0646537fccb8
 // ─── Demo Tour page assets (DemoTour) ────────────────────────────────────────
 import demoSvg from "@/imports/DemoTour/svg-w9v4mzv8qe";
 import imgDemoHero from "@/imports/DemoTour/demo-hero.jpg";
-import imgMapPlaceholder from "@/imports/DemoTour/775f0ad568422bc32cdac14671967599f64cdeb4.png";
 
 // ─── Brand ───────────────────────────────────────────────────────────────────
 const ORANGE = "#ef7d00";
@@ -1222,41 +1221,87 @@ function Newsletter() {
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
-const FOOTER_LINK_TARGETS: Record<string, Page> = {
-  "All Products": "products",
-  "Find a Dealer": "dealers",
-  "Demo Tour": "demo",
-  Downloads: "downloads",
-  "Finance Options": "finance",
-  "About Us": "about",
-  Service: "faq",
-  "Machine Registration": "login",
-};
+const HQ_ADDRESS = "2850 N Dug Gap Road, Dalton, GA 30720";
+const HQ_PHONE = "470-762-6266";
+const HQ_PHONE_HREF = "tel:+14707626266";
+const HQ_EMAIL = "info@elietusa.com";
+const HQ_EMAIL_HREF = "mailto:info@elietusa.com";
 
-const FOOTER_COLS = [
+type FooterLink =
+  | { type: "page"; label: string; page: Page }
+  | { type: "href"; label: string; href: string }
+  | { type: "text"; label: string };
+
+const FOOTER_COLS: { heading: string; links: FooterLink[] }[] = [
   {
     heading: "AT ELIET",
     links: [
-      "All Products",
-      "Find a Dealer",
-      "Demo Tour",
-      "Downloads",
-      "Finance Options",
+      { type: "page", label: "All Products", page: "products" },
+      { type: "page", label: "Find a Dealer", page: "dealers" },
+      { type: "page", label: "Demo Tour", page: "demo" },
+      { type: "page", label: "Finance Options", page: "finance" },
     ],
   },
   {
     heading: "ABOUT ELIET",
-    links: ["About Us", "Service", "Machine Registration", "Press"],
+    links: [
+      { type: "page", label: "About Us", page: "about" },
+      { type: "page", label: "Downloads", page: "downloads" },
+      { type: "page", label: "Warranty", page: "warranty" },
+      { type: "page", label: "FAQ", page: "faq" },
+      { type: "page", label: "Machine Registration", page: "login" },
+    ],
   },
   {
     heading: "GET IN TOUCH",
     links: [
-      "2850 N Dug Gap Road, Dalton, GA 30720",
-      "470-762-6266",
-      "info@elietusa.com",
+      { type: "page", label: "Contact", page: "contact" },
+      { type: "text", label: HQ_ADDRESS },
+      { type: "href", label: HQ_PHONE, href: HQ_PHONE_HREF },
+      { type: "href", label: HQ_EMAIL, href: HQ_EMAIL_HREF },
     ],
   },
 ];
+
+const footerLinkClass =
+  "justify-start min-h-11 py-1 font-['Overpass',sans-serif] text-[14px] text-white/35 hover:text-white/75 transition-colors duration-200 text-left leading-snug break-words";
+
+function FooterLinkItem({
+  link,
+  setPage,
+}: {
+  link: FooterLink;
+  setPage: (p: Page) => void;
+}) {
+  if (link.type === "text") {
+    return (
+      <p className={`${footerLinkClass} cursor-default hover:text-white/35`}>
+        {link.label}
+      </p>
+    );
+  }
+
+  if (link.type === "href") {
+    return (
+      <a href={link.href} className={`${footerLinkClass} inline-flex`}>
+        {link.label}
+      </a>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        setPage(link.page);
+        window.scrollTo({ top: 0 });
+      }}
+      className={footerLinkClass}
+    >
+      {link.label}
+    </button>
+  );
+}
 
 function Footer({
   setPage,
@@ -1285,20 +1330,11 @@ function Footer({
               </p>
               <div className="flex flex-col gap-1.5">
                 {col.links.map((link) => (
-                  <button
-                    key={link}
-                    onClick={
-                      FOOTER_LINK_TARGETS[link]
-                        ? () => {
-                            setPage(FOOTER_LINK_TARGETS[link]);
-                            window.scrollTo({ top: 0 });
-                          }
-                        : undefined
-                    }
-                    className="justify-start min-h-11 py-1 font-['Overpass',sans-serif] text-[14px] text-white/35 hover:text-white/75 transition-colors duration-200 text-left leading-snug break-words"
-                  >
-                    {link}
-                  </button>
+                  <FooterLinkItem
+                    key={link.label}
+                    link={link}
+                    setPage={setPage}
+                  />
                 ))}
               </div>
             </div>
@@ -1354,7 +1390,7 @@ function OrangeBar2() {
 
 function DemoHero({ setPage }: { setPage: (p: Page) => void }) {
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative w-full min-h-[480px] sm:min-h-[560px] md:min-h-[640px] lg:min-h-[720px] flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
           src={imgDemoHero}
@@ -1499,8 +1535,7 @@ function RequestDemoForm() {
   };
 
   return (
-    <FadeUp>
-      <div id="request-demo" className="flex flex-col gap-8">
+    <div id="request-demo" className="flex flex-col gap-8">
         <div className="flex flex-col gap-3">
           <OrangeBar2 />
           <h2 className="font-['Overpass',sans-serif] font-bold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.5px]">
@@ -1592,7 +1627,6 @@ function RequestDemoForm() {
           </button>
         </form>
       </div>
-    </FadeUp>
   );
 }
 
@@ -1716,17 +1750,15 @@ function EventCard({
 function UpcomingEvents() {
   return (
     <div id="events" className="flex flex-col gap-8">
-      <FadeUp>
-        <div className="flex flex-col gap-3">
-          <OrangeBar2 />
-          <h2 className="font-['Overpass',sans-serif] font-bold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.5px]">
-            Upcoming Demo Events
-          </h2>
-          <p className="font-['Overpass',sans-serif] text-[15px] text-[#777]">
-            {EVENTS.length} events scheduled for 2026 — find one near you.
-          </p>
-        </div>
-      </FadeUp>
+      <div className="flex flex-col gap-3">
+        <OrangeBar2 />
+        <h2 className="font-['Overpass',sans-serif] font-bold text-[28px] sm:text-[32px] md:text-[36px] min-[1201px]:text-[42px] text-[#131316] uppercase tracking-[-0.5px]">
+          Upcoming Demo Events
+        </h2>
+        <p className="font-['Overpass',sans-serif] text-[15px] text-[#777]">
+          {EVENTS.length} events scheduled for 2026 — find one near you.
+        </p>
+      </div>
       <div className="flex flex-col gap-4">
         {EVENTS.map((ev, i) => (
           <EventCard key={i} event={ev} index={i} />
@@ -1737,6 +1769,10 @@ function UpcomingEvents() {
 }
 
 function DemoPage({ setPage }: { setPage: (p: Page) => void }) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <DemoHero setPage={setPage} />
@@ -1746,34 +1782,6 @@ function DemoPage({ setPage }: { setPage: (p: Page) => void }) {
           <RequestDemoForm />
           <UpcomingEvents />
         </div>
-      </section>
-      {/* Map */}
-      <section className="bg-white w-full pb-24 px-6 md:px-12 lg:px-20">
-        <FadeUp>
-          <div className="max-w-[1280px] mx-auto">
-            <div
-              className="relative rounded-2xl overflow-hidden shadow-xl group"
-              style={{ height: 400 }}
-            >
-              <img
-                src={imgMapPlaceholder}
-                alt="Demo locations map"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute inset-0 flex items-center pointer-events-none">
-                <div className="pl-10 md:pl-16 flex flex-col gap-3">
-                  <p className="font-['Overpass',sans-serif] font-bold text-[24px] sm:text-[28px] md:text-[36px] text-white uppercase tracking-[-0.3px]">
-                    Find a Demo Near You
-                  </p>
-                  <p className="font-['Overpass',sans-serif] text-[15px] text-white/70 max-w-xs">
-                    All confirmed 2026 demo locations across the US.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </FadeUp>
       </section>
       <HomeDealerLocator setPage={setPage} />
       <WhyElietBanner
