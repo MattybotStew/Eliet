@@ -56,46 +56,25 @@ Live design file (not Figma Make): [Eliet](https://www.figma.com/design/WfoDRzDK
 - Images in `src/imports/` were compressed in place on 2026-07-07. Re-exporting from Figma Make overwrites them with heavyweight originals — re-run compression afterwards (recipe in JOURNAL.md).
 - `CLAUDE.md` is a symlink to `AGENTS.md` — edit `AGENTS.md` only.
 
-## Responsive pass — IN PROGRESS (handoff to Zed)
+## Responsive pass — COMPLETE (with footer grid follow-up)
 
-**Goal:** professional mobile → tablet → desktop fidelity across the prototype (not just desktop 1440). Figma Designs page has **no mobile artboards** — use prototype judgment + existing `sm`/`md`/`lg` patterns (`HomeHero` / `PageHero` as the type-scale reference).
+**Goal:** professional mobile → tablet → desktop fidelity. Figma Designs has **no mobile artboards** — use `HomeHero` / `PageHero` type scales and `sm`/`md`/`lg` conventions below.
 
-### Already done (uncommitted on `main` as of 2026-07-27 Cursor stop)
+Zed finished the Cursor handoff list (2026-07-27). Cursor then closed the footer / image-grid follow-up:
 
-Working tree includes these changes — **commit before continuing** (also includes untracked `src/app/DevPages.tsx` from Design System / Nav Lab):
-
-- **Hero type scale:** Products / Downloads / Demo / About → `text-[42px] sm:… md:…` (was fixed huge sizes that clipped on phones).
-- **Grids:** Shop-by-category → `grid-cols-1 sm:2 lg:4` + aspect heights; Featured machines → 1-col mobile; Products shop → `grid-cols-1 sm:2 md:3 lg:4`; TrustedBy → `md:grid-cols-3` (not `sm`).
-- **Category cards:** Explore CTA always visible on touch; hover-only fade reserved for `md+`.
-- **Products filter pills:** horizontal scroll on small screens; lighter sticky toolbar.
-- **Downloads search:** stacks `flex-col sm:flex-row`.
-- **Brochure form:** `grid-cols-1 sm:grid-cols-2`.
-- **Header:** 44px tap targets (menu/search); mobile nav `max-h-[calc(100dvh-70px)] overflow-y-auto` + body scroll lock.
-- **Compare:** safer tap targets on bar remove / checkbox / popup close; safe-area on bar; `eliet-compare-open` main padding; BackToTop lifts when bar visible.
-- **Misc:** Newsletter gutters + type; PDP feature cards stack image above text on mobile; lightbox close inset; toaster `top-center`.
-- **Build:** `npm run build` passes with current WIP.
-
-### Next steps for Zed (finish the pass)
-
-1. **Commit current WIP** if not already (DevPages + responsive + docs) so Pages deploy isn’t half-done later — or finish polish first then one commit; ask user preference.
-2. **Finish WhyElietCompact padding** — two remaining `px-10 md:px-14 py-14` blocks in `App.tsx` (~665, ~2753 Finance compact). Match banner: `px-6 sm:px-10 md:px-14 py-12 sm:py-14`.
-3. **ProductCard image height** — still fixed `height: 260`; use `h-[200px] sm:h-[260px]` (or similar) so 1-col mobile cards aren’t oversized.
-4. **Detail specs / accessories rows** — long values can collide; `flex-col sm:flex-row` or `gap` + `break-words` / `min-w-0`.
-5. **CTA / escalation bands** — any remaining `px-10` without `sm:` step (dealer/FAQ/contact bands ~2530–2690); align to `px-6 sm:px-10`.
-6. **Dealer text links** — ensure `min-h-11` tap targets on phone/email.
-7. **Comparison popup mobile** — optional: truncate “View {name} →” / shorter label on narrow; table already scrolls horizontally.
-8. **Visual QA** — resize or device check: Home, Products, PDP, Contact, Login, Design System, Nav Lab; open compare bar on phone width; open hamburger + accordion scroll.
-9. **Docs after finish** — note responsive conventions in `wordpress/HANDOFF.md` Responsive Breakpoints (safe-area, compare padding, 1-col product grid); short JOURNAL entry; sync `eliet-components.css` only if new reusable rules belong there.
-10. **Do not** invent Figma mobile frames; do not touch Cline-owned WordPress export unless catalog/compare specs change.
+- **Footer:** unified grid `grid-cols-1 sm:grid-cols-2 xl:grid-cols-4` with **brand block as column 1** + AT ELIET / ABOUT / GET IN TOUCH → true **4-across** at `xl`, **2×2** at `sm`–`lg`. Bottom bar left-aligned.
+- **USA Team:** `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` (2×2 tablet, 4-up desktop).
+- **TrustedBy:** stays `md:grid-cols-3` (three narrative columns — intentional, not a bug).
+- Builder pages: Design System / Nav Lab in `src/app/DevPages.tsx` (About dropdown + footer entry may vary — check current nav).
 
 ### Breakpoint convention (keep consistent)
 
-| Prefix | Width | Expectation |
-|--------|-------|-------------|
-| (base) | &lt; 640 | Single column; stacked forms; hamburger nav |
-| `sm:` | ≥ 640 | 2-col cards where appropriate |
-| `md:` | ≥ 768 | 2–3 col grids; sticky subnavs |
-| `lg:` | ≥ 1024 | Desktop horizontal nav + hover dropdowns; 4-col shop |
+| Prefix | Width    | Expectation                                          |
+| ------ | -------- | ---------------------------------------------------- |
+| (base) | &lt; 640 | Single column; stacked forms; hamburger nav          |
+| `sm:`  | ≥ 640    | 2-col cards where appropriate                        |
+| `md:`  | ≥ 768    | 2–3 col grids; sticky subnavs                        |
+| `lg:`  | ≥ 1024   | Desktop horizontal nav + hover dropdowns; 4-col shop |
 
 Touch targets: prefer **≥ 44×44** (`min-h-11 min-w-11`) for icon/hamburger/compare remove.
 
@@ -137,5 +116,6 @@ The `wordpress/` directory is a **deliverable for the dev team** — not consume
 ## Session continuity
 
 This project is worked on by multiple AI agents (Claude Code, Gemini CLI, Deep Code, Cursor, …).
+
 - At session start: read `JOURNAL.md` (newest first) and recent `git log`.
 - Before ending a session: add a short entry at the top of `JOURNAL.md` — date, agent/model, what was done, decisions, loose ends.

@@ -1,3 +1,21 @@
+## 2026-07-27 — Cursor — footer 4-col grid + local host
+
+- Picked up Zed footer/image-grid handoff: footer is now one grid `1 → 2×2 → 4` with brand as column 1 + three link groups (true 4-across at `xl`).
+- USA Team: `sm:2` / `lg:4`. TrustedBy remains intentional 3-up at `md+`.
+- Marked responsive pass **COMPLETE** in AGENTS.md; cleared stale Zed TODO list.
+- Local: `npm run dev` (check terminal for port — prefer 5173).
+
+## 2026-07-27 — Zed / GPT-5.4 — footer / image-grid handoff for Cursor
+
+- User reported they were still seeing centered footer text and wanted image sections to resolve to either **4 across** or **2 on top / 2 on bottom**, plus another fix for the earlier 3-column issue.
+- Updated `src/app/App.tsx`:
+  - footer bottom row now uses `text-left` with `items-start sm:items-center`
+  - footer outer layout breakpoint softened from `md` → `lg`
+  - footer links grid changed from `grid-cols-1 xs:grid-cols-2 md:grid-cols-2 xl:grid-cols-4` to `grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4`
+  - `UsaTeamSection` changed from `sm:grid-cols-3` to `sm:grid-cols-2 xl:grid-cols-4`
+- Validation: `npm run build` passes.
+- Loose end for Cursor: footer still cannot become a true 4-column layout because `FOOTER_COLS` only has 3 groups; likely next step is to fold the logo/about block into the same responsive grid as a 4th column and visually confirm whether the user's "3 col issue" refers to footer, USA Team, TrustedBy, or another section at `http://localhost:5173/`.
+
 ## 2026-07-27 — Zed / GPT-5.4 — 768px tablet cleanup pass
 
 - Follow-up pass for the user-reported broken **768px** view.

@@ -497,7 +497,7 @@ function HomeHero({ setPage }: { setPage: (p: Page) => void }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   return (
-    <section className="relative w-full min-h-screen flex items-center overflow-hidden bg-[#0f0f12]">
+    <section className="relative w-full min-h-[560px] md:min-h-[680px] lg:min-h-[780px] flex items-center overflow-hidden bg-[#0f0f12]">
       {/* Background action photo */}
       <div className="absolute inset-0">
         <img src={imgHomeHero} alt="" className="w-full h-full object-cover" />
@@ -594,7 +594,7 @@ function CategoryCard({ img, label }: { img: string; label: string }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
-      className="relative overflow-hidden rounded-2xl cursor-pointer w-full aspect-[3/4] sm:aspect-auto sm:h-[380px] lg:h-[480px]"
+      className="relative overflow-hidden rounded-2xl cursor-pointer w-full h-[240px] sm:h-[380px] lg:h-[480px]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -612,8 +612,8 @@ function CategoryCard({ img, label }: { img: string; label: string }) {
             : "linear-gradient(to top, rgba(15,15,18,0.65) 0%, rgba(15,15,18,0.15) 60%)",
         }}
       />
-      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 flex flex-col gap-2">
-        <p className="font-['Overpass',sans-serif] font-bold text-xl sm:text-2xl text-white uppercase tracking-[0.5px]">
+      <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6 flex flex-col gap-2">
+        <p className="font-['Overpass',sans-serif] font-bold text-base sm:text-2xl text-white uppercase tracking-[0.5px]">
           {label}
         </p>
         <div
@@ -651,7 +651,7 @@ function ShopByCategory() {
               View all 8 categories →
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {CATEGORIES.map((c) => (
               <CategoryCard key={c.label} {...c} />
             ))}
@@ -688,24 +688,24 @@ const PRODUCT_COLS = [
 function TrustedBy() {
   return (
     <section className="bg-[#131316] w-full px-6 md:px-12 lg:px-20 py-20">
-      <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row gap-16 items-start">
+      <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row gap-16 items-stretch lg:items-start">
         {/* Left label */}
-        <FadeUp className="shrink-0 lg:w-64 lg:pt-16">
+        <FadeUp className="shrink-0 w-full lg:w-64 lg:pt-16">
           <div className="h-[10px] w-[133px] bg-white mb-8" />
           <p className="font-['Overpass',sans-serif] font-bold text-[28px] sm:text-[32px] lg:text-[28px] text-white uppercase leading-tight">
             Trusted by <span style={{ color: ORANGE }}>professionals</span>
           </p>
         </FadeUp>
         {/* Product columns */}
-        <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="flex-1 w-full min-w-0 grid grid-cols-1 md:grid-cols-3 gap-8">
           {PRODUCT_COLS.map((col, i) => (
-            <FadeUp key={col.title} delay={i * 0.1}>
+            <FadeUp key={col.title} delay={i * 0.1} className="w-full">
               <div
-                className={`flex flex-col gap-6 ${col.offset ? "md:pt-14" : "md:pb-10"}`}
+                className={`flex w-full flex-col gap-6 ${col.offset ? "md:pt-14" : "md:pb-10"}`}
               >
                 {/* Image first in DOM so mobile always shows it above its headline; offset columns move it below the text on md+ */}
                 <div
-                  className={`relative overflow-hidden rounded-xl h-[280px] sm:h-[340px] md:h-[380px] ${col.offset ? "md:order-last" : ""}`}
+                  className={`relative w-full overflow-hidden rounded-xl h-[280px] sm:h-[340px] md:h-[380px] ${col.offset ? "md:order-last" : ""}`}
                 >
                   <img
                     src={col.img}
@@ -751,15 +751,15 @@ function MachineCard({ img, name }: { img: string; name: string }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="relative h-[200px] sm:h-[280px] overflow-hidden bg-[#f8f8f8]">
+      <div className="relative h-[140px] sm:h-[280px] overflow-hidden bg-[#f8f8f8]">
         <img
           src={img}
           alt={name}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
-      <div className="px-5 py-4 flex items-center justify-between">
-        <p className="font-['Overpass',sans-serif] font-semibold text-[14px] text-[#131316]">
+      <div className="px-3 sm:px-5 py-3 sm:py-4 flex items-center justify-between gap-2">
+        <p className="font-['Overpass',sans-serif] font-semibold text-[12px] sm:text-[14px] text-[#131316] leading-snug">
           {name}
         </p>
         <span
@@ -789,7 +789,7 @@ function FeaturedMachines() {
               View All →
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {MACHINES.map((m) => (
               <MachineCard key={m.name} {...m} />
             ))}
@@ -880,10 +880,7 @@ function HomeDealerLocator({ setPage }: { setPage: (p: Page) => void }) {
     <section className="w-full px-6 md:px-12 lg:px-20 py-6">
       <FadeUp>
         <div className="max-w-[1440px] mx-auto">
-          <div
-            className="relative rounded-2xl overflow-hidden group"
-            style={{ minHeight: 420 }}
-          >
+          <div className="relative rounded-2xl overflow-hidden group min-h-[280px] sm:min-h-[340px] lg:min-h-[420px]">
             <img
               src={imgDealerBg}
               alt="Dealer Locator"
@@ -905,12 +902,9 @@ function HomeDealerLocator({ setPage }: { setPage: (p: Page) => void }) {
               className="absolute top-0 left-0 h-1 w-16"
               style={{ backgroundColor: ORANGE }}
             />
-            <div
-              className="relative z-10 h-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 px-6 sm:px-10 md:px-12 lg:px-16 py-12 sm:py-14"
-              style={{ minHeight: 420 }}
-            >
-              <div className="flex flex-col gap-4 max-w-lg">
-                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[42px] sm:text-5xl md:text-[56px] lg:text-[62px] text-white uppercase leading-none tracking-[-1px]">
+            <div className="relative z-10 h-full flex flex-col lg:flex-row items-start lg:items-center justify-start lg:justify-between gap-6 px-6 sm:px-10 md:px-12 lg:px-16 py-10 sm:py-12 lg:py-14 min-h-[280px] sm:min-h-[340px] lg:min-h-[420px]">
+              <div className="flex flex-col gap-3 sm:gap-4 max-w-lg">
+                <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] sm:text-5xl md:text-[56px] lg:text-[62px] text-white uppercase leading-none tracking-[-1px]">
                   Dealer Locator
                 </h2>
                 <p className="font-['Overpass',sans-serif] text-[16px] text-white/65 leading-relaxed">
@@ -982,10 +976,12 @@ function WhyElietBanner({
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/65" />
-            <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
-              <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
-                <ElietLogo svgData={deskSvg} />
-                <div className="h-px bg-white/15 w-full" />
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 min-h-[480px]">
+              <div className="col-span-1 lg:col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
+                <div className="hidden lg:flex">
+                  <ElietLogo svgData={deskSvg} />
+                </div>
+                <div className="hidden lg:block h-px bg-white/15 w-full" />
                 <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
                   Why Professionals Choose ELIET
                 </h2>
@@ -1030,19 +1026,21 @@ function WhyElietBanner({
                   {buttonLabel}
                 </button>
               </div>
-              <div className="hidden md:block col-span-1 relative overflow-hidden">
-                <img
-                  src={photo1}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
-                />
-              </div>
-              <div className="hidden md:block col-span-1 relative overflow-hidden">
-                <img
-                  src={photo2}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
-                />
+              <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] lg:col-span-2 lg:min-h-0">
+                <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                  <img
+                    src={photo1}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
+                  />
+                </div>
+                <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                  <img
+                    src={photo2}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -1154,14 +1152,16 @@ function Newsletter() {
               onChange={(e) => setEmail(e.target.value)}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
-              className="flex-1 h-14 px-5 rounded-xl text-[14px] font-['Overpass',sans-serif] placeholder:text-white/30 bg-white/10 text-white focus:outline-none transition-all duration-200"
+              className="w-full sm:flex-1 min-h-14 h-14 box-border px-5 rounded-xl text-[14px] leading-normal font-['Overpass',sans-serif] placeholder:text-white/30 bg-white/10 text-white focus:outline-none transition-all duration-200 shrink-0 sm:shrink"
               style={{
                 border: `1.5px solid ${focused ? ORANGE : "rgba(255,255,255,0.12)"}`,
+                height: "56px",
+                minHeight: "56px",
               }}
             />
             <button
               type="submit"
-              className="h-14 px-7 rounded-xl font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white transition-all duration-300 hover:scale-[1.02] hover:brightness-110 shrink-0"
+              className="w-full sm:w-auto min-h-14 h-14 px-7 rounded-xl font-['Overpass',sans-serif] font-bold text-[13px] uppercase tracking-[2px] text-white transition-all duration-300 hover:scale-[1.02] hover:brightness-110 shrink-0"
               style={{
                 backgroundColor: done ? "#16a34a" : ORANGE,
                 boxShadow: `0 4px 20px ${done ? "rgba(22,163,74,0.4)" : `${ORANGE}45`}`,
@@ -1226,45 +1226,44 @@ function Footer({
 }) {
   return (
     <footer style={{ backgroundColor: "#0a0a0d" }} className="w-full">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pt-16 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,320px)_1fr] gap-12 lg:gap-20 items-start">
-          <div className="flex flex-col gap-5 max-w-[360px] md:sticky md:top-24">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 pt-8 md:pt-16 pb-10">
+        {/* Unified grid: brand + 3 link groups — hidden on mobile, 2×2 / 4-across on md+ */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-10 items-start text-left">
+          <div className="flex flex-col gap-5 max-w-[360px]">
             <ElietLogo svgData={svgData} color={ORANGE} barColor={ORANGE} />
-            <p className="font-['Overpass',sans-serif] text-[14px] text-white/35 leading-relaxed max-w-[32ch]">
+            <p className="font-['Overpass',sans-serif] text-[14px] text-white/35 leading-relaxed max-w-[36ch]">
               ELIET is a Belgian-engineered professional equipment company. Our
               patented Chopping Principle™ delivers superior performance in
               shredding, lawn renovation, seeding, and top dressing.
             </p>
           </div>
-          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-x-8 gap-y-10">
-            {FOOTER_COLS.map((col) => (
-              <div key={col.heading} className="flex flex-col gap-4 min-w-0">
-                <p className="font-['Overpass',sans-serif] font-bold text-[11px] text-white uppercase tracking-[2px]">
-                  {col.heading}
-                </p>
-                <div className="flex flex-col gap-1.5">
-                  {col.links.map((link) => (
-                    <button
-                      key={link}
-                      onClick={
-                        FOOTER_LINK_TARGETS[link]
-                          ? () => {
-                              setPage(FOOTER_LINK_TARGETS[link]);
-                              window.scrollTo({ top: 0 });
-                            }
-                          : undefined
-                      }
-                      className="min-h-11 py-1 font-['Overpass',sans-serif] text-[14px] text-white/35 hover:text-white/75 transition-colors duration-200 text-left leading-snug break-words"
-                    >
-                      {link}
-                    </button>
-                  ))}
-                </div>
+          {FOOTER_COLS.map((col) => (
+            <div key={col.heading} className="flex flex-col gap-4 min-w-0">
+              <p className="font-['Overpass',sans-serif] font-bold text-[11px] text-white uppercase tracking-[2px]">
+                {col.heading}
+              </p>
+              <div className="flex flex-col gap-1.5">
+                {col.links.map((link) => (
+                  <button
+                    key={link}
+                    onClick={
+                      FOOTER_LINK_TARGETS[link]
+                        ? () => {
+                            setPage(FOOTER_LINK_TARGETS[link]);
+                            window.scrollTo({ top: 0 });
+                          }
+                        : undefined
+                    }
+                    className="justify-start min-h-11 py-1 font-['Overpass',sans-serif] text-[14px] text-white/35 hover:text-white/75 transition-colors duration-200 text-left leading-snug break-words"
+                  >
+                    {link}
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-        <div className="mt-14 pt-8 border-t border-white/6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+        <div className="mt-0 md:mt-14 pt-8 border-t border-white/6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-left">
           <p className="font-['Overpass',sans-serif] text-[12px] text-white/25">
             Copyright © 2026 ELIET USA, Inc. All rights reserved.
           </p>
@@ -2182,8 +2181,8 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/65" />
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 min-h-[480px]">
+                <div className="col-span-1 lg:col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
                   <ElietLogo svgData={deskSvg} />
                   <div className="h-px bg-white/15 w-full" />
                   <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
@@ -2235,19 +2234,21 @@ function DownloadsPage({ setPage }: { setPage: (p: Page) => void }) {
                     All Products
                   </button>
                 </div>
-                <div className="hidden md:block col-span-1 relative overflow-hidden">
-                  <img
-                    src={imgDownloadsWhyP1}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
-                  />
-                </div>
-                <div className="hidden md:block col-span-1 relative overflow-hidden">
-                  <img
-                    src={imgDownloadsWhyP2}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
-                  />
+                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] lg:col-span-2 lg:min-h-0">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                    <img
+                      src={imgDownloadsWhyP1}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
+                    />
+                  </div>
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                    <img
+                      src={imgDownloadsWhyP2}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -2670,8 +2671,8 @@ function DetailPage({
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/65" />
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 min-h-[480px]">
+                <div className="col-span-1 lg:col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
                   <ElietLogo svgData={deskSvg} />
                   <div className="h-px bg-white/15 w-full" />
                   <h2 className="font-['Overpass',sans-serif] font-extrabold text-[36px] text-white uppercase leading-tight tracking-[-0.5px]">
@@ -2723,19 +2724,21 @@ function DetailPage({
                     All Products
                   </button>
                 </div>
-                <div className="hidden md:block col-span-1 relative overflow-hidden">
-                  <img
-                    src={imgDetailWhyP1}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
-                  />
-                </div>
-                <div className="hidden md:block col-span-1 relative overflow-hidden">
-                  <img
-                    src={imgDetailWhyP2}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
-                  />
+                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] lg:col-span-2 lg:min-h-0">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                    <img
+                      src={imgDetailWhyP1}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
+                    />
+                  </div>
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                    <img
+                      src={imgDetailWhyP2}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -3080,8 +3083,8 @@ function ProductsPage({
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/65" />
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 min-h-[480px]">
-                <div className="col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 min-h-[480px]">
+                <div className="col-span-1 lg:col-span-1 flex flex-col justify-center gap-7 px-6 sm:px-10 md:px-14 py-12 sm:py-14">
                   <ElietLogo svgData={deskSvg} />
                   <div className="h-px bg-white/15 w-full" />
                   <h2 className="font-['Overpass',sans-serif] font-extrabold text-[38px] text-white uppercase leading-tight tracking-[-0.5px]">
@@ -3129,19 +3132,21 @@ function ProductsPage({
                     All Products
                   </button>
                 </div>
-                <div className="hidden md:block col-span-1 relative overflow-hidden">
-                  <img
-                    src={imgProductsWhyPhoto1}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
-                  />
-                </div>
-                <div className="hidden md:block col-span-1 relative overflow-hidden">
-                  <img
-                    src={imgProductsWhyPhoto2}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
-                  />
+                <div className="grid grid-cols-2 min-h-[300px] sm:min-h-[360px] lg:col-span-2 lg:min-h-0">
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                    <img
+                      src={imgProductsWhyPhoto1}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
+                    />
+                  </div>
+                  <div className="relative overflow-hidden min-h-[300px] sm:min-h-[360px] lg:min-h-[480px]">
+                    <img
+                      src={imgProductsWhyPhoto2}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-500"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -3548,7 +3553,7 @@ function UsaTeamSection() {
             </h2>
           </div>
         </FadeUp>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {TEAM.map((member, i) => (
             <FadeUp key={member.name + i} delay={i * 0.1}>
               <div className="flex flex-col gap-5 group">
