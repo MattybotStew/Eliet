@@ -256,6 +256,7 @@ export function ComparisonPopup() {
                             <td key={p.id} className="px-4 py-4 text-center">
                               <button
                                 type="button"
+                                onClick={() => closePopup()}
                                 className="px-4 py-2 font-['Overpass',sans-serif] font-bold text-[11px] uppercase tracking-[1px] text-white transition-opacity hover:opacity-90"
                                 style={{ backgroundColor: ORANGE }}
                                 title={`View ${p.name}`}

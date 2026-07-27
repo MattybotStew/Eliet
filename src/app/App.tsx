@@ -3039,7 +3039,7 @@ function LoginPage({ setPage }: { setPage: (p: Page) => void }) {
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className={lightLabel}>Purchase date</label>
-                    <input type="date" className={lightInput} />
+                    <input type="text" placeholder="mm/dd/yyyy" className={lightInput} />
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label className={lightLabel}>Dealer purchased from</label>
