@@ -1,6 +1,34 @@
+
+## 2026-07-27 — Cline — Finalization: 3 bug fixes, cleanup, WordPress refresh
+
+- Fixed 3 issues from code re-audit:
+  - **Login registration form**: Purchase date field changed from `type="date"` → `type="text"` with `placeholder="mm/dd/yyyy"` — same pattern that was fixed on the Demo Tour form in the previous audit but missed here.
+  - **`tools/cline-copilot-bridge/` removed**: Cline checkpoint artifacts (VSIX, extension.js, package.json, README.md) no longer needed.
+  - **ComparisonPopup View buttons**: Added `onClick={() => closePopup()}` so they're not dead controls.
+- Regenerated `wordpress/data/products.json` via `tools/export-products.mjs` (71 products, counts unchanged).
+- Verified: 52 images in `src/imports/` = 52 images in `wordpress/assets/images/`. Build passes cleanly.
+- **Loose ends**: Cursor is handling Figma design alignment (footer address Philadelphia vs Dalton GA, brand claim consistency, visual spot-checks). See JOURNAL entry above for the Figma review findings from Cursor's MCP access.
+
+## 2026-07-27 — Cline — Figma comparison report (plan mode)
+
+- Cursor ran a Figma MCP review of the updated design file (`WfoDRzDKzzZxCez2ksbCEF`, node 3284:3221). Key prototype-relevant findings:
+  - **Footer address mismatch**: Prototype uses Philadelphia (19 E Moreland Ave) everywhere; Figma uses Dalton, GA (2850 N Dug Gap Road) on most artboards. Client decision needed.
+  - **Brand claim variance**: Hero says "Family-owned since 1980" but Figma trust strip uses "Over 30 years".
+  - **E401 PRO PDP copy bug**: Figma frame has dethatcher copy but shredder features — prototype correctly categorizes it as Dethatchers.
+  - All 13 prototype pages map to Figma artboards. Category pills, pagination ("Showing X of Y"), compare dialog (1/2/3 states) all match.
+- Cursor assigned Figma alignment work; Cline handling code fixes + WordPress handoff.
+
+
 # Project journal — Eliet
 
 Shared session log for all AI agents. Newest entries at the top.
+
+## 2026-07-27 — Cursor — Figma Designs review → AGENTS.md
+
+- Reviewed Figma page **⚠️ Designs** (`WfoDRzDKzzZxCez2ksbCEF` / `3284:3221`): full 1440 desktop artboard set + compare dialogs; maps to prototype views.
+- Updated `AGENTS.md`: Figma design source section (file URL, MCP guidance), known Figma issues (footer Dalton vs prototype Philadelphia, E401 PRO category mismatch, no mobile artboards, orphan frames), `npm run dev` port note (5173 not 8080), content rules for HQ address + “30+ years” claim.
+- Decision: keep prototype Philadelphia footer until client confirms HQ; do not pull Dalton into code.
+- Loose ends: client confirmation on HQ address; fix E401 PRO copy in Figma; optional Figma canvas cleanup / mobile frames; canvas review artifact at Cursor canvases `figma-designs-review.canvas.tsx`.
 
 ## 2026-07-27 — Cline — Code audit & fixes
 
