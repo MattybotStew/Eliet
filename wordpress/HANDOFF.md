@@ -476,8 +476,8 @@ pages with the same URL structure.
 | ------------------- | -------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------ |
 | Products            | `products`     | WooCommerce Shop         | Shredders, Dethatchers, Seeders, Overseeders, Lawn Edgers, Aerator/Topdresser, Leaf Blowers & Vacuums, Sod Cutters |
 | Service             | —              | —                        | Downloads, Warranty Conditions, FAQ & Contact                                                                      |
-| Where to Find ELIET | `dealers`      | Dealer Locator           | Dealer Locator, Sales Reps Locator, Finance Options                                                                |
-| About               | `about`        | About page               | Brand Story / Innovation, USA Team, Testimonials, Request Brochure, Exhibitions & Events, FAQs                     |
+| Where to Find ELIET | `dealers`      | Dealer Locator           | Dealer Locator, Finance Options                                                                                    |
+| About               | `about`        | About page               | Brand Story / Innovation, USA Team, Testimonials, Request Brochure (#anchor scroll)                                |
 | Demo Tour           | `demo`         | Demo/Booking page        | —                                                                                                                  |
 | Contact             | `contact`      | Contact page             | —                                                                                                                  |
 | Login               | `login`        | My Account (WooCommerce) | —                                                                                                                  |

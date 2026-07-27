@@ -83,7 +83,7 @@ import imgWhyPhoto2 from "@/imports/Desk/fdd6e374d528d07eceea4ad1a4b0646537fccb8
 
 // ─── Demo Tour page assets (DemoTour) ────────────────────────────────────────
 import demoSvg from "@/imports/DemoTour/svg-w9v4mzv8qe";
-import img2Hero from "@/imports/DemoTour/7c7c4e64ba9073e2d62482ad77ee8344ba3a7abe.png";
+import imgDemoHero from "@/imports/DemoTour/demo-hero.jpg";
 import imgMapPlaceholder from "@/imports/DemoTour/775f0ad568422bc32cdac14671967599f64cdeb4.png";
 
 // ─── Brand ───────────────────────────────────────────────────────────────────
@@ -110,8 +110,32 @@ type Page =
 type NavItem = {
   label: string;
   page?: Page;
-  children?: { label: string; page: Page; category?: string }[];
+  children?: { label: string; page: Page; category?: string; anchor?: string }[];
 };
+
+/** About page section ids for header dropdown → in-page scroll. */
+const ABOUT_SECTION_IDS = [
+  "story",
+  "values",
+  "team",
+  "testimonials",
+  "video",
+  "brochure",
+] as const;
+
+function scrollToAboutSection(sectionId: string) {
+  requestAnimationFrame(() => {
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    window.history.replaceState(null, "", `#${sectionId}`);
+  });
+}
+
+function isAboutSectionId(id: string): id is (typeof ABOUT_SECTION_IDS)[number] {
+  return (ABOUT_SECTION_IDS as readonly string[]).includes(id);
+}
 
 const NAV_STRUCTURE: NavItem[] = [
   {
@@ -149,7 +173,6 @@ const NAV_STRUCTURE: NavItem[] = [
     page: "dealers",
     children: [
       { label: "Dealer Locator", page: "dealers" },
-      { label: "Sales Reps Locator", page: "dealers" },
       { label: "Finance Options", page: "finance" },
     ],
   },
@@ -157,12 +180,10 @@ const NAV_STRUCTURE: NavItem[] = [
     label: "About",
     page: "about",
     children: [
-      { label: "Brand Story / Innovation", page: "about" },
-      { label: "USA Team", page: "about" },
-      { label: "Testimonials", page: "about" },
-      { label: "Request Brochure", page: "about" },
-      { label: "Exhibitions & Events", page: "demo" },
-      { label: "FAQs", page: "faq" },
+      { label: "Brand Story / Innovation", page: "about", anchor: "story" },
+      { label: "USA Team", page: "about", anchor: "team" },
+      { label: "Testimonials", page: "about", anchor: "testimonials" },
+      { label: "Request Brochure", page: "about", anchor: "brochure" },
     ],
   },
   { label: "Demo Tour", page: "demo" },
@@ -246,7 +267,7 @@ function NavItemDesktop({
 }: {
   item: NavItem;
   page: Page;
-  onNavigate: (p: Page, cat?: string) => void;
+  onNavigate: (p: Page, cat?: string, anchor?: string) => void;
 }) {
   const [hovered, setHovered] = useState(false);
   const isActive = item.page
@@ -301,7 +322,9 @@ function NavItemDesktop({
                   {item.children.map((child) => (
                     <button
                       key={child.label}
-                      onClick={() => onNavigate(child.page, child.category)}
+                      onClick={() =>
+                        onNavigate(child.page, child.category, child.anchor)
+                      }
                       className="text-left px-5 py-2.5 font-['Overpass',sans-serif] text-[13px] text-white/70 hover:text-white hover:bg-white/6 transition-colors duration-150 whitespace-nowrap"
                     >
                       {child.label}
@@ -334,15 +357,26 @@ function Header({
     return () => document.body.classList.remove("eliet-nav-open");
   }, [open]);
 
-  const handleNav = (p: Page, cat?: string) => {
+  const handleNav = (p: Page, cat?: string, anchor?: string) => {
+    const scrollAboutSection =
+      p === "about" && anchor && isAboutSectionId(anchor);
+
     setPage(p);
     setOpen(false);
     setExpanded(null);
-    window.scrollTo({ top: 0, behavior: "smooth" });
     // Store category filter intent for products page
     if (cat && p === "products") {
       (window as any).__navCategory = cat;
     }
+    if (scrollAboutSection) {
+      if (page === "about") {
+        scrollToAboutSection(anchor);
+      } else {
+        (window as any).__aboutAnchor = anchor;
+      }
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -416,7 +450,7 @@ function Header({
       {/* Mobile nav */}
       {open && (
         <div className="lg:hidden border-t border-white/10 bg-[#0f0f12]/98 backdrop-blur-xl max-h-[calc(100dvh-70px)] overflow-y-auto overscroll-contain pb-[env(safe-area-inset-bottom,0px)]">
-          <div className="flex flex-col py-3 px-6">
+          <div className="flex flex-col items-stretch py-3 px-6">
             {NAV_STRUCTURE.map((item) => (
               <div key={item.label}>
                 {item.children ? (
@@ -450,9 +484,13 @@ function Header({
                               <button
                                 key={child.label}
                                 onClick={() =>
-                                  handleNav(child.page, child.category)
+                                  handleNav(
+                                    child.page,
+                                    child.category,
+                                    child.anchor,
+                                  )
                                 }
-                                className="text-white/50 hover:text-white text-[12px] font-['Overpass',sans-serif] font-normal text-left py-2.5 transition-colors"
+                                className="w-full justify-start text-left text-white/50 hover:text-white text-[12px] font-['Overpass',sans-serif] font-normal py-2.5 transition-colors"
                               >
                                 — {child.label}
                               </button>
@@ -465,7 +503,7 @@ function Header({
                 ) : (
                   <button
                     onClick={() => handleNav(item.page!)}
-                    className="w-full text-left text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors"
+                    className="w-full justify-start text-left text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors"
                   >
                     {item.label}
                   </button>
@@ -475,7 +513,7 @@ function Header({
             {/* Login lives right of the desktop nav, so it needs its own mobile entry */}
             <button
               onClick={() => handleNav("login")}
-              className="w-full text-left text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors"
+              className="w-full justify-start text-left text-white/65 hover:text-white text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] font-normal py-3.5 border-b border-white/5 transition-colors"
             >
               Login
             </button>
@@ -816,7 +854,7 @@ function DemoTourBanner({ setPage }: { setPage: (p: Page) => void }) {
             style={{ minHeight: 280 }}
           >
             <img
-              src={img2Hero}
+              src={imgDemoHero}
               alt="Demo Tour"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               style={{ objectPosition: "center 30%" }}
@@ -1315,16 +1353,15 @@ function DemoHero({ setPage }: { setPage: (p: Page) => void }) {
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src={img2Hero}
+          src={imgDemoHero}
           alt="ELIET Demo Tour"
           className="w-full h-full object-cover"
-          style={{ objectPosition: "center 30%" }}
+          style={{ objectPosition: "center 35%" }}
         />
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "linear-gradient(to bottom, rgba(15,15,18,0.35) 0%, rgba(15,15,18,0.65) 60%, rgba(15,15,18,0.9) 100%)",
+            background: "rgba(0,0,0,0.46)",
           }}
         />
       </div>
@@ -1340,9 +1377,9 @@ function DemoHero({ setPage }: { setPage: (p: Page) => void }) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="font-['Overpass',sans-serif] font-bold text-[16px] sm:text-xl md:text-2xl text-white/65 uppercase tracking-[5px]"
+          className="font-['Overpass',sans-serif] font-bold text-[16px] sm:text-xl md:text-2xl text-white uppercase tracking-[-0.5px]"
         >
-          About ELIET
+          Experience ELIET
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 32 }}
@@ -4010,11 +4047,17 @@ function HaveAQuestionCta({ setPage }: { setPage: (p: Page) => void }) {
 
 function AboutPage({ setPage }: { setPage: (p: Page) => void }) {
   useEffect(() => {
+    const pending = (window as { __aboutAnchor?: string }).__aboutAnchor;
+    if (pending) {
+      delete (window as { __aboutAnchor?: string }).__aboutAnchor;
+      if (isAboutSectionId(pending)) {
+        scrollToAboutSection(pending);
+        return;
+      }
+    }
     const hash = window.location.hash.slice(1);
-    if (hash && ABOUT_ANCHORS.some(({ id }) => id === hash)) {
-      requestAnimationFrame(() => {
-        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+    if (hash && isAboutSectionId(hash)) {
+      scrollToAboutSection(hash);
     }
   }, []);
 

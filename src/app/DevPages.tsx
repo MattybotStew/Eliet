@@ -8,7 +8,7 @@ const DARK = "#0f0f12";
 
 type SetPage = (page: string) => void;
 
-type NavChild = { label: string; page: string; category?: string };
+type NavChild = { label: string; page: string; category?: string; anchor?: string };
 type NavItem = { label: string; page?: string; children?: NavChild[] };
 
 function Section({
@@ -351,6 +351,9 @@ function DesktopDropdownDemo({ item }: { item: NavItem }) {
             className="text-left px-5 py-2.5 font-['Overpass',sans-serif] text-[13px] text-white/70 whitespace-nowrap border-t border-white/5 first:border-0"
           >
             {child.label}
+            {child.anchor ? (
+              <span className="text-white/35"> → #{child.anchor}</span>
+            ) : null}
           </div>
         ))}
       </div>
@@ -382,7 +385,7 @@ function MobileNavDemo({ nav }: { nav: NavItem[] }) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden border-t border-white/10 bg-[#0f0f12]/98"
           >
-            <div className="flex flex-col py-3 px-5">
+            <div className="flex flex-col items-stretch py-3 px-5">
               {nav.map((item) => (
                 <div key={item.label}>
                   {item.children ? (
@@ -390,20 +393,25 @@ function MobileNavDemo({ nav }: { nav: NavItem[] }) {
                       <button
                         type="button"
                         onClick={() => setExpanded(expanded === item.label ? null : item.label)}
-                        className="w-full flex items-center justify-between text-white/65 text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] py-3.5 border-b border-white/5"
+                        className="w-full flex items-center justify-between text-left text-white/65 text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] py-3.5 border-b border-white/5"
                       >
                         {item.label}
-                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" className={`transition-transform ${expanded === item.label ? "rotate-180" : ""}`}>
-                          <path d="M1 1L6 6L11 1" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
+                        <span
+                          className="min-w-5 text-right font-['Overpass',sans-serif] text-[18px] leading-none"
+                          style={{ color: ORANGE }}
+                          aria-hidden="true"
+                        >
+                          {expanded === item.label ? "−" : "+"}
+                        </span>
                       </button>
                       <AnimatePresence>
                         {expanded === item.label && (
                           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                            <div className="flex flex-col py-1 pl-4 border-b border-white/5">
+                            <div className="flex flex-col py-1 pl-4 sm:pl-5 border-b border-white/5">
                               {item.children.map((child) => (
-                                <span key={child.label} className="text-white/50 text-[12px] font-['Overpass',sans-serif] py-2.5">
+                                <span key={child.label} className="block w-full text-left text-white/50 text-[12px] font-['Overpass',sans-serif] py-2.5">
                                   — {child.label}
+                                  {child.anchor ? ` (#${child.anchor})` : ""}
                                 </span>
                               ))}
                             </div>
@@ -412,15 +420,21 @@ function MobileNavDemo({ nav }: { nav: NavItem[] }) {
                       </AnimatePresence>
                     </>
                   ) : (
-                    <div className="text-white/65 text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] py-3.5 border-b border-white/5">
+                    <button
+                      type="button"
+                      className="w-full justify-start text-left text-white/65 text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] py-3.5 border-b border-white/5"
+                    >
                       {item.label}
-                    </div>
+                    </button>
                   )}
                 </div>
               ))}
-              <div className="text-white/65 text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] py-3.5 border-b border-white/5">
+              <button
+                type="button"
+                className="w-full justify-start text-left text-white/65 text-[13px] uppercase tracking-[0.5px] font-['Overpass',sans-serif] py-3.5 border-b border-white/5"
+              >
                 Login
-              </div>
+              </button>
             </div>
           </motion.div>
         )}
@@ -527,7 +541,8 @@ export function NavigationLabPage({
           </h2>
           <p className="font-['Overpass',sans-serif] text-[15px] text-[#666] mb-8 max-w-2xl">
             Hamburger below <code className="text-[13px]">lg</code>. Full-width panel under header.
-            Parents with children expand accordion-style (orange chevron). Login listed at the bottom
+            All rows left-aligned (<code className="text-[13px]">justify-start text-left</code> on link buttons).
+            Parents with children expand accordion-style (orange +/−). Login listed at the bottom
             (desktop places Login outside the main nav).
           </p>
           <MobileNavDemo nav={navStructure} />
@@ -551,12 +566,18 @@ export function NavigationLabPage({
                   <tr key={item.label} className="border-b border-[#f0f0f0] last:border-0">
                     <td className="py-3 px-4 font-semibold text-[#131316] align-top">{item.label}</td>
                     <td className="py-3 px-4 text-[#555] align-top">
-                      {item.children?.map((c) => c.label).join(", ") || "—"}
+                      {item.children
+                        ?.map((c) =>
+                          c.anchor ? `${c.label} (#${c.anchor})` : c.label,
+                        )
+                        .join(", ") || "—"}
                     </td>
                     <td className="py-3 px-4 text-[#888] align-top">
-                      {item.children
-                        ? "Astra / Elementor mega or dropdown; Products children filter shop"
-                        : "Top-level link"}
+                      {item.label === "About"
+                        ? "About children with #anchor smooth-scroll on About page"
+                        : item.children
+                          ? "Astra / Elementor mega or dropdown; Products children filter shop"
+                          : "Top-level link"}
                     </td>
                   </tr>
                 ))}
