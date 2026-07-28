@@ -500,7 +500,7 @@ export function NavigationLabPage({
                   {navStructure.map((item) => (
                     <span key={item.label} className="flex items-center gap-0.5">
                       {item.label}
-                      {item.children && <span className="text-[10px] ml-0.5">▼</span>}
+                      {item.children && <span className="text-[14px] ml-1 leading-none">+</span>}
                     </span>
                   ))}
                 </div>
@@ -527,7 +527,7 @@ export function NavigationLabPage({
               {withChildren.map((item) => (
                 <div key={item.label} className="flex flex-col gap-3">
                   <p className="font-['Overpass',sans-serif] text-[13px] uppercase tracking-[0.5px] text-white flex items-center gap-0.5">
-                    {item.label}<span className="text-[10px]">▼</span>
+                    {item.label}<span className="text-[14px] ml-1 leading-none">+</span>
                   </p>
                   <DesktopDropdownDemo item={item} />
                 </div>
